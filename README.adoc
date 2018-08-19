@@ -1,0 +1,8 @@
+Sin Forth
+:author: Marcos Cruz (programandala.net)
+
+Project: A Forth cross compiler written in Forth with Gforth, to
+create machine code programs for the ZX Spectrum and compatible
+computers.
+
+Author's website: http://programandala.net
