@@ -3,44 +3,53 @@
 \ A Forth System, written in ANS Forth,
 \ that compiles Z80 assembler for the Sinclair ZX Spectrum.
 
-\ Copyright (C) 2010 Marcos Cruz (http://programandala.net)
+\ Copyright (C) 2010,2015 Marcos Cruz (programandala.net)
 
 \ History
 
-\ 2010-04-21 First concrete ideas.
+\ 2010-04-21: First draft ideas.
+\ 2015-01-06: More drafts.
 
-only forth definitions
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\ Meta compiler
 
-vocabulary meta
-also meta definitions
-
-\ : ! ( a n -- )
-\ 	swap 2dup 256 mod swap c! 256 / swap 1+ c!
-\ ;
-
+only forth
+wordlist constant meta-wordlist
+wordlist constant target-wordlist
 
 decimal
 
+meta-wordlist set-current
+
 27000 constant origin
-variable target_ram_size
-65535 origin - target_ram_size !
 
-variable target_ram
-: ram_space ( -- a )
-	target_ram_size @ allocate
-	abort" Allocate error"
-;
-ram_space target_ram !
+variable t-/memory  \ size
+0xffff origin - t-/memory !
 
+variable t-memory
+t-/memory @ allocate throw t-memory !
 
+: ! ( a n -- )
+ 	swap 2dup 256 mod swap c! 256 / swap 1+ c!
+  ;
 
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\ Target Forth
 
-vocabulary system
-also system definitions
+target-wordlist set-current
 
-
-
-\ Source code of the ZX Spectrum program
+include meta.fs
 
 
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\ Application
 
+: one  ( -- n )  1  ;
+: boot ( -- )  one dup + .  ;
+boot
+
+
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\ End
+
+only forth definitions
