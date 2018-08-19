@@ -11,34 +11,26 @@
 \ 2015-01-06: More drafts.
 
 \ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\ Meta compiler
+\ Meta compiler layer
 
 only forth
-wordlist constant meta-wordlist
 wordlist constant target-wordlist
 
-decimal
+target-wordlist set-current
 
-meta-wordlist set-current
-
-27000 constant origin
-
-variable t-/memory  \ size
-0xffff origin - t-/memory !
-
-variable t-memory
-t-/memory @ allocate throw t-memory !
+0x10000 constant t-/memory
+t-/memory allocate throw constant t-memory
 
 : ! ( a n -- )
  	swap 2dup 256 mod swap c! 256 / swap 1+ c!
   ;
 
 \ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\ Target Forth
+\ Meta compiler
 
 target-wordlist set-current
 
-include meta.fs
+include metacompiler.fs
 
 
 \ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
