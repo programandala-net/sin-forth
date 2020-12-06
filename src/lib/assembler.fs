@@ -1,81 +1,122 @@
-  \ assembler.fs
-  \
-  \ This file is part of Sin Forth
-  \ http://programandala.net
+\ assembler.fs
+\
+\ This file is part of Sin Forth
+\ http://programandala.net
 
-  \ Last modified: 202012061704.
-  \ See change log at the end of the file.
+\ Last modified: 202012061812.
+\ See change log at the end of the file.
 
-  \ ===========================================================
-  \ Description
+\ ==============================================================
+\ Description {{{1
 
-  \ A Z80 assembler.
+\ A Z80 assembler.
 
-  \ ===========================================================
-  \ Authors
+\ ==============================================================
+\ XXX TODO {{{1
 
-  \ The original assembler, for the 8080, was written by John
-  \ Cassady, in 1980-1981, and published on Forth Dimensions
-  \ (volume 3, number 6, page 180, 1982-03).
-  \
-  \ Coos Haak wrote an improved version for Z80 for his own ZX
-  \ Spectrum Forth, in the middle 1980's.
-  \
-  \ Lennart Benschop included Coos Haak's assembler in his
-  \ Spectrum Forth-83 (1988).
-  \
-  \ Marcos Cruz (programandala.net) adapted, modified and
-  \ improved the Spectrum Forth-83 version for Solo Forth
-  \ (http://programandala.net/en.program.solo_forth.html),
-  \ 2015, 2016, 2017, 2018, 2018, 2020. Then in 2020 adapted it
-  \ for Sin Forth.
+\ - Finish the documentation (also in Solo Forth).
+\ - Update/adapt the current documentation to Sin Forth.
 
-  \ ===========================================================
-  \ License
+\ ==============================================================
+\ Authors {{{1
 
-  \ You may do whatever you want with this work, so long as you
-  \ retain every copyright, credit and authorship notice, and
-  \ this license.  There is no warranty.
+\ The original assembler, for the 8080, was written by John
+\ Cassady, in 1980-1981, and published on Forth Dimensions
+\ (volume 3, number 6, page 180, 1982-03).
+\
+\ Coos Haak wrote an improved version for Z80 for his own ZX
+\ Spectrum Forth, in the middle 1980's.
+\
+\ Lennart Benschop included Coos Haak's assembler in his
+\ Spectrum Forth-83 (1988).
+\
+\ Marcos Cruz (programandala.net) adapted, modified and
+\ improved the Spectrum Forth-83 version for Solo Forth
+\ (http://programandala.net/en.program.solo_forth.html),
+\ 2015, 2016, 2017, 2018, 2018, 2020. Then in 2020 adapted it
+\ for Sin Forth.
 
-( assembler )
+\ ==============================================================
+\ License {{{1
 
-  \ XXX TODO Finish the documentation (also in Solo Forth).
-  \
-  \ XXX TODO Update/adapt the current documentation to Sin Forth.
+\ You may do whatever you want with this work, so long as you
+\ retain every copyright, credit and authorship notice, and
+\ this license.  There is no warranty.
 
-get-order get-current only forth definitions
+\ ==============================================================
+\ Requirements {{{1
 
-need ?pairs need 3dup need 8* need wordlist>vocabulary
+get-order get-current
 
-assembler-wordlist wordlist>vocabulary assembler
+only forth definitions
+
+require galope/array-to.fs \ `array>`
+require galope/question-throw.fs \ `?throw`
+require galope/three-dup.fs \ `3dup`
+
+wordlist constant assembler-wordlist
 
   \ doc{
   \
-  \ assembler ( -- )
+  \ assembler-wordlist ( -- wid )
   \
-  \ Replace the first word list in the search order with
-  \ `assembler-wordlist`, which contains the assembler words
-  \ (see the main ones in section <<_z80_instructions>>).
-  \
-  \ ``need assembler`` will load the assembler from the
-  \ library, except the absolute-jump control-flow structures
-  \ (`aif`, `athen`, `aelse`, `abegin`, `awhile`, `auntil`,
-  \ `aagain`, `arepeat`), labels (`l:`, `rl#`, `al#`, etc.)
-  \ macros (`macro`, `endm`) and some specific words
-  \ (`execute-hl,`, `call-xt,`, `hook,`, `prt,`).
+  \ Return the wordlist identifier _wid_ of the word list that
+  \ contains the assembler words.
   \
   \ }doc
 
-also assembler definitions base @ hex
+assembler-wordlist set-current
+assembler-wordlist >order also forth
 
-need ?rel need inverse-cond
+base @ hex
+
+: ?pairs ( x1 x2 -- ) <> #-22 ?throw ;
+
+  \ doc{
+  \
+  \ ?pairs ( x1 x2 -- ) "question-pairs"
+  \
+  \ If _x1_ not equals _x2_ `throw` an exception #-22 (control
+  \ structure mismatch).
+  \
+  \ }doc
+
+: inverse-cond ( op1 -- op2) 8 xor ;
+
+  \ doc{
+  \
+  \ inverse-cond ( op1 -- op2 )
+  \
+  \ Convert a Z80 `assembler` condition flag _op1_ (actually a
+  \ jump opcode) to its opposite _op2_.
+  \
+  \ Examples: The opcode returned by `c?` is converted to the
+  \ opcode returned by `nc?`, `nz?` to `z?`, `po?` to `pe?`,
+  \ `p?` to `m?; and vice versa.
+  \
+  \ ``inverse-cond`` is used by `rif`, `runtil`, `aif` and
+  \ `auntil`.
+  \
+  \ }doc
+
+: ?rel ( n -- ) $80 + $FF swap u< #-269 ?throw ;
+
+  \ doc{
+  \
+  \ ?rel ( n -- ) "question-rel"
+  \
+  \ If Z80 `assembler` relative branch _n_ is too long, `throw`
+  \ exception #-269 (relative jump too long).
+  \
+  \ }doc
+
 
 : ed, ( -- )  ED c, ;
 
   \ Registers
 
-0 cconstant b   1 cconstant c   2 cconstant d   3 cconstant e
-4 cconstant h   5 cconstant l   6 cconstant m   7 cconstant a
+0 constant b   1 constant c   2 constant d   3 constant e
+4 constant h   5 constant l   6 constant m   7 constant a
 
   \ doc{
   \
@@ -206,7 +247,7 @@ need ?rel need inverse-cond
   \
   \ }doc
 
-6 cconstant sp
+6 constant sp
 
   \ doc{
   \
@@ -223,7 +264,7 @@ need ?rel need inverse-cond
   \
   \ }doc
 
-DD cconstant ix-op  FD cconstant iy-op
+DD constant ix-op  FD constant iy-op
 
 : ix ( -- regpi ) ix-op c, h ;
 
@@ -259,10 +300,6 @@ DD cconstant ix-op  FD cconstant iy-op
   \
   \ }doc
 
--->
-
-( assembler )
-
   \ Defining words for z80 instructions
 
 : (c ( b "name" -- ) create c, ;
@@ -274,12 +311,12 @@ DD cconstant ix-op  FD cconstant iy-op
   \ 1-byte opcode with register encoded in bits 0-3.
 
 : m3 ( 8b "name" -- )
-  (c does> ( reg -- ) ( reg dfa ) c@ swap 8* + c, ;
+  (c does> ( reg -- ) ( reg dfa ) c@ swap 8 * + c, ;
   \ 1-byte opcode with register encoded in bits 3-5.
 
 : m3p ( 8b "name" -- )
   (c does> ( reg -- )
-  ( reg dfa ) c@ swap %11111110 and 8* + c, ;
+  ( reg dfa ) c@ swap %11111110 and 8 * + c, ;
   \ 1-byte opcode with register encoded in bits 3-5, accepting
   \ any register in range A..L. `m3p` is a variant of `m3`
   \ which is used to define `push,` and `pop,`. This way
@@ -298,10 +335,8 @@ DD cconstant ix-op  FD cconstant iy-op
 
 : m7 ( 8b "name" -- )
   (c does> ( reg bit -- )
-  ( reg bit dfa ) CB c, c@ swap 8* + + c, ;  -->
+  ( reg bit dfa ) CB c, c@ swap 8 * + + c, ;
   \ Bit manipulation of registers.
-
-( assembler )
 
   \ Defining words for z80 instructions
 
@@ -335,10 +370,8 @@ DD cconstant ix-op  FD cconstant iy-op
 
 : mc ( 8b "name" -- )
   (c does> ( disp regph bit -- ) ( disp regph bit dfa )
-  CB c, c@ rot drop rot c, swap 8* + c, ;  -->
+  CB c, c@ rot drop rot c, swap 8 * + c, ;
   \ Bit manipulation with index registers.
-
-( assembler )
 
   \ Opcodes
 
@@ -356,7 +389,7 @@ rl, 18 m6 rr, 20 m6 sla, 28 m6 sra, 30 m6 sll, 38 m6 srl,  40
 m7 bit, 80 m7 res, C0 m7 set, A0ED m8 ldi, B0ED m8 ldir, A8ED
 m8 ldd, B8ED m8 lddr, 44ED m8 neg, 57ED m8 ldai, 47ED m8 ldia,
 56ED m8 im1, 5EED m8 im2, B1ED m8 cpir, 6FED m8 rld, A0 m2 and,
-B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
+B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra,
 
   \ doc{
   \
@@ -1131,9 +1164,8 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-( assembler )
-
-  \ Opcodes
+\ ==============================================================
+\ Opcodes {{{1
 
 : jpix, ( -- ) ix-op c, jphl, ;
 
@@ -1150,7 +1182,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: ldp#, ( 16b regp -- ) 8* 1+ c, , ;
+: ldp#, ( 16b regp -- ) 8 * 1+ c, , ;
 
   \ doc{
   \
@@ -1163,7 +1195,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: ld#, ( 8b reg -- ) 8* 06 + c, c, ;
+: ld#, ( 8b reg -- ) 8 * 06 + c, c, ;
 
   \ doc{
   \
@@ -1175,7 +1207,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: ld, ( reg1 reg2 -- ) 8* 40 + + c, ;
+: ld, ( reg1 reg2 -- ) 8 * 40 + + c, ;
 
   \ doc{
   \
@@ -1188,7 +1220,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: sbcp, ( regp -- ) ed, 8* 42 + c, ;
+: sbcp, ( regp -- ) ed, 8 * 42 + c, ;
 
   \ doc{
   \
@@ -1200,7 +1232,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: adcp, ( regp1 regp2 -- ) ed, 8* 4A + c, ;
+: adcp, ( regp1 regp2 -- ) ed, 8 * 4A + c, ;
 
   \ doc{
   \
@@ -1213,7 +1245,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: stp, ( a regp -- ) ed, 8* 43 + c, , ;
+: stp, ( a regp -- ) ed, 8 * 43 + c, , ;
 
   \ doc{
   \
@@ -1230,7 +1262,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: ftp, ( a regp -- ) ed, 8* 4B + c, , ;
+: ftp, ( a regp -- ) ed, 8 * 4B + c, , ;
 
   \ doc{
   \
@@ -1329,7 +1361,7 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-: tstp, ( regp -- ) dup a ld, 1+ or, ;  -->
+: tstp, ( regp -- ) dup a ld, 1+ or, ;
 
   \ doc{
   \
@@ -1346,9 +1378,8 @@ B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra, -->
   \
   \ }doc
 
-( assembler )
-
-  \ Index register opcodes
+\ ==============================================================
+\ Index register opcodes {{{1
 
 86 ma addx, 8E ma adcx, 96 ma subx, 9E ma sbcx, A6 ma andx,
 AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
@@ -1598,7 +1629,7 @@ AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
   \
   \ }doc
 
-: ftx, ( disp regpi reg -- ) nip 8* 46 + c, c, ;
+: ftx, ( disp regpi reg -- ) nip 8 * 46 + c, c, ;
 
   \ doc{
   \
@@ -1671,17 +1702,13 @@ AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
   \
   \ }doc
 
--->
-
-( assembler )
-
   \ Conditions (Z80 opcodes for the required absolute-jump
   \ instruction)
 
-C2 cconstant nz?  CA cconstant z?
-D2 cconstant nc?  DA cconstant c?
-E2 cconstant po?  EA cconstant pe?
-F2 cconstant p?   FA cconstant m?
+C2 constant nz?  CA constant z?
+D2 constant nc?  DA constant c?
+E2 constant po?  EA constant pe?
+F2 constant p?   FA constant m?
 
   \ doc{
   \
@@ -1900,7 +1927,7 @@ F2 cconstant p?   FA cconstant m?
   \
   \ }doc
 
-: <rresolve ( dest -- ) here 1- swap rresolve ; -->
+: <rresolve ( dest -- ) here 1- swap rresolve ;
 
   \ doc{
   \
@@ -1913,9 +1940,8 @@ F2 cconstant p?   FA cconstant m?
   \
   \ }doc
 
-( assembler )
-
-  \ Control-flow structures with relative jumps
+\ ==============================================================
+\ Control-flow structures with relative jumps {{{1
 
 : rahead ( -- orig ) 18 , >rmark ;
   \ Note: $18 is the Z80 opcode for `jr`.
@@ -2121,15 +2147,8 @@ F2 cconstant p?   FA cconstant m?
   \
   \ }doc
 
-base ! set-current set-order
-
-( aif athen aelse abegin awhile auntil aagain arepeat )
-
-  \ Control-flow structures with absolute jumps
-
-get-order get-current
-only forth-wordlist set-current         need ?pairs
-assembler-wordlist >order set-current   need inverse-cond
+\ ==============================================================
+\ Control-flow structures with absolute jumps {{{1
 
 : (aif ( op -- orig cs-id ) c, >mark $08 ;
 
@@ -2309,29 +2328,7 @@ assembler-wordlist >order set-current   need inverse-cond
   \
   \ }doc
 
-set-current set-order
-
-( inverse-cond >amark >aresolve ?rel unresolved )
-
-unneeding inverse-cond ?\ : inverse-cond ( op1 -- op2) 8 xor ;
-
-  \ doc{
-  \
-  \ inverse-cond ( op1 -- op2 )
-  \
-  \ Convert a Z80 `assembler` condition flag _op1_ (actually a
-  \ jump opcode) to its opposite _op2_.
-  \
-  \ Examples: The opcode returned by `c?` is converted to the
-  \ opcode returned by `nc?`, `nz?` to `z?`, `po?` to `pe?`,
-  \ `p?` to `m?; and vice versa.
-  \
-  \ ``inverse-cond`` is used by `rif`, `runtil`, `aif` and
-  \ `auntil`.
-  \
-  \ }doc
-
-unneeding >amark ?\ : >amark ( -- a ) here 2- ;
+: >amark ( -- a ) here 2- ;
 
   \ doc{
   \
@@ -2342,9 +2339,7 @@ unneeding >amark ?\ : >amark ( -- a ) here 2- ;
   \
   \ }doc
 
-unneeding >aresolve ?( need >amark
-
-: >aresolve ( a -- ) >amark swap ! ; ?)
+: >aresolve ( a -- ) >amark swap ! ;
 
   \ doc{
   \
@@ -2356,21 +2351,6 @@ unneeding >aresolve ?( need >amark
   \ See also: `>amark`.
   \
   \ }doc
-
-unneeding ?rel
-
-?\ : ?rel ( n -- ) $80 + $FF swap u< #-269 ?throw ;
-
-  \ doc{
-  \
-  \ ?rel ( n -- ) "question-rel"
-  \
-  \ If Z80 `assembler` relative branch _n_ is too long, `throw`
-  \ exception #-269 (relative jump too long).
-  \
-  \ }doc
-
-unneeding unresolved ?( need array>
 
 create unresolved0> ( -- a ) 8 cells allot
 
@@ -2402,7 +2382,7 @@ variable unresolved> ( -- a ) unresolved0> unresolved> !
   \
   \ }doc
 
-: unresolved ( n -- a ) unresolved> @ array> ; ?)
+: unresolved ( n -- a ) unresolved> @ array> ;
 
   \ doc{
   \
@@ -2425,67 +2405,10 @@ variable unresolved> ( -- a ) unresolved0> unresolved> !
   \
   \ }doc
 
-( execute-hl, call-xt, )
+\ ==============================================================
+\ ZX Spectrum specific macros {{{1
 
-  \ Assembler macros to call any Forth word from code words.
-
-  \ Credit:
-  \
-  \ Code inspired by Spectrum Forth-83, where similar code is
-  \ embedded in `KEY` and `PAUSE` to call an xt hold in a
-  \ variable.  The code was factored to two assembler macros in
-  \ order to make it reusable.
-
-need assembler need macro need >amark need >aresolve
-
-macro execute-hl, ( -- )
-  0000 b stp,  >amark      \ save the Forth IP
-  0000 b ldp#, >amark      \ point IP to phony_compiled_word
-  jphl,                    \ execute the xt in HL
-  >resolve                 \ phony_compiled_word
-  here cell+ ,             \ point to the phony xt following
-  0000 b ldp#, >aresolve   \ restore the Forth IP
-  endm
-
-  \ doc{
-  \
-  \ execute-hl, ( -- ) "execute-h-l-comma"
-  \
-  \ Compile an `execute` with the _xt_ hold in the HL register.
-  \ ``execute-hl,`` is used to call Forth words from `code`
-  \ words.
-  \
-  \ See also: `call-xt,`, `call`, `call,`, `assembler`.
-  \
-  \ }doc
-
-macro call-xt, ( xt -- ) 21 c, , execute-hl, endm
-
-  \ doc{
-  \
-  \ call-xt, ( xt -- ) "call-x-t-comma"
-  \
-  \ Compile a Z80 `assembler` call to _xt_, by compiling the
-  \ Z80 instruction that loads the HL register with _xt_, and
-  \ then executing `execute-hl,` to compile the rest of the
-  \ necessary code.
-  \
-  \ ``call-xt,`` is the low-level equivalent of `execute`: it's
-  \ used to call a colon word from a code word.
-  \
-  \ See also: `call`, `call,`.
-  \
-  \ }doc
-
-( hook, prt, )
-
-  \ ZX Spectrum specific macros.
-
-need assembler
-
-get-current assembler-wordlist dup >order set-current
-
-unneeding hook, ?\ $CF m4 hook,
+$CF m4 hook,
   \ Equivalent to ``$08 rst,`` (``rst $08``).
 
   \ doc{
@@ -2499,7 +2422,7 @@ unneeding hook, ?\ $CF m4 hook,
   \
   \ }doc
 
-unneeding prt, ?\ $D7 m1 prt,
+$D7 m1 prt,
   \ Equivalent to ``$16 rst,`` (``rst $16``).
 
   \ doc{
@@ -2513,164 +2436,170 @@ unneeding prt, ?\ $D7 m1 prt,
   \
   \ }doc
 
-set-current
+base ! set-current set-order \ restore the initial status
 
-  \ ===========================================================
-  \ Change log (as part of Solo Forth)
+\ ==============================================================
+\ Change log {{{1
 
-  \ 2015-12-25: First changes to the previous version, which
-  \ is called `z80-asm`:
-  \
-  \   1. "," suffixes in Z80 instructions;
-  \   2. one single set of conditions;
-  \   3. "a" and "r" prefixes in control structures;
-  \   4. condition "m" is renamed to "ne".
+\ ----------------------------------------------
+\ As part of Solo Forth {{{2
 
-  \ 2016-04-11: Moved `macro` to its own module.
-  \
-  \ 2016-04-13: Made `calc` independent from the assembler and
-  \ moved it to the floating point module.  Fixed `execute-hl`,
-  \ then renamed it and `call-xt` with a trailing comma, to
-  \ avoid loading them instead of the versions written for the
-  \ first assembler.
+\ 2015-12-25: First changes to the previous version, which
+\ is called `z80-asm`:
+\
+\   1. "," suffixes in Z80 instructions;
+\   2. one single set of conditions;
+\   3. "a" and "r" prefixes in control structures;
+\   4. condition "m" is renamed to "ne".
 
-  \ 2016-05-08:
-  \
-  \ - Rename conditions to the original names plus "?".
-  \ - Rename `|mark` to `>amark`.
-  \ - Rename `|resolve` to `>aresolve`.
-  \ - Rename "resmark"-like words to "rmark"-like.
-  \ - Rename "resresolve"-like words to "rresolve"-like.
-  \ - Remove "retCOND"-like and "callCOND"-like macros.
-  \ - Compact the blocks.
-  \ - Add `?jp` and `?jr` for conditional jumps.
-  \ - Remove "jpCOND"-like and "jrCOND"-like opcodes.
-  \ - Change the opcode values of the conditions.
-  \ - Rename `?page` to `?jr-range`.
-  \ - Rename `clr,` to `clrp,`; add new `clr,`.
+\ 2016-04-11: Moved `macro` to its own module.
+\
+\ 2016-04-13: Made `calc` independent from the assembler and
+\ moved it to the floating point module.  Fixed `execute-hl`,
+\ then renamed it and `call-xt` with a trailing comma, to
+\ avoid loading them instead of the versions written for the
+\ first assembler.
 
-  \ 2016-05-09: Save and restore the compile word list, the
-  \ current radix and the search order.
-  \
-  \ 2016-11-14: Now `call,` is defined in the kernel, where it
-  \ existed with the old name `code-field,`. Compact the code,
-  \ save one block.  Move `8*` to the 1-cell operators module.
-  \
-  \ 2016-11-19: Now `jp,` is defined in the kernel, factored
-  \ from `defer`.
-  \
-  \ 2016-12-06: Rename `?jr-range` to `?rel` and make it
-  \ consume its argument, in order to reuse it in the future
-  \ implementation of local labels.
-  \
-  \ 2016-12-20: Fix stack comments of `rrepeat` and `auntil`.
-  \ Fix `jp>jr` to manage also un-onditional jumps. Factor
-  \ `?call` with `?jp`.  Fix `relse`, `rwhile` and `runtil`.
-  \
-  \ 2016-12-25: Fix `jp>jr`. Rename `im1`, `im2` to `im1,`
-  \ `im2,`. Make `inverse-cond` and `jp>jr` compatible with
-  \ `z80-asm`, in case `z80-asm` was loaded first.
-  \
-  \ 2016-12-26: Factor `runtil`, fix `rstep`.
-  \
-  \ 2016-12-31: Fix: Move the location of unresolved references
-  \ from the string stack to data space. Using the string stack
-  \ is not safe for this.
-  \
-  \ 2017-01-02: Fix `runtil`, `auntil` and `ragain`.
-  \
-  \ 2017-01-05: The previous version of this assembler has been
-  \ deleted. Rename this module from
-  \ <assembler.z80-asm-comma.fsb> to <assembler.fsb>. Remove
-  \ `bc`, `de` and `hl`. Move `assembler` from the kernel.
-  \ Remove `z80-asm,`.
-  \
-  \ 2017-01-07: Improve the Z80 registers stack notation.
-  \ Update `wid>vocabulary` to `wordlist>vocabulary`.
-  \
-  \ 2017-02-12: Fix `relse` and `aelse`.
-  \
-  \ 2017-02-13: Replace `constant` with `cconstant`.
-  \
-  \ 2017-02-17: Update cross references.
-  \
-  \ 2017-02-21: Make `unresolved` optional. Make `?rel`
-  \ independent from the assembler, to be reused by `l:`.
-  \
-  \ 2017-02-27: Add `ldi,` and `ldd,`.
-  \
-  \ 2017-03-11: Make absolute-jump control structures optional.
-  \ Improve documentation.
-  \
-  \ 2017-03-13: Factor `create c,` to `(c`. This saves 13
-  \ bytes. Improve documentation.
-  \
-  \ 2017-03-21: Fix number notation in `?rel`.
-  \
-  \ 2017-03-22: Add undocumented instructions `sll,` and
-  \ `sllx,`.
-  \
-  \ 2017-03-26: Fix `aagain`. Improve documentation.
-  \
-  \ 2017-03-28: Fix code typo in `execute-hl`. Rewrite
-  \ `call-xt,` with Z80 opcodes. Improve documentation.
-  \
-  \ 2017-09-09: Update notation "pfa" to the standard "dfa".
-  \ Finish documentation of conditions (`z?`, `nz?`...).
-  \ Document `?ret,`, `?call,`, `?jp,`, `?jr,`.
-  \
-  \ 2017-12-10: Add `m3p` to define `push,` and `pop,` with.
-  \ This makes register A usable with those instructions
-  \ instead of register AF.  Remove constant `af.`
-  \
-  \ 2017-12-11: Improve documentation.
-  \
-  \ 2018-02-01: Make `hook,` and `prt,` optional.
-  \
-  \ 2018-03-05: Update `[unneeded]` to `unneeding`.
-  \
-  \ 2018-03-07: Add words' pronunciaton.
-  \
-  \ 2018-04-14: Fix markup in documentation.
-  \
-  \ 2018-06-04: Update: remove trailing closing paren from word
-  \ names.
-  \
-  \ 2018-06-04: Link `variable` in documentation.
-  \
-  \ 2018-07-21: Improve documentation, linking `throw`.
-  \
-  \ 2020-02-27: Improve documentation.
-  \
-  \ 2020-02-28: Complete the documentation of all instructions.
-  \
-  \ 2020-02-29: Improve documentation. Add `ldar,` and `ldra,`.
-  \ Factor `ed,` from `sbcp,`, `adcp,`, `stp,` and `ftp,`.
-  \
-  \ 2020-03-30: Complete the words' pronunciations.
-  \
-  \ 2020-05-02: Fix cross references.
-  \
-  \ 2020-05-04: Fix cross reference. Remove cross references to
-  \ inexistent word `ft#x,`,
-  \
-  \ 2020-05-05: Fix cross references.
-  \
-  \ 2020-05-18: Add explicit cross references.
-  \
-  \ 2020-06-16: Improve documentation.
-  \
-  \ 2020-06-17: Improve documentation of the `aif` control-flow
-  \ structure.
-  \
-  \ 2020-07-28: Fix documentation: add missing `z?` to several
-  \ descriptions. Improve documentation.
-  \
-  \ 2020-07-29: Improve documentation.
-  \
-  \ 2020-08-08: Improve documentation.
+\ 2016-05-08:
+\
+\ - Rename conditions to the original names plus "?".
+\ - Rename `|mark` to `>amark`.
+\ - Rename `|resolve` to `>aresolve`.
+\ - Rename "resmark"-like words to "rmark"-like.
+\ - Rename "resresolve"-like words to "rresolve"-like.
+\ - Remove "retCOND"-like and "callCOND"-like macros.
+\ - Compact the blocks.
+\ - Add `?jp` and `?jr` for conditional jumps.
+\ - Remove "jpCOND"-like and "jrCOND"-like opcodes.
+\ - Change the opcode values of the conditions.
+\ - Rename `?page` to `?jr-range`.
+\ - Rename `clr,` to `clrp,`; add new `clr,`.
 
-  \ ===========================================================
-  \ Change log (as part of Sin Forth)
+\ 2016-05-09: Save and restore the compile word list, the
+\ current radix and the search order.
+\
+\ 2016-11-14: Now `call,` is defined in the kernel, where it
+\ existed with the old name `code-field,`. Compact the code,
+\ save one block.  Move `8*` to the 1-cell operators module.
+\
+\ 2016-11-19: Now `jp,` is defined in the kernel, factored
+\ from `defer`.
+\
+\ 2016-12-06: Rename `?jr-range` to `?rel` and make it
+\ consume its argument, in order to reuse it in the future
+\ implementation of local labels.
+\
+\ 2016-12-20: Fix stack comments of `rrepeat` and `auntil`.
+\ Fix `jp>jr` to manage also un-onditional jumps. Factor
+\ `?call` with `?jp`.  Fix `relse`, `rwhile` and `runtil`.
+\
+\ 2016-12-25: Fix `jp>jr`. Rename `im1`, `im2` to `im1,`
+\ `im2,`. Make `inverse-cond` and `jp>jr` compatible with
+\ `z80-asm`, in case `z80-asm` was loaded first.
+\
+\ 2016-12-26: Factor `runtil`, fix `rstep`.
+\
+\ 2016-12-31: Fix: Move the location of unresolved references
+\ from the string stack to data space. Using the string stack
+\ is not safe for this.
+\
+\ 2017-01-02: Fix `runtil`, `auntil` and `ragain`.
+\
+\ 2017-01-05: The previous version of this assembler has been
+\ deleted. Rename this module from
+\ <assembler.z80-asm-comma.fsb> to <assembler.fsb>. Remove
+\ `bc`, `de` and `hl`. Move `assembler` from the kernel.
+\ Remove `z80-asm,`.
+\
+\ 2017-01-07: Improve the Z80 registers stack notation.
+\ Update `wid>vocabulary` to `wordlist>vocabulary`.
+\
+\ 2017-02-12: Fix `relse` and `aelse`.
+\
+\ 2017-02-13: Replace `constant` with `cconstant`.
+\
+\ 2017-02-17: Update cross references.
+\
+\ 2017-02-21: Make `unresolved` optional. Make `?rel`
+\ independent from the assembler, to be reused by `l:`.
+\
+\ 2017-02-27: Add `ldi,` and `ldd,`.
+\
+\ 2017-03-11: Make absolute-jump control structures optional.
+\ Improve documentation.
+\
+\ 2017-03-13: Factor `create c,` to `(c`. This saves 13
+\ bytes. Improve documentation.
+\
+\ 2017-03-21: Fix number notation in `?rel`.
+\
+\ 2017-03-22: Add undocumented instructions `sll,` and
+\ `sllx,`.
+\
+\ 2017-03-26: Fix `aagain`. Improve documentation.
+\
+\ 2017-03-28: Fix code typo in `execute-hl`. Rewrite
+\ `call-xt,` with Z80 opcodes. Improve documentation.
+\
+\ 2017-09-09: Update notation "pfa" to the standard "dfa".
+\ Finish documentation of conditions (`z?`, `nz?`...).
+\ Document `?ret,`, `?call,`, `?jp,`, `?jr,`.
+\
+\ 2017-12-10: Add `m3p` to define `push,` and `pop,` with.
+\ This makes register A usable with those instructions
+\ instead of register AF.  Remove constant `af.`
+\
+\ 2017-12-11: Improve documentation.
+\
+\ 2018-02-01: Make `hook,` and `prt,` optional.
+\
+\ 2018-03-05: Update `[unneeded]` to `unneeding`.
+\
+\ 2018-03-07: Add words' pronunciaton.
+\
+\ 2018-04-14: Fix markup in documentation.
+\
+\ 2018-06-04: Update: remove trailing closing paren from word
+\ names.
+\
+\ 2018-06-04: Link `variable` in documentation.
+\
+\ 2018-07-21: Improve documentation, linking `throw`.
+\
+\ 2020-02-27: Improve documentation.
+\
+\ 2020-02-28: Complete the documentation of all instructions.
+\
+\ 2020-02-29: Improve documentation. Add `ldar,` and `ldra,`.
+\ Factor `ed,` from `sbcp,`, `adcp,`, `stp,` and `ftp,`.
+\
+\ 2020-03-30: Complete the words' pronunciations.
+\
+\ 2020-05-02: Fix cross references.
+\
+\ 2020-05-04: Fix cross reference. Remove cross references to
+\ inexistent word `ft#x,`,
+\
+\ 2020-05-05: Fix cross references.
+\
+\ 2020-05-18: Add explicit cross references.
+\
+\ 2020-06-16: Improve documentation.
+\
+\ 2020-06-17: Improve documentation of the `aif` control-flow
+\ structure.
+\
+\ 2020-07-28: Fix documentation: add missing `z?` to several
+\ descriptions. Improve documentation.
+\
+\ 2020-07-29: Improve documentation.
+\
+\ 2020-08-08: Improve documentation.
 
-  \ 2020-12-06: Copy the code from Solo Forth.
+\ ----------------------------------------------
+\ As part of Sin Forth {{{2
+
+\ 2020-12-06: Copy the code from Solo Forth. Add requirements and
+\ rearrange the code to make the Solo Forth `need` unnecessary. Update
+\ the layout of the source. Remove assembler macros. Replace
+\ `cconstant` with `constant`.
