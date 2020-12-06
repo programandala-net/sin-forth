@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061903.
+\ Last modified: 202012061914.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -1864,6 +1864,18 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
+: jp, ( a -- ) $C3 c, , ;
+
+  \ doc{
+  \
+  \ jp, ( a -- ) "j-p-comma"
+  \
+  \ Compile the Z80 opcode to jump to _a_.
+  \
+  \ See also: `call,`.
+  \
+  \ }doc
+
 : ?call, ( a op -- ) 2+ ?jp, ;
 
   \ doc{
@@ -1876,6 +1888,18 @@ $F2 constant p?   $FA constant m?
   \ `c?`, `nc?`, `po?`, `pe?`, `p?`, or `m?`.
   \
   \ See also: `call,`, `?ret,`, `?jp,`.
+  \
+  \ }doc
+
+: call, ( a -- ) $CD c, , ;
+
+  \ doc{
+  \
+  \ call, ( a -- ) "call-comma"
+  \
+  \ Compile the Z80 opcode to call _a_.
+  \
+  \ See also: `jp,`.
   \
   \ }doc
 
@@ -2626,4 +2650,5 @@ set-current set-order \ restore the initial status
 \ 2020-12-06: Copy the code from Solo Forth. Add requirements and
 \ rearrange the code to make the Solo Forth `need` unnecessary. Update
 \ the layout of the source. Remove assembler macros. Replace
-\ `cconstant` with `constant`. Mark hex numbers.
+\ `cconstant` with `constant`. Mark hex numbers. Add `jp,` and
+\ `call,`, which were defined in the Solo Forth's kernel.
