@@ -1,3 +1,5 @@
+#! /usr/bin/env gforth
+
 \ sin_forth.fs
 
 \ This file is part of:
@@ -17,7 +19,8 @@
 
 \ This file is the main source file of Sin Forth.
 \
-\ Run it with `gforth sin_forth.fs`.
+\ This file is executable. Run it directly with `src/sin_forth.fs`
+\ in the project's directory, or with `gforth src/sin_forth.fs`.
 
 \ ==============================================================
 \ Requirements {{{1
