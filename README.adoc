@@ -1,5 +1,6 @@
-Sin Forth
+= Sin Forth
 :author: Marcos Cruz (programandala.net)
+:revdate: 2020-12-06
 
 Project: A Forth cross compiler written in Forth with Gforth, to
 create machine code programs for the ZX Spectrum and compatible
