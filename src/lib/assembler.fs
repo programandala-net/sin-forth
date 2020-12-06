@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061812.
+\ Last modified: 202012061839.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,6 +53,9 @@ only forth definitions
 require galope/array-to.fs \ `array>`
 require galope/question-throw.fs \ `?throw`
 require galope/three-dup.fs \ `3dup`
+
+: 2- ( x1 -- x2 ) 2 - ;
+: 2+ ( x1 -- x2 ) 2 + ;
 
 wordlist constant assembler-wordlist
 
@@ -113,7 +116,8 @@ base @ hex
 
 : ed, ( -- )  ED c, ;
 
-  \ Registers
+\ ==============================================================
+\ Z80 registers {{{1
 
 0 constant b   1 constant c   2 constant d   3 constant e
 4 constant h   5 constant l   6 constant m   7 constant a
@@ -300,7 +304,8 @@ DD constant ix-op  FD constant iy-op
   \
   \ }doc
 
-  \ Defining words for z80 instructions
+\ ==============================================================
+\ Definers for z80 instructions {{{1
 
 : (c ( b "name" -- ) create c, ;
 
@@ -338,8 +343,6 @@ DD constant ix-op  FD constant iy-op
   ( reg bit dfa ) CB c, c@ swap 8 * + + c, ;
   \ Bit manipulation of registers.
 
-  \ Defining words for z80 instructions
-
 : m8 ( 16b "name" -- ) create , does> ( -- ) ( dfa ) @ , ;
   \ 2-byte opcodes.
 
@@ -373,23 +376,25 @@ DD constant ix-op  FD constant iy-op
   CB c, c@ rot drop rot c, swap 8 * + c, ;
   \ Bit manipulation with index registers.
 
-  \ Opcodes
+\ ==============================================================
+\ Opcodes {{{1
 
-00 m1 nop, 02 m3 stap, 03 m3 incp, 04 m3 inc, 05 m3 dec, 07 m1
-rlca, 08 m1 exaf, 09 m3 addp, 0A m3 ftap, 0B m3 decp, 0F m1
-rrca, 10 m9 djnz, 17 m1 rla, 18 m9 jr,  1F m1 rra, 22 m5 sthl,
-27 m1 daa, 2A m5 fthl, 2F m1 cpl, 32 m5 sta, 37 m1 scf, 3A m5
-fta, 3F m1 ccf, 76 m1 halt, 80 m2 add, 88 m2 adc, 90 m2 sub, 98
-m2 sbc, B8 m2 cp, C1 m3p pop, C5 m3p push, C6 m4 add#, C7 m2
-rst, C9 m1 ret, CE m4 adc#, D3 m4 out, 41 m3 outbc, D6 m4 sub#,
-D9 m1 exx, DB m4 in, 40 m3 inbc, 0DE m4 sbc#, E3 m1 exsp, E6 m4
-and#, E9 m1 jphl, EB m1 exde, EE m4 xor#, F3 m1 di,  F6 m4 or#,
-F9 m1 ldsp, FB m1 ei, FE m4 cp#, 00 m6 rlc, 08 m6 rrc, 10 m6
-rl, 18 m6 rr, 20 m6 sla, 28 m6 sra, 30 m6 sll, 38 m6 srl,  40
-m7 bit, 80 m7 res, C0 m7 set, A0ED m8 ldi, B0ED m8 ldir, A8ED
-m8 ldd, B8ED m8 lddr, 44ED m8 neg, 57ED m8 ldai, 47ED m8 ldia,
-56ED m8 im1, 5EED m8 im2, B1ED m8 cpir, 6FED m8 rld, A0 m2 and,
-B0 m2 or, A8 m2 xor, 5FED m8 ldar, 4FED m8 ldra,
+00 m1 nop, 02 m3 stap, 03 m3 incp, 04 m3 inc, 05 m3 dec,
+07 m1 rlca, 08 m1 exaf, 09 m3 addp, 0A m3 ftap, 0B m3 decp,
+0F m1 rrca, 10 m9 djnz, 17 m1 rla, 18 m9 jr,  1F m1 rra,
+22 m5 sthl, 27 m1 daa, 2A m5 fthl, 2F m1 cpl, 32 m5 sta, 37 m1 scf,
+3A m5 fta, 3F m1 ccf, 76 m1 halt, 80 m2 add, 88 m2 adc, 90 m2 sub,
+98 m2 sbc, B8 m2 cp, C1 m3p pop, C5 m3p push, C6 m4 add#, C7 m2 rst,
+C9 m1 ret, CE m4 adc#, D3 m4 out, 41 m3 outbc, D6 m4 sub#,
+D9 m1 exx, DB m4 in, 40 m3 inbc, 0DE m4 sbc#, E3 m1 exsp,
+E6 m4 and#, E9 m1 jphl, EB m1 exde, EE m4 xor#, F3 m1 di,
+F6 m4 or#, F9 m1 ldsp, FB m1 ei, FE m4 cp#, 00 m6 rlc, 08 m6 rrc,
+10 m6 rl, 18 m6 rr, 20 m6 sla, 28 m6 sra, 30 m6 sll, 38 m6 srl,
+40 m7 bit, 80 m7 res, C0 m7 set,
+A0ED m8 ldi, B0ED m8 ldir, A8ED m8 ldd, B8ED m8 lddr, 44ED m8 neg, 57ED m8 ldai,
+47ED m8 ldia, 56ED m8 im1, 5EED m8 im2, B1ED m8 cpir, 6FED m8 rld,
+A0 m2 and, B0 m2 or, A8 m2 xor,
+5FED m8 ldar, 4FED m8 ldra,
 
   \ doc{
   \
@@ -1942,6 +1947,22 @@ F2 constant p?   FA constant m?
 
 \ ==============================================================
 \ Control-flow structures with relative jumps {{{1
+
+: <mark ( C: -- dest ) target> @ ;
+
+  \ doc{
+  \
+  \ <mark ( C: -- dest ) "backward-mark"
+  \
+  \ _dest_ is the current data-space pointer, to be used as the
+  \ destination of a backward branch.  _dest_ is typically only
+  \ used by `<resolve` to compile a branch address.
+  \
+  \ ``<mark`` is an `alias` of `target>`.
+  \
+  \ See also: `>mark`, `begin`.
+  \
+  \ }doc
 
 : rahead ( -- orig ) 18 , >rmark ;
   \ Note: $18 is the Z80 opcode for `jr`.
