@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012062114.
+\ Last modified 202012070043.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -79,6 +79,7 @@ variable memory>  initial-target memory> !
   \ pointed by `memory>` and update this pointer accordingly.
 
 include assembler.fs
+include data_stack.fs
 
 only forth
       sin-wordlist >order
@@ -121,7 +122,8 @@ assembler-wordlist >order
 
 : end-sin ( -- )
   only forth definitions
-  sin-wordlist >order also forth ;
+  sin-wordlist >order
+  forth-wordlist >order ;
   \ Mark the end of the compiled code.
 
 \ ==============================================================
