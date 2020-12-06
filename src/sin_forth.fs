@@ -5,7 +5,9 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Last modified 202012061655.
+\ Version 0.0.0-dev.0.0+202012061929
+
+\ Last modified 202012061920.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -14,19 +16,20 @@
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
+only forth definitions
+
 require galope/one-plus-store.fs \ `1+!`
 require galope/two-plus-store.fs \ `2+!`
 
 \ ==============================================================
 \ Compiler {{{1
 
-only forth definitions
-
 wordlist constant sin-wordlist
 
 sin-wordlist set-current
 
-sin-wordlist >order also forth
+  sin-wordlist >order
+forth-wordlist >order
 
 25000 constant target-start
   \ Start address of the target code in the ZX Spectrum memory.
@@ -60,12 +63,19 @@ t-memory t-/memory erase
   \ Compile 16-bit _c_ in the current target memory pointer and update
   \ the pointer.
 
+include assembler.fs
+
+only forth
+      sin-wordlist >order
+assembler-wordlist >order
+    forth-wordlist >order
+
 : : ( "name" -- )
   create target> @ ,
-  does> $c9 t-c, @ t-, ;
+  does> @ call, ;
   \ Define a target word.
 
-: ; ( -- ) $c9 t-c, ;
+: ; ( -- ) ret, ;
   \ End a target word by compiling a Z80 `ret`.
   \
   \ XXX TODO Optimize the trail by compiling a Z80 `jp` instead of the
@@ -125,8 +135,10 @@ sin-wordlist >order also forth
 
 begin-sin
 
-: game ( x -- ) , ;
-2 game
+: game1 ( x -- ) ;
+: game2 ( x -- ) ;
+game1
+game2
 
 end-sin
 
