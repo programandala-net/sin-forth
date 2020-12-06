@@ -5,7 +5,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Last modified 202012061655.
+\ Last modified 202012061711.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -16,6 +16,10 @@
 
 require galope/one-plus-store.fs \ `1+!`
 require galope/two-plus-store.fs \ `2+!`
+
+\ Sin Forth
+
+require lib/assembler.fs
 
 \ ==============================================================
 \ Compiler {{{1
