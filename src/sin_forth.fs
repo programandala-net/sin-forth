@@ -5,9 +5,9 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Version 0.0.0-dev.0.0+202012061929
+\ Version 0.0.0-dev.0.1+202012062017
 
-\ Last modified 202012061920.
+\ Last modified 202012062017.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -31,37 +31,41 @@ sin-wordlist set-current
   sin-wordlist >order
 forth-wordlist >order
 
-25000 constant target-start
+25000 constant initial-target
   \ Start address of the target code in the ZX Spectrum memory.
 
-variable target> target-start target> !
-  \ Address where the target code is compiled in the ZX Spectrum
-  \ memory.
+0x10000 constant /memory
+  \ Size of the target memory: 64 KiB.
 
-0x10000 constant t-/memory
-  \ Size of the target memory.
+$10000 allocate throw constant memory
+memory /memory erase
+  \ Reserve a 64-KiB space for the target memory and erase it.
 
-t-/memory allocate throw constant t-memory
-t-memory t-/memory erase
-  \ Reserve a space for the target memory and erase it.
+variable memory>  initial-target memory> !
+  \ Z80 address ($0000..$FFFF) where the target code is being compiled
+  \ in the ZX Spectrum memory. Therefore it's also a pointer to the
+  \ first free address in `memory`. Its initial value is
+  \ `initial-target`.
 
 : t-! ( x a -- )
-  t-memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
-  \ Store 16-bit _x_ in target memory address _a_.
+\  cr 2dup swap . . ." t-! " \ XXX INFORMER
+  memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
+  \ Store the 16-bit value _x_ into target memory address _a_.
 
 : t-c! ( c ca -- )
-  t-memory + c! ;
-  \ Store 8-bit _c_ in target memory address _ca_.
+\  cr 2dup swap . . ." t-! " \ XXX INFORMER
+  memory + c! ;
+  \ Store the 8-bit value _c_ into target memory address _ca_.
 
 : t-c, ( c -- )
-  target> @ t-c! target> 1+! ;
-  \ Compile 8-bit _c_ in the current target memory pointer and update
-  \ the pointer.
+  memory> @ t-c! memory> 1+! ;
+  \ Compile the 8-bit value _c_ in the current target memory address
+  \ pointed by `memory>` and increase this pointer accordingly.
 
-: t-, ( c -- )
-  target> @ t-! target> 2+! ;
-  \ Compile 16-bit _c_ in the current target memory pointer and update
-  \ the pointer.
+: t-, ( x -- )
+  memory> @ t-! memory> 2+! ;
+  \ Compile the 16-bit value _x_ in the current target memory address
+  \ pointed by `memory>` and update this pointer accordingly.
 
 include assembler.fs
 
@@ -71,8 +75,10 @@ assembler-wordlist >order
     forth-wordlist >order
 
 : : ( "name" -- )
-  create target> @ ,
-  does> @ call, ;
+  create memory> @ ,
+  does> @
+\  cr ." Compiling a call to a word at target address: " dup . \ XXX INFORMER
+  call, ;
   \ Define a target word.
 
 : ; ( -- ) ret, ;
@@ -82,14 +88,14 @@ assembler-wordlist >order
   \ last `call`.
 
 : variable ( "name" -- )
-  create target> @ , target> 2+!
+  create memory> @ , memory> 2+!
   does>
   drop \ XXX TMP
   \ XXX TODO push
   ;
 
 : constant ( "name" x -- )
-  create target> @ ! target> 2+!
+  create memory> @ ! memory> 2+!
   does> @
   drop \ XXX TMP
   \ XXX TODO push
@@ -108,7 +114,7 @@ assembler-wordlist >order
 \ ==============================================================
 \ Target system {{{1
 
-.( The system is compiled at ) target> @ .
+.( The system is compiled at ) memory> @ .
 
 begin-sin
 
@@ -125,13 +131,13 @@ only forth definitions
 
 sin-wordlist >order also forth
 
-: .mem ( a -- ) t-memory + 256 dump ;
+: .mem ( -- ) memory initial-target + 256 dump ;
   \ Dump 256 bytes from target memory address _a_.
 
 \ ==============================================================
 \ Test application {{{1
 
-.( The application is compiled at ) target> @ .
+.( The application is compiled at ) memory> @ .
 
 begin-sin
 
