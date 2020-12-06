@@ -5,8 +5,6 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Version 0.0.0-dev.1.1+202012062114
-
 \ Last modified 202012062114.
 \ See change log at the end of the file.
 
