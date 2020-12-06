@@ -5,7 +5,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Last modified 202012061857.
+\ Last modified 202012061918.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -70,10 +70,10 @@ assembler-wordlist >order
 
 : : ( "name" -- )
   create target> @ ,
-  does> $c9 t-c, @ t-, ;
+  does> @ call, ;
   \ Define a target word.
 
-: ; ( -- ) $c9 t-c, ;
+: ; ( -- ) ret, ;
   \ End a target word by compiling a Z80 `ret`.
   \
   \ XXX TODO Optimize the trail by compiling a Z80 `jp` instead of the
@@ -133,8 +133,10 @@ sin-wordlist >order also forth
 
 begin-sin
 
-: game ( x -- ) , ;
-2 game
+: game1 ( x -- ) ;
+: game2 ( x -- ) ;
+game1
+game2
 
 end-sin
 
