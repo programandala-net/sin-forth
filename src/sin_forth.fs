@@ -5,21 +5,20 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Version 0.0.0-dev.0.1+202012062017
+\ Version 0.0.0-dev.1.0+202012062022
 
-\ Last modified 202012062017.
+\ Last modified 202012062022.
 \ See change log at the end of the file.
 
 \ ==============================================================
 \ Requirements {{{1
 
+only forth definitions
+
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
-only forth definitions
-
-require galope/one-plus-store.fs \ `1+!`
-require galope/two-plus-store.fs \ `2+!`
+\ XXX REMARK No Galope module required at the moment.
 
 \ ==============================================================
 \ Compiler {{{1
@@ -58,12 +57,12 @@ variable memory>  initial-target memory> !
   \ Store the 8-bit value _c_ into target memory address _ca_.
 
 : t-c, ( c -- )
-  memory> @ t-c! memory> 1+! ;
+  memory> @ t-c! 1 memory> +! ;
   \ Compile the 8-bit value _c_ in the current target memory address
   \ pointed by `memory>` and increase this pointer accordingly.
 
 : t-, ( x -- )
-  memory> @ t-! memory> 2+! ;
+  memory> @ t-! 2 memory> +! ;
   \ Compile the 16-bit value _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
@@ -88,14 +87,14 @@ assembler-wordlist >order
   \ last `call`.
 
 : variable ( "name" -- )
-  create memory> @ , memory> 2+!
+  create memory> @ , 2 memory> +!
   does>
   drop \ XXX TMP
   \ XXX TODO push
   ;
 
 : constant ( "name" x -- )
-  create memory> @ ! memory> 2+!
+  create memory> @ ! 2 memory> +!
   does> @
   drop \ XXX TMP
   \ XXX TODO push
