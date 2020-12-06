@@ -1,10 +1,10 @@
   \ assembler.fs
   \
-  \ This file is part of Solo Forth
-  \ http://programandala.net/en.program.solo_forth.html
+  \ This file is part of Sin Forth
+  \ http://programandala.net
 
-  \ Last modified: 202008082223
-  \ See change log at the end of the file
+  \ Last modified: 202012061704.
+  \ See change log at the end of the file.
 
   \ ===========================================================
   \ Description
@@ -25,8 +25,10 @@
   \ Spectrum Forth-83 (1988).
   \
   \ Marcos Cruz (programandala.net) adapted, modified and
-  \ improved the Spectrum Forth-83 version for Solo Forth,
-  \ 2015, 2016, 2017, 2018, 2018, 2020.
+  \ improved the Spectrum Forth-83 version for Solo Forth
+  \ (http://programandala.net/en.program.solo_forth.html),
+  \ 2015, 2016, 2017, 2018, 2018, 2020. Then in 2020 adapted it
+  \ for Sin Forth.
 
   \ ===========================================================
   \ License
@@ -37,7 +39,9 @@
 
 ( assembler )
 
-  \ XXX TODO - Finish the documentation.
+  \ XXX TODO Finish the documentation (also in Solo Forth).
+  \
+  \ XXX TODO Update/adapt the current documentation to Sin Forth.
 
 get-order get-current only forth definitions
 
@@ -59,10 +63,6 @@ assembler-wordlist wordlist>vocabulary assembler
   \ `aagain`, `arepeat`), labels (`l:`, `rl#`, `al#`, etc.)
   \ macros (`macro`, `endm`) and some specific words
   \ (`execute-hl,`, `call-xt,`, `hook,`, `prt,`).
-  \
-  \ Origin: Forth-79 (Assembler Word Set), Forth-83 (Assembler
-  \ Extension Word Set), Forth-94 (TOOLS EXT), Forth-2012
-  \ (TOOLS EXT).
   \
   \ }doc
 
@@ -2516,7 +2516,7 @@ unneeding prt, ?\ $D7 m1 prt,
 set-current
 
   \ ===========================================================
-  \ Change log
+  \ Change log (as part of Solo Forth)
 
   \ 2015-12-25: First changes to the previous version, which
   \ is called `z80-asm`:
@@ -2670,4 +2670,7 @@ set-current
   \
   \ 2020-08-08: Improve documentation.
 
-  \ vim: filetype=soloforth
+  \ ===========================================================
+  \ Change log (as part of Sin Forth)
+
+  \ 2020-12-06: Copy the code from Solo Forth.
