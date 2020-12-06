@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061857.
+\ Last modified: 202012061903.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -76,8 +76,6 @@ sin-wordlist >order
 assembler-wordlist >order
 forth-wordlist >order
 
-base @ hex
-
 : ?pairs ( x1 x2 -- ) <> #-22 ?throw ;
 
   \ doc{
@@ -119,7 +117,7 @@ base @ hex
   \ }doc
 
 
-: ed, ( -- )  ED c, ;
+: ed, ( -- ) $ED c, ;
 
 \ ==============================================================
 \ Z80 registers {{{1
@@ -273,7 +271,7 @@ base @ hex
   \
   \ }doc
 
-DD constant ix-op  FD constant iy-op
+$DD constant ix-op  $FD constant iy-op
 
 : ix ( -- regpi ) ix-op c, h ;
 
@@ -340,12 +338,12 @@ DD constant ix-op  FD constant iy-op
   \ 1-byte opcode with 2-byte parameter.
 
 : m6 ( 8b "name" -- )
-  (c does> ( reg -- ) ( reg dfa ) CB c, c@ + c, ;
+  (c does> ( reg -- ) ( reg dfa ) $CB c, c@ + c, ;
   \ Rotation of registers.
 
 : m7 ( 8b "name" -- )
   (c does> ( reg bit -- )
-  ( reg bit dfa ) CB c, c@ swap 8 * + + c, ;
+  ( reg bit dfa ) $CB c, c@ swap 8 * + + c, ;
   \ Bit manipulation of registers.
 
 : m8 ( 16b "name" -- ) create , does> ( -- ) ( dfa ) @ , ;
@@ -373,33 +371,33 @@ DD constant ix-op  FD constant iy-op
 
 : mb ( 8b "name" -- )
   (c does> ( disp regph -- ) ( disp regph dfa )
-  CB c, c@ c, drop c, ;
+  $CB c, c@ c, drop c, ;
   \ Rotation with index registers.
 
 : mc ( 8b "name" -- )
   (c does> ( disp regph bit -- ) ( disp regph bit dfa )
-  CB c, c@ rot drop rot c, swap 8 * + c, ;
+  $CB c, c@ rot drop rot c, swap 8 * + c, ;
   \ Bit manipulation with index registers.
 
 \ ==============================================================
 \ Opcodes {{{1
 
-00 m1 nop, 02 m3 stap, 03 m3 incp, 04 m3 inc, 05 m3 dec,
-07 m1 rlca, 08 m1 exaf, 09 m3 addp, 0A m3 ftap, 0B m3 decp,
-0F m1 rrca, 10 m9 djnz, 17 m1 rla, 18 m9 jr,  1F m1 rra,
-22 m5 sthl, 27 m1 daa, 2A m5 fthl, 2F m1 cpl, 32 m5 sta, 37 m1 scf,
-3A m5 fta, 3F m1 ccf, 76 m1 halt, 80 m2 add, 88 m2 adc, 90 m2 sub,
-98 m2 sbc, B8 m2 cp, C1 m3p pop, C5 m3p push, C6 m4 add#, C7 m2 rst,
-C9 m1 ret, CE m4 adc#, D3 m4 out, 41 m3 outbc, D6 m4 sub#,
-D9 m1 exx, DB m4 in, 40 m3 inbc, 0DE m4 sbc#, E3 m1 exsp,
-E6 m4 and#, E9 m1 jphl, EB m1 exde, EE m4 xor#, F3 m1 di,
-F6 m4 or#, F9 m1 ldsp, FB m1 ei, FE m4 cp#, 00 m6 rlc, 08 m6 rrc,
-10 m6 rl, 18 m6 rr, 20 m6 sla, 28 m6 sra, 30 m6 sll, 38 m6 srl,
-40 m7 bit, 80 m7 res, C0 m7 set,
-A0ED m8 ldi, B0ED m8 ldir, A8ED m8 ldd, B8ED m8 lddr, 44ED m8 neg, 57ED m8 ldai,
-47ED m8 ldia, 56ED m8 im1, 5EED m8 im2, B1ED m8 cpir, 6FED m8 rld,
-A0 m2 and, B0 m2 or, A8 m2 xor,
-5FED m8 ldar, 4FED m8 ldra,
+$00 m1 nop, $02 m3 stap, $03 m3 incp, $04 m3 inc, $05 m3 dec,
+$07 m1 rlca, $08 m1 exaf, $09 m3 addp, $0A m3 ftap, $0B m3 decp,
+$0F m1 rrca, $10 m9 djnz, $17 m1 rla, $18 m9 jr,  $1F m1 rra,
+$22 m5 sthl, $27 m1 daa, $2A m5 fthl, $2F m1 cpl, $32 m5 sta, $37 m1 scf,
+$3A m5 fta, $3F m1 ccf, $76 m1 halt, $80 m2 add, $88 m2 adc, $90 m2 sub,
+$98 m2 sbc, $B8 m2 cp, $C1 m3p pop, $C5 m3p push, $C6 m4 add#, $C7 m2 rst,
+$C9 m1 ret, $CE m4 adc#, $D3 m4 out, $41 m3 outbc, $D6 m4 sub#,
+$D9 m1 exx, $DB m4 in, $40 m3 inbc, $0DE m4 sbc#, $E3 m1 exsp,
+$E6 m4 and#, $E9 m1 jphl, $EB m1 exde, $EE m4 xor#, $F3 m1 di,
+$F6 m4 or#, $F9 m1 ldsp, $FB m1 ei, $FE m4 cp#, $00 m6 rlc, $08 m6 rrc,
+$10 m6 rl, $18 m6 rr, $20 m6 sla, $28 m6 sra, $30 m6 sll, $38 m6 srl,
+$40 m7 bit, $80 m7 res, $C0 m7 set,
+$A0ED m8 ldi, $B0ED m8 ldir, $A8ED m8 ldd, $B8ED m8 lddr, $44ED m8 neg, $57ED m8 ldai,
+$47ED m8 ldia, $56ED m8 im1, $5EED m8 im2, $B1ED m8 cpir, $6FED m8 rld,
+$A0 m2 and, $B0 m2 or, $A8 m2 xor,
+$5FED m8 ldar, $4FED m8 ldra,
 
   \ doc{
   \
@@ -1205,7 +1203,7 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
   \
   \ }doc
 
-: ld#, ( 8b reg -- ) 8 * 06 + c, c, ;
+: ld#, ( 8b reg -- ) 8 * $06 + c, c, ;
 
   \ doc{
   \
@@ -1217,7 +1215,7 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
   \
   \ }doc
 
-: ld, ( reg1 reg2 -- ) 8 * 40 + + c, ;
+: ld, ( reg1 reg2 -- ) 8 * $40 + + c, ;
 
   \ doc{
   \
@@ -1230,7 +1228,7 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
   \
   \ }doc
 
-: sbcp, ( regp -- ) ed, 8 * 42 + c, ;
+: sbcp, ( regp -- ) ed, 8 * $42 + c, ;
 
   \ doc{
   \
@@ -1242,7 +1240,7 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
   \
   \ }doc
 
-: adcp, ( regp1 regp2 -- ) ed, 8 * 4A + c, ;
+: adcp, ( regp1 regp2 -- ) ed, 8 * $4A + c, ;
 
   \ doc{
   \
@@ -1255,7 +1253,7 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
   \
   \ }doc
 
-: stp, ( a regp -- ) ed, 8 * 43 + c, , ;
+: stp, ( a regp -- ) ed, 8 * $43 + c, , ;
 
   \ doc{
   \
@@ -1272,7 +1270,7 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
   \
   \ }doc
 
-: ftp, ( a regp -- ) ed, 8 * 4B + c, , ;
+: ftp, ( a regp -- ) ed, 8 * $4B + c, , ;
 
   \ doc{
   \
@@ -1391,11 +1389,11 @@ A0 m2 and, B0 m2 or, A8 m2 xor,
 \ ==============================================================
 \ Index register opcodes {{{1
 
-86 ma addx, 8E ma adcx, 96 ma subx, 9E ma sbcx, A6 ma andx,
-AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
-06 mb rlcx, 0E mb rrcx, 16 mb rlx,  1E mb rrx,
-26 mb slax, 2E mb srax, 36 mb sllx, 3E mb srlx,
-46 mc bitx, 86 mc resx, C6 mc setx,
+$86 ma addx, $8E ma adcx, $96 ma subx, $9E ma sbcx, $A6 ma andx,
+$AE ma xorx, $B6 ma orx,  $BE ma cpx,  $34 ma incx, $35 ma decx,
+$06 mb rlcx, $0E mb rrcx, $16 mb rlx,  $1E mb rrx,
+$26 mb slax, $2E mb srax, $36 mb sllx, $3E mb srlx,
+$46 mc bitx, $86 mc resx, $C6 mc setx,
 
   \ doc{
   \
@@ -1639,7 +1637,7 @@ AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
   \
   \ }doc
 
-: ftx, ( disp regpi reg -- ) nip 8 * 46 + c, c, ;
+: ftx, ( disp regpi reg -- ) nip 8 * $46 + c, c, ;
 
   \ doc{
   \
@@ -1652,7 +1650,7 @@ AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
   \
   \ }doc
 
-: stx, ( reg disp regpi -- ) drop swap 70 + c, c, ;
+: stx, ( reg disp regpi -- ) drop swap $70 + c, c, ;
 
   \ doc{
   \
@@ -1665,7 +1663,7 @@ AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
   \
   \ }doc
 
-: st#x, ( 8b disp regpi -- ) drop 36 c, swap c, c, ;
+: st#x, ( 8b disp regpi -- ) drop $36 c, swap c, c, ;
 
   \ doc{
   \
@@ -1715,10 +1713,10 @@ AE ma xorx, B6 ma orx,  BE ma cpx,  34 ma incx, 35 ma decx,
   \ Conditions (Z80 opcodes for the required absolute-jump
   \ instruction)
 
-C2 constant nz?  CA constant z?
-D2 constant nc?  DA constant c?
-E2 constant po?  EA constant pe?
-F2 constant p?   FA constant m?
+$C2 constant nz?  $CA constant z?
+$D2 constant nc?  $DA constant c?
+$E2 constant po?  $EA constant pe?
+$F2 constant p?   $FA constant m?
 
   \ doc{
   \
@@ -1821,7 +1819,7 @@ F2 constant p?   FA constant m?
   \ }doc
 
 : jp>jr ( op1 -- op2 )
-  dup C3 = if drop 18 exit then dup c? > #-273 ?throw A2 - ;
+  dup $C3 = if drop $18 exit then dup c? > #-273 ?throw $A2 - ;
   \ Note: Opcodes: $C3 is `jp`; $18 is `jr`.
 
   \ doc{
@@ -1969,7 +1967,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: rahead ( -- orig ) 18 , >rmark ;
+: rahead ( -- orig ) $18 , >rmark ;
   \ Note: $18 is the Z80 opcode for `jr`.
 
   \ doc{
@@ -1981,7 +1979,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: (rif ( op -- orig cs-id ) , >rmark 0A ;
+: (rif ( op -- orig cs-id ) , >rmark $0A ;
 
   \ doc{
   \
@@ -2015,7 +2013,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: rthen ( orig cs-id -- ) 0A ?pairs >rresolve ;
+: rthen ( orig cs-id -- ) $0A ?pairs >rresolve ;
 
   \ doc{
   \
@@ -2032,7 +2030,7 @@ F2 constant p?   FA constant m?
   \ }doc
 
 : relse ( orig cs-id -- orig cs-id )
-  0A ?pairs 18 (rif rot swap rthen 0A ;
+  $0A ?pairs $18 (rif rot swap rthen $0A ;
   \ Note: $18 is the opcode of `jr`.
 
   \ doc{
@@ -2053,7 +2051,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: rbegin ( -- dest cs-id ) <mark 0B ;
+: rbegin ( -- dest cs-id ) <mark $0B ;
 
   \ doc{
   \
@@ -2093,7 +2091,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: (runtil ( dest cs-id op -- ) , 0B ?pairs <rresolve ;
+: (runtil ( dest cs-id op -- ) , $0B ?pairs <rresolve ;
 
   \ doc{
   \
@@ -2123,7 +2121,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: ragain ( dest cs-id -- ) 18 (runtil ;
+: ragain ( dest cs-id -- ) $18 (runtil ;
   \ Note: $18 is the opcode of `jr`.
 
   \ doc{
@@ -2158,7 +2156,7 @@ F2 constant p?   FA constant m?
   \
   \ }doc
 
-: rstep ( dest cs-id -- ) 10 (runtil ;
+: rstep ( dest cs-id -- ) $10 (runtil ;
   \ Note: $10 is the Z80 opcode for `djnz`.
 
   \ XXX TODO -- improve documentation
@@ -2462,7 +2460,7 @@ $D7 m1 prt,
   \
   \ }doc
 
-base ! set-current set-order \ restore the initial status
+set-current set-order \ restore the initial status
 
 \ ==============================================================
 \ Change log {{{1
@@ -2628,4 +2626,4 @@ base ! set-current set-order \ restore the initial status
 \ 2020-12-06: Copy the code from Solo Forth. Add requirements and
 \ rearrange the code to make the Solo Forth `need` unnecessary. Update
 \ the layout of the source. Remove assembler macros. Replace
-\ `cconstant` with `constant`.
+\ `cconstant` with `constant`. Mark hex numbers.
