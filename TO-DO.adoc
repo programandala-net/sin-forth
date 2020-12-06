@@ -1,0 +1,8 @@
+= Sin Forth to-do list
+:author: Marcos Cruz (programandala.net)
+:revdate: 2020-12-06
+
+== 2020-12-06
+
+- Update the cross-references to the old `assembler` vocabulary in the
+  documentation of the assembler.
