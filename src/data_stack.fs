@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2020.
 
-\ Last modified: 202012062344.
+\ Last modified: 202012070038.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -40,6 +40,14 @@
 \ (http://programandala.net/en.program.samforth.html).
 
 \ ==============================================================
+\ Config {{{1
+
+get-order get-current
+
+sin-wordlist set-current
+sin-wordlist >order
+assembler-wordlist >order
+forth-wordlist >order
 
 $0100 memory +!
 memory> @ constant sp0
@@ -48,6 +56,9 @@ memory> @ constant sp0
 : init-data-stack ( -- )
   sp0 ix ldp#,
   ret, ;
+
+\ ==============================================================
+\ Push and pop one 16-bit register {{{1
 
 : push-de ( x -- )
                       \ T Cycles
@@ -85,6 +96,9 @@ memory> @ constant sp0
   ret, ;              \  10
                       \ 068 total (68 average with push-hl)
 
+\ ==============================================================
+\ Push and pop two 16-bit registers {{{1
+
 : push-de-hl ( d -- )
                       \ T Cycles
   ix decp,            \  10
@@ -110,6 +124,8 @@ memory> @ constant sp0
   ix incp,            \  10
   ret, ;              \  10
                       \ 126 total (126 average with push-hl-de)
+
+set-current set-order \ restore the initial status
 
 \ ==============================================================
 \ Change log {{{1
