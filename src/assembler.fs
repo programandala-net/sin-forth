@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061918.
+\ Last modified: 202012061948.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -117,7 +117,7 @@ forth-wordlist >order
   \ }doc
 
 
-: ed, ( -- ) $ED c, ;
+: ed, ( -- ) $ED t-c, ;
 
 \ ==============================================================
 \ Z80 registers {{{1
@@ -273,7 +273,7 @@ forth-wordlist >order
 
 $DD constant ix-op  $FD constant iy-op
 
-: ix ( -- regpi ) ix-op c, h ;
+: ix ( -- regpi ) ix-op t-c, h ;
 
   \ doc{
   \
@@ -290,7 +290,7 @@ $DD constant ix-op  $FD constant iy-op
   \
   \ }doc
 
-: iy ( -- regpi ) iy-op c, h ;
+: iy ( -- regpi ) iy-op t-c, h ;
 
   \ doc{
   \
@@ -310,46 +310,46 @@ $DD constant ix-op  $FD constant iy-op
 \ ==============================================================
 \ Definers for z80 instructions {{{1
 
-: (c ( b "name" -- ) create c, ;
+: (c ( b "name" -- ) create t-c, ;
 
-: m1 ( 8b "name" -- ) (c does> ( -- ) ( dfa ) c@ c, ;
+: m1 ( 8b "name" -- ) (c does> ( -- ) ( dfa ) c@ t-c, ;
   \ 1-byte opcode without parameters.
 
-: m2 ( 8b "name" -- ) (c does> ( reg -- ) ( reg dfa ) c@ + c, ;
+: m2 ( 8b "name" -- ) (c does> ( reg -- ) ( reg dfa ) c@ + t-c, ;
   \ 1-byte opcode with register encoded in bits 0-3.
 
 : m3 ( 8b "name" -- )
-  (c does> ( reg -- ) ( reg dfa ) c@ swap 8 * + c, ;
+  (c does> ( reg -- ) ( reg dfa ) c@ swap 8 * + t-c, ;
   \ 1-byte opcode with register encoded in bits 3-5.
 
 : m3p ( 8b "name" -- )
   (c does> ( reg -- )
-  ( reg dfa ) c@ swap %11111110 and 8 * + c, ;
+  ( reg dfa ) c@ swap %11111110 and 8 * + t-c, ;
   \ 1-byte opcode with register encoded in bits 3-5, accepting
   \ any register in range A..L. `m3p` is a variant of `m3`
   \ which is used to define `push,` and `pop,`. This way
   \ those instructions accept register A instead of double
   \ register AF, making the syntax regular.
 
-: m4 ( 8b "name" -- ) (c does> ( 8b -- ) ( 8b dfa ) c@ c, c, ;
+: m4 ( 8b "name" -- ) (c does> ( 8b -- ) ( 8b dfa ) c@ t-c, t-c, ;
   \ 1-byte opcode with 1-byte parameter.
 
-: m5 ( 8b "name" -- ) (c does> ( 16b -- ) ( 16b dfa ) c@ c, , ;
+: m5 ( 8b "name" -- ) (c does> ( 16b -- ) ( 16b dfa ) c@ t-c, t-, ;
   \ 1-byte opcode with 2-byte parameter.
 
 : m6 ( 8b "name" -- )
-  (c does> ( reg -- ) ( reg dfa ) $CB c, c@ + c, ;
+  (c does> ( reg -- ) ( reg dfa ) $CB t-c, c@ + t-c, ;
   \ Rotation of registers.
 
 : m7 ( 8b "name" -- )
   (c does> ( reg bit -- )
-  ( reg bit dfa ) $CB c, c@ swap 8 * + + c, ;
+  ( reg bit dfa ) $CB t-c, c@ swap 8 * + + t-c, ;
   \ Bit manipulation of registers.
 
-: m8 ( 16b "name" -- ) create , does> ( -- ) ( dfa ) @ , ;
+: m8 ( 16b "name" -- ) create , does> ( -- ) ( dfa ) @ t-, ;
   \ 2-byte opcodes.
 
-: (jr, ( a op -- ) c, here 1+ - dup ?rel c, ;
+: (jr, ( a op -- ) t-c, here 1+ - dup ?rel t-c, ;
 
   \ doc{
   \
@@ -366,17 +366,17 @@ $DD constant ix-op  $FD constant iy-op
   \ Relative jumps.
 
 : ma ( 8b "name" -- )
-  (c does> ( disp regph -- ) ( disp regph dfa ) c@ c, drop c, ;
+  (c does> ( disp regph -- ) ( disp regph dfa ) c@ t-c, drop t-c, ;
   \ Index registers with register.
 
 : mb ( 8b "name" -- )
   (c does> ( disp regph -- ) ( disp regph dfa )
-  $CB c, c@ c, drop c, ;
+  $CB t-c, c@ t-c, drop t-c, ;
   \ Rotation with index registers.
 
 : mc ( 8b "name" -- )
   (c does> ( disp regph bit -- ) ( disp regph bit dfa )
-  $CB c, c@ rot drop rot c, swap 8 * + c, ;
+  $CB t-c, c@ rot drop rot t-c, swap 8 * + t-c, ;
   \ Bit manipulation with index registers.
 
 \ ==============================================================
@@ -1175,7 +1175,7 @@ $5FED m8 ldar, $4FED m8 ldra,
 \ ==============================================================
 \ Opcodes {{{1
 
-: jpix, ( -- ) ix-op c, jphl, ;
+: jpix, ( -- ) ix-op t-c, jphl, ;
 
   \ XXX TODO -- Study changes needed to use a common syntax,
   \ for example: `hl jpreg,`, `ix jpreg,`.
@@ -1190,7 +1190,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: ldp#, ( 16b regp -- ) 8 * 1+ c, , ;
+: ldp#, ( 16b regp -- ) 8 * 1+ t-c, t-, ;
 
   \ doc{
   \
@@ -1203,7 +1203,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: ld#, ( 8b reg -- ) 8 * $06 + c, c, ;
+: ld#, ( 8b reg -- ) 8 * $06 + t-c, t-c, ;
 
   \ doc{
   \
@@ -1215,7 +1215,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: ld, ( reg1 reg2 -- ) 8 * $40 + + c, ;
+: ld, ( reg1 reg2 -- ) 8 * $40 + + t-c, ;
 
   \ doc{
   \
@@ -1228,7 +1228,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: sbcp, ( regp -- ) ed, 8 * $42 + c, ;
+: sbcp, ( regp -- ) ed, 8 * $42 + t-c, ;
 
   \ doc{
   \
@@ -1240,7 +1240,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: adcp, ( regp1 regp2 -- ) ed, 8 * $4A + c, ;
+: adcp, ( regp1 regp2 -- ) ed, 8 * $4A + t-c, ;
 
   \ doc{
   \
@@ -1253,7 +1253,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: stp, ( a regp -- ) ed, 8 * $43 + c, , ;
+: stp, ( a regp -- ) ed, 8 * $43 + t-c, t-, ;
 
   \ doc{
   \
@@ -1270,7 +1270,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: ftp, ( a regp -- ) ed, 8 * $4B + c, , ;
+: ftp, ( a regp -- ) ed, 8 * $4B + t-c, t-, ;
 
   \ doc{
   \
@@ -1287,7 +1287,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: addix, ( regp -- ) ix-op c, addp, ;
+: addix, ( regp -- ) ix-op t-c, addp, ;
 
   \ doc{
   \
@@ -1299,7 +1299,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: addiy, ( regp -- ) iy-op c, addp, ;
+: addiy, ( regp -- ) iy-op t-c, addp, ;
 
   \ doc{
   \
@@ -1637,7 +1637,7 @@ $46 mc bitx, $86 mc resx, $C6 mc setx,
   \
   \ }doc
 
-: ftx, ( disp regpi reg -- ) nip 8 * $46 + c, c, ;
+: ftx, ( disp regpi reg -- ) nip 8 * $46 + t-c, t-c, ;
 
   \ doc{
   \
@@ -1650,7 +1650,7 @@ $46 mc bitx, $86 mc resx, $C6 mc setx,
   \
   \ }doc
 
-: stx, ( reg disp regpi -- ) drop swap $70 + c, c, ;
+: stx, ( reg disp regpi -- ) drop swap $70 + t-c, t-c, ;
 
   \ doc{
   \
@@ -1663,7 +1663,7 @@ $46 mc bitx, $86 mc resx, $C6 mc setx,
   \
   \ }doc
 
-: st#x, ( 8b disp regpi -- ) drop $36 c, swap c, c, ;
+: st#x, ( 8b disp regpi -- ) drop $36 t-c, swap t-c, t-c, ;
 
   \ doc{
   \
@@ -1834,7 +1834,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: ?ret, ( op -- ) 2- c, ;
+: ?ret, ( op -- ) 2- t-c, ;
 
   \ doc{
   \
@@ -1849,7 +1849,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: ?jp, ( a op -- ) c, , ;
+: ?jp, ( a op -- ) t-c, t-, ;
 
   \ doc{
   \
@@ -1864,7 +1864,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: jp, ( a -- ) $C3 c, , ;
+: jp, ( a -- ) $C3 t-c, t-, ;
 
   \ doc{
   \
@@ -1891,7 +1891,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: call, ( a -- ) $CD c, , ;
+: call, ( a -- ) $CD t-c, t-, ;
 
   \ doc{
   \
@@ -1975,7 +1975,7 @@ $F2 constant p?   $FA constant m?
 \ ==============================================================
 \ Control-flow structures with relative jumps {{{1
 
-: <mark ( C: -- dest ) target> @ ;
+: <mark ( C: -- dest ) memory> @ ;
 
   \ doc{
   \
@@ -1985,13 +1985,13 @@ $F2 constant p?   $FA constant m?
   \ destination of a backward branch.  _dest_ is typically only
   \ used by `<resolve` to compile a branch address.
   \
-  \ ``<mark`` is an `alias` of `target>`.
+  \ ``<mark`` is an `alias` of `memory>`.
   \
   \ See also: `>mark`, `begin`.
   \
   \ }doc
 
-: rahead ( -- orig ) $18 , >rmark ;
+: rahead ( -- orig ) $18 t-, >rmark ;
   \ Note: $18 is the Z80 opcode for `jr`.
 
   \ doc{
@@ -2003,7 +2003,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: (rif ( op -- orig cs-id ) , >rmark $0A ;
+: (rif ( op -- orig cs-id ) t-, >rmark $0A ;
 
   \ doc{
   \
@@ -2115,7 +2115,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: (runtil ( dest cs-id op -- ) , $0B ?pairs <rresolve ;
+: (runtil ( dest cs-id op -- ) t-, $0B ?pairs <rresolve ;
 
   \ doc{
   \
@@ -2198,7 +2198,7 @@ $F2 constant p?   $FA constant m?
 \ ==============================================================
 \ Control-flow structures with absolute jumps {{{1
 
-: (aif ( op -- orig cs-id ) c, >mark $08 ;
+: (aif ( op -- orig cs-id ) t-c, >mark $08 ;
 
   \ doc{
   \
@@ -2322,7 +2322,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: (auntil ( dest cs-id op ) c, $09 ?pairs <resolve ;
+: (auntil ( dest cs-id op ) t-c, $09 ?pairs <resolve ;
 
   \ doc{
   \
@@ -2651,4 +2651,5 @@ set-current set-order \ restore the initial status
 \ rearrange the code to make the Solo Forth `need` unnecessary. Update
 \ the layout of the source. Remove assembler macros. Replace
 \ `cconstant` with `constant`. Mark hex numbers. Add `jp,` and
-\ `call,`, which were defined in the Solo Forth's kernel.
+\ `call,`, which were defined in the Solo Forth's kernel. Replace `,`
+\ and `c,` with the target versions `t-,` and `t-c,`.
