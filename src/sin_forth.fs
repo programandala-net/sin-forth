@@ -1,12 +1,23 @@
+\ sin_forth.fs
+
+\ This file is part of:
+
 \ Sin Forth
 
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net) 2010,2015,2020
+\ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
 \ Last modified 202012062114.
 \ See change log at the end of the file.
+
+\ ==============================================================
+\ Description {{{1
+
+\ This file is the main source file of Sin Forth.
+\
+\ Run it with `gforth sin_forth.fs`.
 
 \ ==============================================================
 \ Requirements {{{1
@@ -154,4 +165,5 @@ end-sin
 \
 \ 2015-01-06: More drafts.
 \
-\ 2020-12-06: Resume the development. New draft.
+\ 2020-12-06: Resume the development. New draft. Adapt and integrate
+\ the assembler from Solo Forth 0.14.0-rc.124+20201123.
