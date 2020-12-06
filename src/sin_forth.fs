@@ -5,7 +5,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Last modified 202012061711.
+\ Last modified 202012061857.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -14,23 +14,20 @@
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
+only forth definitions
+
 require galope/one-plus-store.fs \ `1+!`
 require galope/two-plus-store.fs \ `2+!`
 
-\ Sin Forth
-
-require lib/assembler.fs
-
 \ ==============================================================
 \ Compiler {{{1
-
-only forth definitions
 
 wordlist constant sin-wordlist
 
 sin-wordlist set-current
 
-sin-wordlist >order also forth
+  sin-wordlist >order
+forth-wordlist >order
 
 25000 constant target-start
   \ Start address of the target code in the ZX Spectrum memory.
@@ -63,6 +60,13 @@ t-memory t-/memory erase
   target> @ t-! target> 2+! ;
   \ Compile 16-bit _c_ in the current target memory pointer and update
   \ the pointer.
+
+require lib/assembler.fs
+
+only forth
+      sin-wordlist >order
+assembler-wordlist >order
+    forth-wordlist >order
 
 : : ( "name" -- )
   create target> @ ,

@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061839.
+\ Last modified: 202012061857.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -48,7 +48,7 @@
 
 get-order get-current
 
-only forth definitions
+forth-wordlist set-current
 
 require galope/array-to.fs \ `array>`
 require galope/question-throw.fs \ `?throw`
@@ -56,6 +56,8 @@ require galope/three-dup.fs \ `3dup`
 
 : 2- ( x1 -- x2 ) 2 - ;
 : 2+ ( x1 -- x2 ) 2 + ;
+
+sin-wordlist set-current
 
 wordlist constant assembler-wordlist
 
@@ -69,7 +71,10 @@ wordlist constant assembler-wordlist
   \ }doc
 
 assembler-wordlist set-current
-assembler-wordlist >order also forth
+
+sin-wordlist >order
+assembler-wordlist >order
+forth-wordlist >order
 
 base @ hex
 
