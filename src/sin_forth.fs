@@ -5,7 +5,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Last modified 202012061918.
+\ Last modified 202012061920.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -61,7 +61,7 @@ t-memory t-/memory erase
   \ Compile 16-bit _c_ in the current target memory pointer and update
   \ the pointer.
 
-require lib/assembler.fs
+include assembler.fs
 
 only forth
       sin-wordlist >order

@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061914.
+\ Last modified: 202012061918.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -134,10 +134,10 @@ forth-wordlist >order
   \ `assembler` words that use register pairs (for example
   \ `ldp,`).
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,c>>`, `<<src-lib-assembler-fs,d>>`,
-  \ `<<src-lib-assembler-fs,e>>`, `<<src-lib-assembler-fs,h>>`,
-  \ `<<src-lib-assembler-fs,l>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,c>>`, `<<src-assembler-fs,d>>`,
+  \ `<<src-assembler-fs,e>>`, `<<src-assembler-fs,h>>`,
+  \ `<<src-assembler-fs,l>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -149,10 +149,10 @@ forth-wordlist >order
   \ Return the identifier _reg_ of the Z80 `assembler` register
   \ "C".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,d>>`,
-  \ `<<src-lib-assembler-fs,e>>`, `<<src-lib-assembler-fs,h>>`,
-  \ `<<src-lib-assembler-fs,l>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,d>>`,
+  \ `<<src-assembler-fs,e>>`, `<<src-assembler-fs,h>>`,
+  \ `<<src-assembler-fs,l>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -166,10 +166,10 @@ forth-wordlist >order
   \ `assembler` words that use register pairs (for example
   \ `ldp,`).
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,e>>`, `<<src-lib-assembler-fs,h>>`,
-  \ `<<src-lib-assembler-fs,l>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,e>>`, `<<src-assembler-fs,h>>`,
+  \ `<<src-assembler-fs,l>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -181,10 +181,10 @@ forth-wordlist >order
   \ Return the identifier _reg_ of the Z80 `assembler` register
   \ "E".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,h>>`,
-  \ `<<src-lib-assembler-fs,l>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,h>>`,
+  \ `<<src-assembler-fs,l>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -198,10 +198,10 @@ forth-wordlist >order
   \ `assembler` words that use register pairs (for example
   \ `ldp,`).
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,e>>`,
-  \ `<<src-lib-assembler-fs,l>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,e>>`,
+  \ `<<src-assembler-fs,l>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -213,10 +213,10 @@ forth-wordlist >order
   \ Return the identifier _reg_ of the Z80 `assembler` register
   \ "L".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,e>>`,
-  \ `<<src-lib-assembler-fs,h>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,e>>`,
+  \ `<<src-assembler-fs,h>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -229,10 +229,10 @@ forth-wordlist >order
   \ pseudo-register "(HL)", i.e. the byte stored in the memory
   \ address pointed by register pair "HL".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,e>>`,
-  \ `<<src-lib-assembler-fs,h>>`, `<<src-lib-assembler-fs,l>>`,
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,e>>`,
+  \ `<<src-assembler-fs,h>>`, `<<src-assembler-fs,l>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -246,10 +246,10 @@ forth-wordlist >order
   \ `assembler` words that use register pairs (for example
   \ `push,` and `pop,`).
   \
-  \ See also: `<<src-lib-assembler-fs,b>>`,
-  \ `<<src-lib-assembler-fs,c>>`, `<<src-lib-assembler-fs,d>>`,
-  \ `<<src-lib-assembler-fs,e>>`, `<<src-lib-assembler-fs,h>>`,
-  \ `<<src-lib-assembler-fs,l>>`, `<<src-lib-assembler-fs,m>>`,
+  \ See also: `<<src-assembler-fs,b>>`,
+  \ `<<src-assembler-fs,c>>`, `<<src-assembler-fs,d>>`,
+  \ `<<src-assembler-fs,e>>`, `<<src-assembler-fs,h>>`,
+  \ `<<src-assembler-fs,l>>`, `<<src-assembler-fs,m>>`,
   \ `ix`, `iy`, `sp`.
   \
   \ }doc
@@ -263,11 +263,11 @@ forth-wordlist >order
   \ Return the identifier _reg_ of the Z80 `assembler` register
   \ "SP".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,e>>`,
-  \ `<<src-lib-assembler-fs,h>>`, `<<src-lib-assembler-fs,l>>`,
-  \ `<<src-lib-assembler-fs,m>>`, `ix`, `iy`.
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,e>>`,
+  \ `<<src-assembler-fs,h>>`, `<<src-assembler-fs,l>>`,
+  \ `<<src-assembler-fs,m>>`, `ix`, `iy`.
   \
   \ }doc
 
@@ -282,11 +282,11 @@ $DD constant ix-op  $FD constant iy-op
   \ _regpi_ is the identifier of the Z80 `assembler` register
   \ "IX".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,e>>`,
-  \ `<<src-lib-assembler-fs,h>>`, `<<src-lib-assembler-fs,l>>`,
-  \ `<<src-lib-assembler-fs,m>>`, `iy`, `sp`.
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,e>>`,
+  \ `<<src-assembler-fs,h>>`, `<<src-assembler-fs,l>>`,
+  \ `<<src-assembler-fs,m>>`, `iy`, `sp`.
   \
   \ }doc
 
@@ -299,11 +299,11 @@ $DD constant ix-op  $FD constant iy-op
   \ _regpi_ is the identifier of the Z80 `assembler` register
   \ "IY".
   \
-  \ See also: `<<src-lib-assembler-fs,a>>`,
-  \ `<<src-lib-assembler-fs,b>>`, `<<src-lib-assembler-fs,c>>`,
-  \ `<<src-lib-assembler-fs,d>>`, `<<src-lib-assembler-fs,e>>`,
-  \ `<<src-lib-assembler-fs,h>>`, `<<src-lib-assembler-fs,l>>`,
-  \ `<<src-lib-assembler-fs,m>>`, `ix`, `sp`.
+  \ See also: `<<src-assembler-fs,a>>`,
+  \ `<<src-assembler-fs,b>>`, `<<src-assembler-fs,c>>`,
+  \ `<<src-assembler-fs,d>>`, `<<src-assembler-fs,e>>`,
+  \ `<<src-assembler-fs,h>>`, `<<src-assembler-fs,l>>`,
+  \ `<<src-assembler-fs,m>>`, `ix`, `sp`.
   \
   \ }doc
 
