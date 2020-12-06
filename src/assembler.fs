@@ -3,7 +3,7 @@
 \ This file is part of Sin Forth
 \ http://programandala.net
 
-\ Last modified: 202012061948.
+\ Last modified: 202012062115.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -310,7 +310,7 @@ $DD constant ix-op  $FD constant iy-op
 \ ==============================================================
 \ Definers for z80 instructions {{{1
 
-: (c ( b "name" -- ) create t-c, ;
+: (c ( b "name" -- ) create c, ;
 
 : m1 ( 8b "name" -- ) (c does> ( -- ) ( dfa ) c@ t-c, ;
   \ 1-byte opcode without parameters.

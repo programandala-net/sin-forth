@@ -5,9 +5,9 @@
 
 \ By Marcos Cruz (programandala.net) 2010,2015,2020
 
-\ Version 0.0.0-dev.1.0+202012062022
+\ Version 0.0.0-dev.1.1+202012062114
 
-\ Last modified 202012062022.
+\ Last modified 202012062114.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -47,12 +47,12 @@ variable memory>  initial-target memory> !
   \ `initial-target`.
 
 : t-! ( x a -- )
-\  cr 2dup swap . . ." t-! " \ XXX INFORMER
+\  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
   memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
   \ Store the 16-bit value _x_ into target memory address _a_.
 
 : t-c! ( c ca -- )
-\  cr 2dup swap . . ." t-! " \ XXX INFORMER
+\  cr 2dup swap . . ." t-!  (latest: " latest .name ." )" \ XXX INFORMER
   memory + c! ;
   \ Store the 8-bit value _c_ into target memory address _ca_.
 
@@ -76,11 +76,13 @@ assembler-wordlist >order
 : : ( "name" -- )
   create memory> @ ,
   does> @
-\  cr ." Compiling a call to a word at target address: " dup . \ XXX INFORMER
+  cr ." Compiling a call to a word at target address: " dup . \ XXX INFORMER
   call, ;
   \ Define a target word.
 
-: ; ( -- ) ret, ;
+: ; ( -- ) 
+  cr ." Compiling a ret at target address: " memory> ? \ XXX INFORMER
+  ret, ;
   \ End a target word by compiling a Z80 `ret`.
   \
   \ XXX TODO Optimize the trail by compiling a Z80 `jp` instead of the
@@ -113,7 +115,7 @@ assembler-wordlist >order
 \ ==============================================================
 \ Target system {{{1
 
-.( The system is compiled at ) memory> @ .
+cr .( The system is compiled at ) memory> @ .
 
 begin-sin
 
@@ -136,7 +138,7 @@ sin-wordlist >order also forth
 \ ==============================================================
 \ Test application {{{1
 
-.( The application is compiled at ) memory> @ .
+cr .( The application is compiled at ) memory> @ .
 
 begin-sin
 
@@ -155,4 +157,3 @@ end-sin
 \ 2015-01-06: More drafts.
 \
 \ 2020-12-06: Resume the development. New draft.
-
