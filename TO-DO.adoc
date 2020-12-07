@@ -8,3 +8,9 @@
   documentation of the assembler.
 - Update non-standard throw codes 22 in the assembler.
 - Update the documentation of the assembler.
+
+== 2020-12-07
+
+- Fix: The `@` in `memory> @ constant sp0` in <data_stack.fs> is the
+  host `@`, but it's searched first in the target word list. This will
+  fail after defining a target `@`.

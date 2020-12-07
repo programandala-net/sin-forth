@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2020.
 
-\ Last modified: 202012070038.
+\ Last modified: 202012070133.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -45,9 +45,10 @@
 get-order get-current
 
 sin-wordlist set-current
+
+only forth
 sin-wordlist >order
 assembler-wordlist >order
-forth-wordlist >order
 
 $0100 memory +!
 memory> @ constant sp0
