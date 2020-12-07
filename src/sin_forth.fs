@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070043.
+\ Last modified 202012070154.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -79,41 +79,40 @@ variable memory>  initial-target memory> !
   \ pointed by `memory>` and update this pointer accordingly.
 
 include assembler.fs
-include data_stack.fs
 
 only forth
       sin-wordlist >order
 assembler-wordlist >order
     forth-wordlist >order
+      sin-wordlist set-current
 
 : : ( "name" -- )
   create memory> @ ,
+  cr ." Compiling the word " latest .name \ XXX INFORMER
   does> @
-  cr ." Compiling a call to a word at target address: " dup . \ XXX INFORMER
+  cr ." Compiling a call to a word at target address: " dup hex. ." #" dup dec. \ XXX INFORMER
   call, ;
   \ Define a target word.
 
-: ; ( -- ) 
-  cr ." Compiling a ret at target address: " memory> ? \ XXX INFORMER
+: ; ( -- )
+  cr ." Compiling a ret at target address: " memory> @ dup hex. ." #" dec. \ XXX INFORMER
   ret, ;
   \ End a target word by compiling a Z80 `ret`.
   \
   \ XXX TODO Optimize the trail by compiling a Z80 `jp` instead of the
   \ last `call`.
 
+include data_stack.fs
+
 : variable ( "name" -- )
-  create memory> @ , 2 memory> +!
+  create memory> @ ,  2 memory> +!
   does>
-  drop \ XXX TMP
-  \ XXX TODO push
-  ;
+  s" assembler-wordlist >order h ldp#, push-hl previous" evaluate ;
 
 : constant ( "name" x -- )
-  create memory> @ ! 2 memory> +!
+  create memory> @ dup , t-!  2 memory> +!
   does> @
-  drop \ XXX TMP
-  \ XXX TODO push
-  ;
+  s" assembler-wordlist >order h ldp#, push-hl previous" evaluate ;
 
 : begin-sin ( -- )
   only forth definitions
@@ -156,10 +155,11 @@ cr .( The application is compiled at ) memory> @ .
 
 begin-sin
 
-: game1 ( x -- ) ;
-: game2 ( x -- ) ;
-game1
-game2
+1001 constant zx
+
+: game ( -- x ) zx ;
+
+game
 
 end-sin
 
