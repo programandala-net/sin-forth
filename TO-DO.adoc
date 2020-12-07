@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-06
+:revdate: 2020-12-07
 
 == 2020-12-06
 
@@ -14,3 +14,4 @@
 - Fix: The `@` in `memory> @ constant sp0` in <data_stack.fs> is the
   host `@`, but it's searched first in the target word list. This will
   fail after defining a target `@`.
+- Improve the handling of word lists.  
