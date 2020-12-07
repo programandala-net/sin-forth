@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072132.
+\ Last modified: 202012072153.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -15,7 +15,7 @@ require push-hl.fs \ `push-hl`
 
 get-order get-current
 
-sin-definitions
+compiler-definitions
 
 : variable ( "name" -- )
   create memory> @ ,  2 memory> +!

@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified 202012072135.
+\ Last modified: 202012072153.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -37,30 +37,30 @@ only forth definitions  decimal
 
 only forth definitions  decimal
 
-wordlist constant sin-wordlist
+wordlist constant compiler-wordlist
   \ The compiler word list.
 
 wordlist constant target-wordlist
   \ The target system word list.
 
-: sin-order ( -- )
+: compiler-order ( -- )
   only forth
-  sin-wordlist >order
+  compiler-wordlist >order
   forth-wordlist >order ;
 
-: sin-definitions ( -- )
-  sin-order  sin-wordlist set-current ;
+: compiler-definitions ( -- )
+  compiler-order  compiler-wordlist set-current ;
 
 : forth-definitions ( -- )
-  sin-order  forth-wordlist set-current ;
+  compiler-order  forth-wordlist set-current ;
 
 : target-definitions ( -- )
   only forth
-  sin-wordlist >order
+  compiler-wordlist >order
   target-wordlist >order
   target-wordlist set-current ;
 
-sin-definitions
+compiler-definitions
 
 \ ==============================================================
 \ Target memory {{{1
@@ -111,7 +111,7 @@ variable memory>  initial-target memory> !
 : .m ( a n -- ) swap memory + swap dump ;
   \ Dump _n_ bytes from target memory address _a_.
 
-: sin-words ( -- ) sin-wordlist >order words previous ;
+: compiler-words ( -- ) compiler-wordlist >order words previous ;
   \ Display the words defined in the compiler word list.
 
 : target-words ( -- ) target-wordlist >order words previous ;

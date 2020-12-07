@@ -7,9 +7,9 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net) 2015, 2016, 2017, 2018, 2020.
+\ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012071948.
+\ Last modified: 202012072153.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -68,7 +68,7 @@ require galope/three-dup.fs \ `3dup`
 \ ==============================================================
 \ Tools {{{1
 
-sin-definitions
+compiler-definitions
 
 : ?pairs ( x1 x2 -- ) <> #-22 ?throw ;
 

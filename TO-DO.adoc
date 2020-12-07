@@ -12,9 +12,9 @@
 == 2020-12-07
 
 - Move `tail-call?` and similar private words to a new word list, e.g.
-  `sin-tools-wordlist`, accesible in a `sin-definitions` context but
+  `compiler-tools-wordlist`, accesible in a `compiler-definitions` context but
   not in a `target-definitions` context. Or move the public words from
-  `sin-wordlist` to `compiler-wordlist`. For example, also `memory`,
+  `compiler-wordlist` to `compiler-wordlist`. For example, also `memory`,
   `t-,`, `initial-target` etc., should not be accesible during the
   compilation of the target, just in case.
 - Make the stacks size configurable.

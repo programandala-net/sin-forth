@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072122.
+\ Last modified: 202012072153.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -45,7 +45,7 @@ require lib/constant.fs
 \ ==============================================================
 \ Code {{{1
 
-sin-definitions
+compiler-definitions
 
 cr .( The application is compiled at ) memory> @ .
 
