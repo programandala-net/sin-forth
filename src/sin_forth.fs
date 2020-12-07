@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012071952.
+\ Last modified 202012072001.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -201,23 +201,6 @@ variable dp
 : , ( x -- ) here ! cell allot ;
 
 \ ==============================================================
-\ Test application {{{1
-
-sin-definitions
-
-cr .( The application is compiled at ) memory> @ .
-
-target-definitions
-
-1001 constant zx
-
-: game ( -- x ) zx ;
-
-game
-
-forth-definitions
-
-\ ==============================================================
 \ Change log {{{1
 
 \ 2010-04-21: First draft ideas.
@@ -229,4 +212,5 @@ forth-definitions
 \ integrate the data stack code from Couplement Forth
 \ v0.2.0-dev.30.0+202012062153.
 \
-\ 2020-12-07: Start the target kernel words.
+\ 2020-12-07: Start the target kernel words. Move the sample
+\ compilable test code to its own file.
