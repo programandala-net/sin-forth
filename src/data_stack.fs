@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2020.
 
-\ Last modified: 202012071800.
+\ Last modified: 202012071948.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -41,6 +41,8 @@
 
 \ ==============================================================
 \ Config {{{1
+
+get-order get-current \ save the entry status
 
 target-definitions
 
@@ -206,6 +208,8 @@ memory> @ constant sp0
   \ See also: `push-hl-de`, `pop-de`, `pop-hl`.
   \
   \ }doc
+
+set-current set-order \ restore the entry status
 
 \ ==============================================================
 \ Change log {{{1

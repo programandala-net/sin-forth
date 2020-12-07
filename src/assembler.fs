@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012070339.
+\ Last modified: 202012071948.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,6 +53,8 @@
 
 \ ==============================================================
 \ Requirements {{{1
+
+get-order get-current \ save the entry status
 
 only forth definitions
 
@@ -2475,6 +2477,8 @@ $D7 m1 prt,
   \ See also: `rst,`, `hook,`.
   \
   \ }doc
+
+set-current set-order \ restore the entry status
 
 \ ==============================================================
 \ Change log {{{1

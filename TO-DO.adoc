@@ -17,8 +17,6 @@
   `sin-wordlist` to `compiler-wordlist`. For example, also `memory`,
   `t-,`, `initial-target` etc., should not be accesible during the
   compilation of the target, just in case.
-- Preserve the current wordlist and search order in the included
-  modules.
 - Create a library. Move the target Forth definitions to individual
   files, even the data stack routines.
 - Make the stacks size configurable.

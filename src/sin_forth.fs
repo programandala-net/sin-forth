@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070504.
+\ Last modified 202012071952.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -60,10 +60,10 @@ wordlist constant target-wordlist
   target-wordlist >order
   target-wordlist set-current ;
 
+sin-definitions
+
 \ ==============================================================
 \ Target memory {{{1
-
-sin-definitions
 
 25000 constant initial-target
   \ Start address of the target code in the ZX Spectrum memory.
@@ -104,8 +104,6 @@ variable memory>  initial-target memory> !
 \ ==============================================================
 \ Debugging tools {{{1
 
-sin-definitions
-
 : a. ( a -- )
   dup hex. ." (#" 0 .r ." )" ;
   \ Display a target address. Used in debugging messages.
@@ -120,13 +118,9 @@ sin-definitions
   \ Display the words defined in the target word list.
 
 \ ==============================================================
-\ Compiler {{{1
-
-sin-definitions
+\ Compiler words {{{1
 
 include assembler.fs
-
-sin-definitions
 
 variable latest-call
   \ Target address where the lastest Z80 `call` to a target word
@@ -159,14 +153,6 @@ variable latest-call
 
 include data_stack.fs
 
-\ ----------------------------------------------
-\ Parsing words {{{1
-
-\ The parsing words are defined in the compiler. They are not part of
-\ the target kernel.
-
-sin-definitions
-
 : variable ( "name" -- )
   create memory> @ ,  2 memory> +!
   does> s" h ldp#, push-hl" evaluate ;
@@ -175,8 +161,8 @@ sin-definitions
   create memory> @ dup , t-!  2 memory> +!
   does> @ s" h ldp#, push-hl" evaluate ;
 
-\ ----------------------------------------------
-\ Non-parsing words {{{1
+\ ==============================================================
+\ Target words {{{1
 
 target-definitions
 
