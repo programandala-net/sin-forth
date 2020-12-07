@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070154.
+\ Last modified 202012070229.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -116,6 +116,7 @@ include data_stack.fs
 
 : begin-sin ( -- )
   only forth definitions
+  assembler-wordlist >order
   sin-wordlist >order ;
   \ Mark the start of the code to be compiled.
 
@@ -132,9 +133,36 @@ cr .( The system is compiled at ) memory> @ .
 
 begin-sin
 
-: , ( x -- )
-  ;
-  \ XXX TODO
+: +! ( n a -- )
+  pop-hl-de
+  m a ld,     \ ld a,(hl)
+  e add,      \ add a,e
+  a m ld,     \ ld (hl),a
+  h incp,     \ inc hl
+  m a ld,     \ ld a,(hl)
+  d adc,      \ adc a,d
+  a m ld,     \ ld (hl),a
+  ret, ;
+
+variable dp
+  \ XXX TODO Make `memory>` use this target variable.
+
+: @ ( a -- x ) ; \ XXX TODO
+
+: here ( -- a ) dp @ ;
+
+: ! ( x a -- )
+  pop-hl-de
+  e m ld,     \ ld (hl),e
+  h incp,     \ inc hl
+  d m ld,     \ ld (hl),d
+  ret, ;
+
+: allot ( n -- ) dp +! ;
+
+2 constant cell
+
+: , ( x -- ) here ! cell allot ;
 
 end-sin
 
@@ -171,4 +199,8 @@ end-sin
 \ 2015-01-06: More drafts.
 \
 \ 2020-12-06: Resume the development. New draft. Adapt and integrate
-\ the assembler from Solo Forth 0.14.0-rc.124+20201123.
+\ the assembler from Solo Forth 0.14.0-rc.124+20201123. Adapt and
+\ integrate the data stack code from Couplement Forth
+\ v0.2.0-dev.30.0+202012062153.
+\
+\ 2020-12-07: Start the target kernel words.
