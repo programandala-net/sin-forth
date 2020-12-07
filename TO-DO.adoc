@@ -14,4 +14,3 @@
 - Fix: The `@` in `memory> @ constant sp0` in <data_stack.fs> is the
   host `@`, but it's searched first in the target word list. This will
   fail after defining a target `@`.
-- Fix `constant` and `variable`.  

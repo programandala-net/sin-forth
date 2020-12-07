@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070344.
+\ Last modified 202012070408.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -148,13 +148,11 @@ sin-definitions
 
 : variable ( "name" -- )
   create memory> @ ,  2 memory> +!
-  does>
-  s" h ldp#, push-hl previous" evaluate ;
+  does> s" h ldp#, push-hl" evaluate ;
 
 : constant ( "name" x -- )
   create memory> @ dup , t-!  2 memory> +!
-  does> @
-  s" h ldp#, push-hl previous" evaluate ;
+  does> @ s" h ldp#, push-hl" evaluate ;
 
 \ ----------------------------------------------
 \ Non-parsing words {{{1
@@ -177,7 +175,7 @@ variable dp
 
 : @ ( a -- x ) ; \ XXX TODO
 
-: here ( -- a ) ( dp @ ) ; \ XXX TODO
+: here ( -- a ) dp @ ;
 
 : ! ( x a -- )
   pop-hl-de
@@ -186,11 +184,11 @@ variable dp
   d m ld,     \ ld (hl),d
   ret, ;
 
-: allot ( n -- ) ( dp +! ) ; \ XXX TODO
+: allot ( n -- ) dp +! ;
 
 2 constant cell
 
-: , ( x -- ) here ! ( cell ) allot ; \ XXX TODO
+: , ( x -- ) here ! cell allot ;
 
 \ ==============================================================
 \ Test application {{{1
@@ -203,7 +201,7 @@ target-definitions
 
 1001 constant zx
 
-: game ( -- x ) ( zx ) ; \ XXX TODO
+: game ( -- x ) zx ; \ XXX TODO
 
 game
 
