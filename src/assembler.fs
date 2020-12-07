@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012062127.
+\ Last modified: 202012070339.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -17,7 +17,7 @@
 
 \ This file is the Z80 assembler used by the compiler and the compiled
 \ programs. It is adapted from the Z80 assembler included in Solo
-\ Forth v0.14.0-rc.124+20201123
+\ Forth v0.14.0-rc.124+20201207
 \ (http://programandala.net/en.program.solo_forth).
 
 \ ==============================================================
@@ -54,9 +54,7 @@
 \ ==============================================================
 \ Requirements {{{1
 
-get-order get-current
-
-forth-wordlist set-current
+only forth definitions
 
 require galope/array-to.fs \ `array>`
 require galope/question-throw.fs \ `?throw`
@@ -65,24 +63,10 @@ require galope/three-dup.fs \ `3dup`
 : 2- ( x1 -- x2 ) 2 - ;
 : 2+ ( x1 -- x2 ) 2 + ;
 
-sin-wordlist set-current
+\ ==============================================================
+\ Tools {{{1
 
-wordlist constant assembler-wordlist
-
-  \ doc{
-  \
-  \ assembler-wordlist ( -- wid )
-  \
-  \ Return the wordlist identifier _wid_ of the word list that
-  \ contains the assembler words.
-  \
-  \ }doc
-
-assembler-wordlist set-current
-
-sin-wordlist >order
-assembler-wordlist >order
-forth-wordlist >order
+sin-definitions
 
 : ?pairs ( x1 x2 -- ) <> #-22 ?throw ;
 
@@ -124,8 +108,8 @@ forth-wordlist >order
   \
   \ }doc
 
-
 : ed, ( -- ) $ED t-c, ;
+  \ Compile the Z80 $ED prefix opcode.
 
 \ ==============================================================
 \ Z80 registers {{{1
@@ -2492,8 +2476,6 @@ $D7 m1 prt,
   \
   \ }doc
 
-set-current set-order \ restore the initial status
-
 \ ==============================================================
 \ Change log {{{1
 
@@ -2661,3 +2643,6 @@ set-current set-order \ restore the initial status
 \ `cconstant` with `constant`. Mark hex numbers. Add `jp,` and
 \ `call,`, which were defined in the Solo Forth's kernel. Replace `,`
 \ and `c,` with the target versions `t-,` and `t-c,`.
+\
+\ 2020-12-07: Update after the new simpler handling of the search
+\ order.

@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2020.
 
-\ Last modified: 202012070133.
+\ Last modified: 202012070356.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -42,21 +42,14 @@
 \ ==============================================================
 \ Config {{{1
 
-get-order get-current
-
-sin-wordlist set-current
-
-only forth
-sin-wordlist >order
-assembler-wordlist >order
+target-definitions
 
 $0100 memory +!
 memory> @ constant sp0
   \ The data stack grows from bottom (high memory) to top (low memory)
 
 : init-data-stack ( -- )
-  sp0 ix ldp#,
-  ret, ;
+  sp0 ix ldp#, ;
 
 \ ==============================================================
 \ Push and pop one 16-bit register {{{1
@@ -67,7 +60,7 @@ memory> @ constant sp0
   d 0 ix stx,         \  19
   ix decp,            \  10
   e 0 ix stx,         \  19
-  ret, ;              \  10
+  ;                   \  10
                       \ 068 total (68 average with pop-de)
 
 : pop-de ( -- x )
@@ -76,7 +69,7 @@ memory> @ constant sp0
   ix incp,            \  10
   0 ix d ftx,         \  19
   ix incp,            \  10
-  ret, ;              \  10
+  ;                   \  10
                       \ 068 total (68 average with push-de)
 
 : push-hl ( x -- )
@@ -85,7 +78,7 @@ memory> @ constant sp0
   h 0 ix stx,         \  19
   ix decp,            \  10
   l 0 ix stx,         \  19
-  ret, ;              \  10
+  ;                   \  10
                       \ 068 total (68 average with pop-hl)
 
 : pop-hl ( -- x )
@@ -94,7 +87,7 @@ memory> @ constant sp0
   ix incp,            \  10
   0 ix h ftx,         \  19
   ix incp,            \  10
-  ret, ;              \  10
+  ;                   \  10
                       \ 068 total (68 average with push-hl)
 
 \ ==============================================================
@@ -110,7 +103,7 @@ memory> @ constant sp0
   h 0 ix stx,         \  19
   ix decp,            \  10
   l 0 ix stx,         \  19
-  ret, ;              \  10
+  ;                   \  10
                       \ 126 total (126 average with pop-de-hl)
 
 : pop-hl-de ( -- d )
@@ -123,10 +116,8 @@ memory> @ constant sp0
   ix incp,            \  10
   0 ix d ftx,         \  19
   ix incp,            \  10
-  ret, ;              \  10
+  ;                   \  10
                       \ 126 total (126 average with push-hl-de)
-
-set-current set-order \ restore the initial status
 
 \ ==============================================================
 \ Change log {{{1
@@ -135,3 +126,6 @@ set-current set-order \ restore the initial status
 \ v0.2.0-dev.30.0+202012062153
 \ (http://programandala.net/en.program.couplement_forth) and adapt it
 \ to Forth.
+\
+\ 2020-12-07: Update after the new simpler handling of the search
+\ order. Remove the final `ret,`, because `;` compiles it.

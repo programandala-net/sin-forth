@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070259.
+\ Last modified 202012070344.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -33,14 +33,33 @@ only forth definitions  decimal
 \ XXX REMARK No Galope module required at the moment.
 
 \ ==============================================================
-\ Compiler {{{1
+\ Word lists {{{1
+
+only forth definitions  decimal
 
 wordlist constant sin-wordlist
+  \ The compiler word list.
 
-sin-wordlist set-current
-
+: sin-order ( -- )
+  only forth
   sin-wordlist >order
-forth-wordlist >order
+  forth-wordlist >order ;
+
+: sin-definitions ( -- )
+  sin-order  sin-wordlist set-current ;
+
+: forth-definitions ( -- )
+  sin-order  forth-wordlist set-current ;
+
+: target-definitions ( -- )
+  only forth
+  sin-wordlist >order
+  sin-wordlist set-current ;
+
+\ ==============================================================
+\ Target memory {{{1
+
+sin-definitions
 
 25000 constant initial-target
   \ Start address of the target code in the ZX Spectrum memory.
@@ -78,17 +97,22 @@ variable memory>  initial-target memory> !
   \ Compile the 16-bit value _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
+\ ==============================================================
+\ Debugging tools {{{1
+
+sin-definitions
+
 : a. ( a -- )
   dup hex. ." (#" 0 .r ." )" ;
-  \ Display a target address.
+  \ Display a target address. Used in debugging messages.
+
+: .mem ( -- ) memory initial-target + 256 dump ;
+  \ Dump 256 bytes from target memory address _a_.
+
+\ ==============================================================
+\ Compiler {{{1
 
 include assembler.fs
-
-only forth
-      sin-wordlist >order
-assembler-wordlist >order
-    forth-wordlist >order
-      sin-wordlist set-current
 
 : : ( "name" -- )
   create memory> @ ,
@@ -107,37 +131,35 @@ assembler-wordlist >order
   \
   \ XXX TODO Optimize the trail by compiling a Z80 `jp` instead of the
   \ last `call`.
+  \
+  \ XXX TODO Move to the non-parsing words?
+  \
+  \ XXX TODO Make it a synonym of `ret,`?
 
 include data_stack.fs
+
+\ ----------------------------------------------
+\ Parsing words {{{1
+
+\ The parsing words are defined in the compiler. They are not part of
+\ the target kernel.
+
+sin-definitions
 
 : variable ( "name" -- )
   create memory> @ ,  2 memory> +!
   does>
-  s" assembler-wordlist >order h ldp#, push-hl previous" evaluate ;
+  s" h ldp#, push-hl previous" evaluate ;
 
 : constant ( "name" x -- )
   create memory> @ dup , t-!  2 memory> +!
   does> @
-  s" assembler-wordlist >order h ldp#, push-hl previous" evaluate ;
+  s" h ldp#, push-hl previous" evaluate ;
 
-: begin-sin ( -- )
-  only forth definitions
-  assembler-wordlist >order
-  sin-wordlist >order ;
-  \ Mark the start of the code to be compiled.
+\ ----------------------------------------------
+\ Non-parsing words {{{1
 
-: end-sin ( -- )
-  only forth definitions
-  sin-wordlist >order
-  forth-wordlist >order ;
-  \ Mark the end of the compiled code.
-
-\ ==============================================================
-\ Target system {{{1
-
-cr .( The system is compiled at ) memory> @ .
-
-begin-sin
+target-definitions
 
 : +! ( n a -- )
   pop-hl-de
@@ -155,7 +177,7 @@ variable dp
 
 : @ ( a -- x ) ; \ XXX TODO
 
-: here ( -- a ) dp @ ;
+: here ( -- a ) ( dp @ ) ; \ XXX TODO
 
 : ! ( x a -- )
   pop-hl-de
@@ -164,43 +186,28 @@ variable dp
   d m ld,     \ ld (hl),d
   ret, ;
 
-: allot ( n -- ) dp +! ;
+: allot ( n -- ) ( dp +! ) ; \ XXX TODO
 
 2 constant cell
 
-: , ( x -- ) here ! cell allot ;
-
-end-sin
-
-\ ==============================================================
-\ Debugging tools {{{1
-
-only forth definitions
-
-sin-wordlist >order
-forth-wordlist >order
-
-: .mem ( -- ) memory initial-target + 256 dump ;
-  \ Dump 256 bytes from target memory address _a_.
+: , ( x -- ) here ! ( cell ) allot ; \ XXX TODO
 
 \ ==============================================================
 \ Test application {{{1
 
-only forth definitions
-
-sin-wordlist >order
+sin-definitions
 
 cr .( The application is compiled at ) memory> @ .
 
-begin-sin
+target-definitions
 
 1001 constant zx
 
-: game ( -- x ) zx ;
+: game ( -- x ) ( zx ) ; \ XXX TODO
 
 game
 
-end-sin
+forth-definitions
 
 \ ==============================================================
 \ Change log {{{1
