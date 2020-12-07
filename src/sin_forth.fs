@@ -11,16 +11,16 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012072001.
+\ Last modified 202012072014.
 \ See change log at the end of the file.
 
 \ ==============================================================
 \ Description {{{1
 
-\ This file is the main source file of Sin Forth.
-\
-\ This file is executable. Run it directly with `src/sin_forth.fs`
-\ in the project's directory, or with `gforth src/sin_forth.fs`.
+\ This file is the main source file of Sin Forth, a Forth
+\ cross-compiler, written in Forth with Gforth, that compiles Forth
+\ programs for any model of Sinclair ZX Spectrum computer, from the ZX
+\ Spectrum 16 K to the ZX Spectrum Next.
 
 \ ==============================================================
 \ Requirements {{{1
