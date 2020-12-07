@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070435.
+\ Last modified 202012070504.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -122,29 +122,40 @@ sin-definitions
 \ ==============================================================
 \ Compiler {{{1
 
+sin-definitions
+
 include assembler.fs
+
+sin-definitions
+
+variable latest-call
+  \ Target address where the lastest Z80 `call` to a target word
+  \ definition was compiled. This is used by `;` in order to optimize
+  \ the last call compiled in the current word.
 
 : : ( "name" -- )
   create memory> @ ,
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  the word `" latest .name ." `" \ XXX INFORMER
-  does> @
+  does> @  memory> @ latest-call !
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  a call to " dup a. \ XXX INFORMER
   call, ;
   \ Define a target word.
 
+: tail-call? ( -- f )
+  latest-call @ memory> @ 3 - = ;
+  \ Was the latest Z80 call compiled 3 bytes before the current target
+  \ memory pointer?
+
+: optimize-ret ( -- )
+  $C3 latest-call @ t-c! ;
+  \ Replace the latest Z80 call with a jump (opcode $C3).
+
 : ; ( -- )
   cr ." Compiling at " memory> @ a. ."  a `;`" \ XXX INFORMER
-  ret, ;
-  \ End a target word by compiling a Z80 `ret`.
-  \
-  \ XXX TODO Optimize the trail by compiling a Z80 `jp` instead of the
-  \ last `call`.
-  \
-  \ XXX TODO Move to the non-parsing words?
-  \
-  \ XXX TODO Make it a synonym of `ret,`?
+  tail-call? if optimize-ret else ret, then ;
+  \ End a target word.
 
 include data_stack.fs
 
@@ -177,8 +188,7 @@ target-definitions
   h incp,     \ inc hl
   m a ld,     \ ld a,(hl)
   d adc,      \ adc a,d
-  a m ld,     \ ld (hl),a
-  ret, ;
+  a m ld, ;   \ ld (hl),a
 
 variable dp
   \ XXX TODO Make `memory>` use this target variable.
@@ -196,8 +206,7 @@ variable dp
   pop-hl-de
   e m ld,     \ ld (hl),e
   h incp,     \ inc hl
-  d m ld,     \ ld (hl),d
-  ret, ;
+  d m ld, ;   \ ld (hl),d
 
 : allot ( n -- ) dp +! ;
 
@@ -216,7 +225,7 @@ target-definitions
 
 1001 constant zx
 
-: game ( -- x ) zx ; \ XXX TODO
+: game ( -- x ) zx ;
 
 game
 
