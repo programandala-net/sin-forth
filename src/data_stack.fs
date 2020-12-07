@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net) 2015, 2016, 2020.
 
-\ Last modified: 202012070356.
+\ Last modified: 202012070421.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -44,7 +44,7 @@
 
 target-definitions
 
-$0100 memory +!
+$0100 memory> +!
 memory> @ constant sp0
   \ The data stack grows from bottom (high memory) to top (low memory)
 
@@ -128,4 +128,5 @@ memory> @ constant sp0
 \ to Forth.
 \
 \ 2020-12-07: Update after the new simpler handling of the search
-\ order. Remove the final `ret,`, because `;` compiles it.
+\ order. Remove the final `ret,`, because `;` compiles it. Fix the
+\ alloting of the stack.
