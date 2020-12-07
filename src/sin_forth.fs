@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070408.
+\ Last modified 202012070417.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -106,8 +106,10 @@ sin-definitions
   dup hex. ." (#" 0 .r ." )" ;
   \ Display a target address. Used in debugging messages.
 
-: .mem ( -- ) memory initial-target + 256 dump ;
-  \ Dump 256 bytes from target memory address _a_.
+: .m ( a n -- ) swap memory + swap dump ;
+  \ Dump _n_ bytes from target memory address _a_.
+
+: sin-words ( -- ) sin-wordlist >order words previous ;
 
 \ ==============================================================
 \ Compiler {{{1
