@@ -21,5 +21,3 @@
 - Make the data stack growing direction configurable.
 - Add number and string compiling words, e.g. `l,`, `c,`, `d,` or `2,`
   `s,`. Other names: `lit,`, `2lit,`, `clit,`, `str,`...
-- Move `variable` and `constant` to the library.
-
