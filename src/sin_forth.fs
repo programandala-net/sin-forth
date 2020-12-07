@@ -9,9 +9,9 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
+\ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified 202012072014.
+\ Last modified 202012072135.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -151,54 +151,10 @@ variable latest-call
   tail-call? if optimize-ret else ret, then ;
   \ End a target word.
 
-include data_stack.fs
-
-: variable ( "name" -- )
-  create memory> @ ,  2 memory> +!
-  does> s" h ldp#, push-hl" evaluate ;
-
-: constant ( "name" x -- )
-  create memory> @ dup , t-!  2 memory> +!
-  does> @ s" h ldp#, push-hl" evaluate ;
-
-\ ==============================================================
-\ Target words {{{1
-
-target-definitions
-
-: +! ( n a -- )
-  pop-hl-de
-  m a ld,     \ ld a,(hl)
-  e add,      \ add a,e
-  a m ld,     \ ld (hl),a
-  h incp,     \ inc hl
-  m a ld,     \ ld a,(hl)
-  d adc,      \ adc a,d
-  a m ld, ;   \ ld (hl),a
-
-variable dp
-  \ XXX TODO Make `memory>` use this target variable.
-
-: @ ( a -- x )
-  pop-hl
-  m e ld, \ ld e,(hl)
-  h incp, \ inc hl
-  m d ld, \ ld d,(hl)
-  push-de ;
-
-: here ( -- a ) dp @ ;
-
-: ! ( x a -- )
-  pop-hl-de
-  e m ld,     \ ld (hl),e
-  h incp,     \ inc hl
-  d m ld, ;   \ ld (hl),d
-
-: allot ( n -- ) dp +! ;
-
-2 constant cell
-
-: , ( x -- ) here ! cell allot ;
+$0100 memory> +!
+memory> @ constant data-stack-bottom
+  \ Reserve space for the data stack, which. grows from bottom (high
+  \ memory) to top (low memory).
 
 \ ==============================================================
 \ Change log {{{1
@@ -213,4 +169,6 @@ variable dp
 \ v0.2.0-dev.30.0+202012062153.
 \
 \ 2020-12-07: Start the target kernel words. Move the sample
-\ compilable test code to its own file.
+\ compilable test code to its own file. Move the target definitions to
+\ a library, and also the compiler definitions `variable` and
+\ `constant`.

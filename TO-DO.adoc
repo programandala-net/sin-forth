@@ -17,7 +17,9 @@
   `sin-wordlist` to `compiler-wordlist`. For example, also `memory`,
   `t-,`, `initial-target` etc., should not be accesible during the
   compilation of the target, just in case.
-- Create a library. Move the target Forth definitions to individual
-  files, even the data stack routines.
 - Make the stacks size configurable.
 - Make the data stack growing direction configurable.
+- Add number and string compiling words, e.g. `l,`, `c,`, `d,` or `2,`
+  `s,`. Other names: `lit,`, `2lit,`, `clit,`, `str,`...
+- Move `variable` and `constant` to the library.
+
