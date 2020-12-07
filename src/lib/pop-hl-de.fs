@@ -1,4 +1,4 @@
-\ lib/pop-hl-de.fs.fs
+\ lib/pop-hl-de.fs
 
 \ This file is part of Sin Forth.
 
@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012072123.
+\ Last modified: 202012072206.
 \ See change log at the end of the file.
 
 \ ==============================================================

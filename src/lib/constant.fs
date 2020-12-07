@@ -1,4 +1,4 @@
-\ lib/constant.fs.fs
+\ lib/constant.fs
 
 \ This file is part of Sin Forth.
 
@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072153.
+\ Last modified: 202012072206.
 \ See change log at the end of the file.
 
 \ ==============================================================

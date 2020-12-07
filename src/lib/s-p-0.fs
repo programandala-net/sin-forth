@@ -1,4 +1,4 @@
-\ lib/s-p-0.fs.fs
+\ lib/s-p-0.fs
 
 \ This file is part of Sin Forth.
 
@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072129.
+\ Last modified: 202012072204.
 \ See change log at the end of the file.
 
 \ ==============================================================

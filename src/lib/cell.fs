@@ -1,4 +1,4 @@
-\ lib/cell.fs.fs
+\ lib/cell.fs
 
 \ This file is part of Sin Forth.
 
@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072123.
+\ Last modified: 202012072206.
 \ See change log at the end of the file.
 
 \ ==============================================================
