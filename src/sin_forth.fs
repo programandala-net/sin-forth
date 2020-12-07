@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070229.
+\ Last modified 202012070259.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -25,7 +25,7 @@
 \ ==============================================================
 \ Requirements {{{1
 
-only forth definitions
+only forth definitions  decimal
 
 \ Galope
 \ http://programandala.net/en.program.galope.html
@@ -45,10 +45,10 @@ forth-wordlist >order
 25000 constant initial-target
   \ Start address of the target code in the ZX Spectrum memory.
 
-0x10000 constant /memory
+$10000 constant /memory
   \ Size of the target memory: 64 KiB.
 
-$10000 allocate throw constant memory
+/memory allocate throw constant memory
 memory /memory erase
   \ Reserve a 64-KiB space for the target memory and erase it.
 
@@ -78,6 +78,10 @@ variable memory>  initial-target memory> !
   \ Compile the 16-bit value _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
+: a. ( a -- )
+  dup hex. ." (#" 0 .r ." )" ;
+  \ Display a target address.
+
 include assembler.fs
 
 only forth
@@ -88,14 +92,16 @@ assembler-wordlist >order
 
 : : ( "name" -- )
   create memory> @ ,
-  cr ." Compiling the word " latest .name \ XXX INFORMER
+  cr ." Compiling at " memory> @ a. \ XXX INFORMER
+     ."  the word `" latest .name ." `" \ XXX INFORMER
   does> @
-  cr ." Compiling a call to a word at target address: " dup hex. ." #" dup dec. \ XXX INFORMER
+  cr ." Compiling at " memory> @ a. \ XXX INFORMER
+     ."  a call to " dup a. \ XXX INFORMER
   call, ;
   \ Define a target word.
 
 : ; ( -- )
-  cr ." Compiling a ret at target address: " memory> @ dup hex. ." #" dec. \ XXX INFORMER
+  cr ." Compiling at " memory> @ a. ."  a `;`" \ XXX INFORMER
   ret, ;
   \ End a target word by compiling a Z80 `ret`.
   \
@@ -171,13 +177,18 @@ end-sin
 
 only forth definitions
 
-sin-wordlist >order also forth
+sin-wordlist >order
+forth-wordlist >order
 
 : .mem ( -- ) memory initial-target + 256 dump ;
   \ Dump 256 bytes from target memory address _a_.
 
 \ ==============================================================
 \ Test application {{{1
+
+only forth definitions
+
+sin-wordlist >order
 
 cr .( The application is compiled at ) memory> @ .
 
