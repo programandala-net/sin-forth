@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net) 2010, 2015, 2020.
 
-\ Last modified 202012070423.
+\ Last modified 202012070435.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -183,7 +183,12 @@ target-definitions
 variable dp
   \ XXX TODO Make `memory>` use this target variable.
 
-: @ ( a -- x ) ; \ XXX TODO
+: @ ( a -- x )
+  pop-hl
+  m e ld, \ ld e,(hl)
+  h incp, \ inc hl
+  m d ld, \ ld d,(hl)
+  push-de ;
 
 : here ( -- a ) dp @ ;
 
