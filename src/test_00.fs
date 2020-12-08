@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072153.
+\ Last modified: 202012081627.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -20,17 +20,23 @@
 \ This file is a test program compilable by Sin Forth.
 
 \ ==============================================================
-\ Requirements {{{1
+\ Requirements and configuration {{{1
 
 require sin_forth.fs
+
+40000 set-origin
+
+begin-program
 
 \ require lib/allot.fs
 \ require lib/cell.fs
 \ require lib/comma.fs
 require lib/constant.fs
 \ require lib/d-p.fs
+require lib/emit.fs
 \ require lib/fetch.fs
 \ require lib/here.fs
+\ require lib/literal.fs
 \ require lib/init-data-stack.fs
 \ require lib/plus-store.fs
 \ require lib/pop-de.fs
@@ -45,21 +51,18 @@ require lib/constant.fs
 \ ==============================================================
 \ Code {{{1
 
-compiler-definitions
+65 constant zx
 
-cr .( The application is compiled at ) memory> @ .
+: game ( -- x ) zx emit ;
 
-target-definitions
+game ;
 
-1001 constant zx
-
-: game ( -- x ) zx ;
-
-game
-
-forth-definitions
+end-program
 
 \ ==============================================================
 \ Change log {{{1
 
 \ 2020-12-07: Extract the code from the main source.
+\
+\ 2020-12-08: Update with `begin-program`, `end-program`,
+\ `set-origin`.

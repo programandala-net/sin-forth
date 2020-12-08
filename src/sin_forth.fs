@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081454.
+\ Last modified: 202012081627.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -67,21 +67,41 @@ compiler-definitions
 \ ==============================================================
 \ Target memory {{{1
 
-25000 constant origin
-  \ Start address of the target code in the ZX Spectrum memory.
-
 $10000 constant /memory
   \ Size of the target memory: 64 KiB.
 
-/memory allocate throw constant memory
-memory /memory erase
-  \ Reserve a 64-KiB space for the target memory and erase it.
+/memory buffer: memory  memory /memory erase
+  \ Reserve a 64-KiB space for the target memory.
 
-variable memory>  origin memory> !
+variable memory>
   \ Z80 address ($0000..$FFFF) where the target code is being compiled
   \ in the ZX Spectrum memory. Therefore it's also a pointer to the
   \ first free address in `memory`. Its initial value is
-  \ `origin`.
+  \ the default value of `origin`.
+
+$5E00 value origin  origin memory> !
+  \ Initial and lowest target memory address where the target code is
+  \ compiled.
+
+variable modified-origin  modified-origin off
+  \ A flag to remember if `origin` was modified by `set-origin`.
+
+: set-origin ( n -- )
+  modified-origin @ abort" second `set-origin` not allowed"
+  dup to origin memory> !
+  modified-origin on ;
+
+  \ doc{
+  \
+  \ set-origin ( a -- )
+  \
+  \ Set the initial target memory address _a_ from wich the code will
+  \ be compiled. Its default value is $5E00 (24064).
+  \
+  \ ``set-origin`` should be used before any target code is compiled,
+  \ including library modules.
+  \
+  \ }doc
 
 : t-! ( x a -- )
 \  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
@@ -125,7 +145,7 @@ variable memory>  origin memory> !
 include assembler.fs
 
 variable latest-call
-  \ Target address where the lastest Z80 `call` to a target word
+  \ Target address where the latest Z80 `call` to a target word
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
 
@@ -284,6 +304,20 @@ memory> @ constant data-stack-bottom
   \ Create the target files with basename _ca len_: a BASIC loader
   \ with the ".bas" extension and a Z80 executable with the ".bin"
   \ extension.
+
+\ ==============================================================
+\ Compiler directives {{{1
+
+: begin-program ( -- )
+  target-definitions ;
+  \ Mark the start of the target program.
+
+: end-program ( -- )
+  s" test" file
+  forth-definitions
+  \ bye \ XXX TODO
+  ;
+  \ Mark the end of the target program.
 
 \ ==============================================================
 \ Change log {{{1
