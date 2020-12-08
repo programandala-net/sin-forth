@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012080317.
+\ Last modified: 202012081454.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -143,7 +143,47 @@ variable latest-call
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  a call to " dup a. \ XXX INFORMER
   call, ;
-  \ Define a target word.
+
+  \ doc{
+  \
+  \ : ( "name" -- ) "colon"
+  \
+  \ Parse _name_. Create a host definition for _name_, called a "colon
+  \ definition". When _name_ is later found, a Z80 `call,` is executed
+  \ to compile a call to the target address where ``:`` was found.
+  \
+  \ Usage example:
+
+  \ ----
+  \ : inc ( n1 -- n2 )
+  \   pop-hl
+  \   h incp,
+  \   push-hl ;
+  \
+  \ : .pair ( n -- )
+  \   dup . inc . ;
+  \ ----
+
+  \ NOTE: Sin Forth's ``:`` has nothing to do with standard Forth's
+  \ ``:``. In Sin Forth, ``:`` is similar to a assembler label: It
+  \ marks an arbitrary entry point. In fact several ``:`` can be used
+  \ in one single definition, as the following example shows:
+
+  \ ----
+  \ : inc ( n1 -- n2 )
+  \   pop-hl
+
+  \ : inc-hl ( -- n2 )
+  \   h incp,
+  \   push-hl ;
+  \ ----
+
+  \ NOTE: ``:`` is part of the compiler, it's not defined in the
+  \ target.
+
+  \ See also: `;`.
+  \
+  \ }doc
 
 : tail-call? ( -- f )
   latest-call @ memory> @ 3 - = ;
@@ -157,7 +197,44 @@ variable latest-call
 : ; ( -- )
   cr ." Compiling at " memory> @ a. ."  a `;`" \ XXX INFORMER
   tail-call? if optimize-ret else ret, then ;
-  \ End a target word.
+
+  \ XXX TODO Improve the documentation. Add an example where several
+  \ `;` are used in a definition.
+
+  \ doc{
+  \
+  \ ; ( -- ) "semicolon"
+  \
+  \ Mark the end of a definition, executing an assembler `ret,` in
+  \ order to compile a return from the current definition.
+  \
+  \ ``;`` does tail optimization: If the latest compiled instruction
+  \ was a Z80 call, it is replaced with a jump instead of executing
+  \ `ret,`.
+  \
+  \ Usage example:
+
+  \ ----
+  \ : inc ( n1 -- n2 )
+  \   pop-hl
+  \   h incp,
+  \   push-hl ;
+  \
+  \ : .pair ( n -- )
+  \   dup . inc . ;
+  \ ----
+
+  \ NOTE: Sin Forth's ``;`` has nothing to do with standard Forth's
+  \ ``;``. In Sin Forth, ``;`` just compiles the return from a Z80
+  \ subrutine. In fact several ``;`` can be used in one single
+  \ definition.
+
+  \ NOTE: ``;`` is part of the compiler, it's not defined in the
+  \ target.
+
+  \ See also: `:`.
+  \
+  \ }doc
 
 $0100 memory> +!
 memory> @ constant data-stack-bottom
@@ -187,7 +264,7 @@ memory> @ constant data-stack-bottom
   2dup s" .bas" new-file dup >r
   ['] .loader swap outfile-execute
   r> close-file throw ;
-  \ Create a Sinclar BASIC loader (in text format) with 
+  \ Create a Sinclar BASIC loader (in text format) with
   \ basename _ca len_ and the ".bas" extension, to load its
   \ corresponding code file with the ".bin" extension.
 
@@ -225,4 +302,5 @@ memory> @ constant data-stack-bottom
 \ a library, and also the compiler definitions `variable` and
 \ `constant`. Factor `header` from `:`.
 \
-\ 2020-12-08: Add `file` to create the targets files.
+\ 2020-12-08: Add `file` to create the targets files. Document `:` and
+\ `;`.
