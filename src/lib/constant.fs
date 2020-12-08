@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012080058.
+\ Last modified: 202012082026.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -19,6 +19,7 @@ compiler-definitions
 
 : constant ( "name" x -- )
   [ compiler-wordlist >order ] header [ previous ]
+  z80dasm-blocks @ if dup s" _constant_data" z80dasm-cell-block then
   dup , t-!  2 memory> +!
   does> @ s" h ldp#, push-hl" evaluate ;
 
@@ -29,3 +30,5 @@ set-current set-order
 
 \ 2020-12-07: Extract the code from <sin_forth.fs>. Improve it with
 \ `header`.
+\
+\ 2020-12-08: Create a z80dasm block.

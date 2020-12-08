@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081731.
+\ Last modified: 202012082048.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -27,10 +27,16 @@
 
 only forth definitions  decimal
 
+\ Gforth
+require string.fs \ dynamic strings
+
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
-\ XXX REMARK No Galope module required at the moment.
+require galope/minus-suffix.fs \ `-suffix`
+require galope/n-to-str.fs     \ `n>str`
+require galope/replaced.fs     \ `replaced`
+require galope/unslurp-file.fs \ `unslurp-file`
 
 \ ==============================================================
 \ Word lists {{{1
@@ -203,6 +209,71 @@ variable latest-colon
 : set-default-boot ( -- )
   latest-colon @ boot-address ! ;
 
+\ ----------------------------------------------
+\ z80-symbols {{{2
+
+$variable z80-symbols$ ( -- a )
+  \ A dynamic string variable that holds the Z80 assembly symbols, in
+  \ assembly. `end-program` saves it into an output file, if it's not
+  \ empty.
+
+variable z80-symbols ( -- a ) z80-symbols on
+  \ A flag. When the flag is zero, the Z80 assembly symbols are not
+  \ saved during the compilation.
+
+: n>0xstr ( n -- ca len )
+  base @ >r s" 0x" rot hex n>str s+ r> base ! ;
+
+: >z80-label ( ca1 len1 -- ca2 len2 )
+  s" store_" s" !" replaced
+  s" plus_"  s" +" replaced
+  s" at_"    s" @" replaced
+  s" _" -suffix
+  s" _" 2swap s+ ;
+  \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
+
+: z80-symbol ( a nt -- )
+  swap >r
+  name>string >z80-label s" : equ " s+ r@ n>0xstr s+
+  s"  ; (" s+ r> n>str s+ s" )" s+ s\" \n" s+
+  z80-symbols$ $+! ;
+
+\ ----------------------------------------------
+\ z80dasm-blocks {{{2
+
+$variable z80dasm-blocks$ ( -- a )
+  \ A dynamic string variable that holds the z80dasm disassembler
+  \ block definitions. `end-program` saves it into an output file, if
+  \ it's not empty.
+
+variable z80dasm-blocks ( -- a ) z80dasm-blocks on
+  \ A flag. When the flag is zero, the z80dasm disassembler blocks
+  \ definitions are not saved during the compilation.
+
+: z80dasm-block {: start end D: block-type D: block-name unlabeled -- :}
+  block-name >z80-label s" :" s+
+  s"  start " start n>0xstr s+ s+
+  unlabeled if s"  unlabeled " s+ then
+  s"  end " end n>0xstr s+ s+
+  s"  type " block-type s+ s+
+  s\" \n" s+ z80dasm-blocks$ $+! ;
+  \ Add a new z80dasm disassembler block defition with the following
+  \ parameters:
+  \
+  \ start     = start address
+  \ end       = end address
+  \ blocktype = string ("code", "bytedata", "worddata" or "pointers")
+  \ unlabeled = flag
+
+: z80dasm-cell-block ( a ca len -- )
+  2>r dup 2 + s" worddata" latest name>string 2r> s+
+  true z80dasm-block ;
+  \ Create a new z80dasm block definition for 1-cell data space
+  \ created by the latest target word definition, e.g. a variable or a
+  \ constant, being _a_ the start address in the target memory and _ca
+  \ len_ a suffix to be added to the name of the latest target
+  \ definition.
+
 \ ==============================================================
 \ Debugging tools {{{1
 
@@ -233,6 +304,7 @@ variable latest-call
   create memory> @
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  the word `" latest .name ." `" \ XXX INFORMER
+  z80-symbols @ if memory> @ latest z80-symbol then
   ;
   \ Create a header for word "name" and return the current target
   \ address associated to it.
@@ -345,6 +417,15 @@ memory> @ constant data-stack-bottom
 \ ==============================================================
 \ Output files {{{1
 
+: new-file ( ca1 len1 ca2 len2 -- fid )
+  s+ w/o create-file throw ;
+  \ Create a new file with basename _ca1 len1_ and extension _ca2
+  \ len2_ (which includes the dot), returning its file identifier
+  \ _fid_.
+
+\ ----------------------------------------------
+\ Sinclair BASIC loader file {{{2
+
 : .loader ( ca len -- )
   .\" 1 CLEAR VAL\"" origin 1 - 0 .r
   .\" \":LOAD \"" type .\" .bin\" CODE VAL\"" origin 0 .r
@@ -355,12 +436,6 @@ memory> @ constant data-stack-bottom
   \ execution token of ``.loader`` is used by `loader` in order to
   \ redirect the standard output produced by ``.loader`` to a file.
 
-: new-file ( ca1 len1 ca2 len2 -- fid )
-  s+ w/o create-file throw ;
-  \ Create a new file with basename _ca1 len1_ and extension _ca2
-  \ len2_ (which includes the dot), returning its file identifier
-  \ _fid_.
-
 : create-loader ( ca len -- )
   2dup s" .bas" new-file dup >r
   ['] .loader swap outfile-execute
@@ -368,6 +443,9 @@ memory> @ constant data-stack-bottom
   \ Create a Sinclar BASIC loader (in text format) with
   \ filename _ca len_ and the ".bas" extension, to load its
   \ corresponding code file with the ".bin" extension.
+
+\ ----------------------------------------------
+\ ZX Spectrum executable file {{{2
 
 : /executable ( -- len )
   memory> @ origin - ;
@@ -380,6 +458,31 @@ memory> @ constant data-stack-bottom
   \ Create a Z80 code file with filename _ca len_ and the ".bin"
   \ extension.
 
+\ ----------------------------------------------
+\ Z80 assembly symbols file {{{2
+
+: (create-z80-symbols) ( ca len -- )
+  s" .symbols.asm" s+ z80-symbols$ $@ 2swap unslurp-file ;
+  \ Create a Z80 symbols file with base filename _ca len_.
+
+: create-z80-symbols ( ca len -- )
+  z80-symbols$ $@len if (create-z80-symbols) else 2drop then ;
+  \ If there are symbols listed during the compilation, create a Z80
+  \ symbols file with base filename _ca len_. Else do nothing.
+
+\ ----------------------------------------------
+\ z80dasm disassembler blocks file {{{2
+
+: (create-z80dasm-blocks) ( ca len -- )
+  s" .z80dasm_blocks.txt" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
+  \ Create a z80dasm blocks file with base filename _ca len_.
+
+: create-z80dasm-blocks ( ca len -- )
+  z80dasm-blocks$ $@len if (create-z80dasm-blocks) else 2drop then ;
+  \ If there are z80dasm-blocks collected during the compilation,
+  \ create a z80dasm blocks file with base filename _ca len_. Else do
+  \ nothing.
+
 \ ==============================================================
 \ Compiler directives {{{1
 
@@ -389,7 +492,10 @@ memory> @ constant data-stack-bottom
 
 : end-program ( -- )
   no-boot? if set-default-boot then
-  filename 2dup create-loader create-executable
+  filename 2dup create-loader
+           2dup create-executable
+           2dup create-z80-symbols
+                create-z80dasm-blocks
   forth-definitions
   \ bye \ XXX TODO
   ;
@@ -414,4 +520,5 @@ memory> @ constant data-stack-bottom
 \
 \ 2020-12-08: Add code to create the targets files. Document `:` and
 \ `;`. Add `begin-program`, `end-program`, `set-origin`,
-\ `set-filename`, `boot-here`.
+\ `set-filename`, `boot-here`. Create a Z80 assembly symbols file.
+\ Create a z80dasm disassembler blocks definition file.
