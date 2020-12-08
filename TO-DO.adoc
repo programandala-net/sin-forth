@@ -25,3 +25,4 @@
 - Add a compiler command to create a BASIC loader.
 - Add a compiler `'` to get the target compilation address of a word
   defined by the compiler's `:`.
+- Make `origin` configurable.
