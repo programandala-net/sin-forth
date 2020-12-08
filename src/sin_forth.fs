@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081950.
+\ Last modified: 202012081957.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -405,6 +405,15 @@ memory> @ constant data-stack-bottom
 \ ==============================================================
 \ Output files {{{1
 
+: new-file ( ca1 len1 ca2 len2 -- fid )
+  s+ w/o create-file throw ;
+  \ Create a new file with basename _ca1 len1_ and extension _ca2
+  \ len2_ (which includes the dot), returning its file identifier
+  \ _fid_.
+
+\ ----------------------------------------------
+\ Sinclair BASIC loader file {{{2
+
 : .loader ( ca len -- )
   .\" 1 CLEAR VAL\"" origin 1 - 0 .r
   .\" \":LOAD \"" type .\" .bin\" CODE VAL\"" origin 0 .r
@@ -415,12 +424,6 @@ memory> @ constant data-stack-bottom
   \ execution token of ``.loader`` is used by `loader` in order to
   \ redirect the standard output produced by ``.loader`` to a file.
 
-: new-file ( ca1 len1 ca2 len2 -- fid )
-  s+ w/o create-file throw ;
-  \ Create a new file with basename _ca1 len1_ and extension _ca2
-  \ len2_ (which includes the dot), returning its file identifier
-  \ _fid_.
-
 : create-loader ( ca len -- )
   2dup s" .bas" new-file dup >r
   ['] .loader swap outfile-execute
@@ -428,6 +431,9 @@ memory> @ constant data-stack-bottom
   \ Create a Sinclar BASIC loader (in text format) with
   \ filename _ca len_ and the ".bas" extension, to load its
   \ corresponding code file with the ".bin" extension.
+
+\ ----------------------------------------------
+\ ZX Spectrum executable file {{{2
 
 : /executable ( -- len )
   memory> @ origin - ;
@@ -440,27 +446,30 @@ memory> @ constant data-stack-bottom
   \ Create a Z80 code file with filename _ca len_ and the ".bin"
   \ extension.
 
+\ ----------------------------------------------
+\ Z80 assembler symbols file {{{2
+
 : (create-symbols) ( ca len -- )
-  s" .sym" s+ symbols$ $@ 2swap unslurp-file ;
-  \ Create a Z80 symbols file with filename _ca len_ and the ".sym"
-  \ extension.
+  s" .symbols.asm" s+ symbols$ $@ 2swap unslurp-file ;
+  \ Create a Z80 symbols file with base filename _ca len_.
 
 : create-symbols ( ca len -- )
   symbols$ $@len if (create-symbols) else 2drop then ;
   \ If there are symbols listed during the compilation, create a Z80
-  \ symbols file with filename _ca len_ and the ".sym" extension.
-  \ Else do nothing.
+  \ symbols file with base filename _ca len_. Else do nothing.
+
+\ ----------------------------------------------
+\ z80dasm blocks definition file {{{2
 
 : (create-z80dasm-blocks) ( ca len -- )
-  s" .z80dasm_blocks" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
-  \ Create a z80dasm blocks file with filename _ca len_ and the
-  \ ".z80dasm_blocks" extension.
+  s" .z80dasm_blocks.txt" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
+  \ Create a z80dasm blocks file with base filename _ca len_.
 
 : create-z80dasm-blocks ( ca len -- )
   z80dasm-blocks$ $@len if (create-z80dasm-blocks) else 2drop then ;
   \ If there are z80dasm-blocks collected during the compilation,
-  \ create a z80dasm blocks file with filename _ca len_ and the
-  \ ".z80dasm_blocks" extension. Else do nothing.
+  \ create a z80dasm blocks file with base filename _ca len_. Else do
+  \ nothing.
 
 \ ==============================================================
 \ Compiler directives {{{1
