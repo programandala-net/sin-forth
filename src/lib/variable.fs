@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072206.
+\ Last modified: 202012080058.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -18,7 +18,8 @@ get-order get-current
 compiler-definitions
 
 : variable ( "name" -- )
-  create memory> @ ,  2 memory> +!
+  [ compiler-wordlist >order ] header [ previous ]
+  , 2 memory> +!
   does> s" h ldp#, push-hl" evaluate ;
 
 set-current set-order
@@ -26,4 +27,5 @@ set-current set-order
 \ ==============================================================
 \ Change log {{{1
 
-\ 2020-12-07: Extract the code from <sin_forth.fs>.
+\ 2020-12-07: Extract the code from <sin_forth.fs>. Improve it with
+\ `header`.

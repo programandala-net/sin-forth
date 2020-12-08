@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012072153.
+\ Last modified: 202012080058.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -54,11 +54,13 @@ wordlist constant target-wordlist
 : forth-definitions ( -- )
   compiler-order  forth-wordlist set-current ;
 
-: target-definitions ( -- )
+: target-order ( -- )
   only forth
   compiler-wordlist >order
-  target-wordlist >order
-  target-wordlist set-current ;
+  target-wordlist >order ;
+
+: target-definitions ( -- )
+  target-order  target-wordlist set-current ;
 
 compiler-definitions
 
@@ -127,10 +129,16 @@ variable latest-call
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
 
-: : ( "name" -- )
-  create memory> @ ,
+: header ( "name" -- a )
+  create memory> @
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  the word `" latest .name ." `" \ XXX INFORMER
+  ;
+  \ Create a header for word "name" and return the current target
+  \ address associated to it.
+
+: : ( "name" -- )
+  [ compiler-wordlist >order ] header [ previous ] ,
   does> @  memory> @ latest-call !
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  a call to " dup a. \ XXX INFORMER
@@ -171,4 +179,4 @@ memory> @ constant data-stack-bottom
 \ 2020-12-07: Start the target kernel words. Move the sample
 \ compilable test code to its own file. Move the target definitions to
 \ a library, and also the compiler definitions `variable` and
-\ `constant`.
+\ `constant`. Factor `header` from `:`.
