@@ -23,3 +23,9 @@
 - Make verbosity configurable.  
 - Add a compiler `'` to get the target compilation address of a word
   defined by the compiler's `:`.
+
+== 2020-12-08
+
+- Make the configuration directives homogenous and analog, in order to
+  prevent name clashes, also with words like `on` and `off`,  when
+  they are used inside the target programa.
