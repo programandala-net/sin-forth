@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081705.
+\ Last modified: 202012081731.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -106,6 +106,9 @@ $5E00 value origin  origin memory> !
 \ ==============================================================
 \ Configuration directives {{{1
 
+\ ----------------------------------------------
+\ set-origin {{{2
+
 variable modified-origin  modified-origin off
   \ A flag to remember if `origin` was modified by `set-origin`.
 
@@ -125,6 +128,9 @@ variable modified-origin  modified-origin off
   \ including library modules.
   \
   \ }doc
+
+\ ----------------------------------------------
+\ set-filename {{{2
 
 variable filename> ( -- a )
   \ Address of the string stored by `set-filename` as a counted
@@ -155,6 +161,47 @@ s" out" set-filename \ default value
   \ maximun filename length allowed by the target media or DOS.
   \
   \ }doc
+
+\ ----------------------------------------------
+\ boot-here {{{2
+
+variable boot-address ( -- a )
+  \ _a_ contains the target memory address where the target program
+  \ must be executed. This address is called by the Sinclair BASIC
+  \ loader.
+
+$10001 constant no-boot
+no-boot boot-address !
+  \ Store an impossible default value into `boot-address`, in order to
+  \ detect whether it has been set or not.
+
+: no-boot? ( -- f )
+  boot-address @ no-boot = ;
+  \ Has `boot-address` not been set?
+
+: boot-here ( -- )
+  memory> @ boot-address ! ;
+
+  \ doc{
+  \
+  \ boot-here ( -- )
+  \
+  \ Mark the current address of the target program as the boot
+  \ address, i.e. the address that will be executed by the Sinclair
+  \ BASIC loader. ``boot-here`` should be used right after a `:`
+  \ definition.
+  \
+  \ When ``boot-here`` is not used, the boot address will be that of
+  \ the latest `:` definition.
+  \
+  \ }doc
+
+variable latest-colon
+  \ Target address where the latest Z80 `:` definition has been
+  \ compiled.
+
+: set-default-boot ( -- )
+  latest-colon @ boot-address ! ;
 
 \ ==============================================================
 \ Debugging tools {{{1
@@ -191,7 +238,8 @@ variable latest-call
   \ address associated to it.
 
 : : ( "name" -- )
-  [ compiler-wordlist >order ] header [ previous ] ,
+  [ compiler-wordlist >order ] header [ previous ]
+  dup latest-colon ! ,
   does> @  memory> @ latest-call !
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  a call to " dup a. \ XXX INFORMER
@@ -300,7 +348,7 @@ memory> @ constant data-stack-bottom
 : .loader ( ca len -- )
   .\" 1 CLEAR VAL\"" origin 1 - 0 .r
   .\" \":LOAD \"" type .\" .bin\" CODE VAL\"" origin 0 .r
-  .\" \":RANDOMIZE USR VAL\"" origin 0 .r '"' emit ;
+  .\" \":RANDOMIZE USR VAL\"" boot-address @ 0 .r '"' emit ;
   \ Display a one-line Sinclair BASIC program to load a binary file
   \ whose basename is _ca len_, with an added ".bin" extension",
   \ into memory address `origin`, and execute it at that address. The
@@ -340,6 +388,7 @@ memory> @ constant data-stack-bottom
   \ Mark the start of the target program.
 
 : end-program ( -- )
+  no-boot? if set-default-boot then
   filename 2dup create-loader create-executable
   forth-definitions
   \ bye \ XXX TODO
@@ -365,4 +414,4 @@ memory> @ constant data-stack-bottom
 \
 \ 2020-12-08: Add code to create the targets files. Document `:` and
 \ `;`. Add `begin-program`, `end-program`, `set-origin`,
-\ `set-filename`.
+\ `set-filename`, `boot-here`.

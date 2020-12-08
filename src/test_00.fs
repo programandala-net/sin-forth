@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012081704.
+\ Last modified: 202012081731.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -54,9 +54,7 @@ require lib/emit.fs
 
 65 constant zx
 
-: game ( -- x ) zx emit ;
-
-game ;
+: game ( -- ) zx emit ;
 
 end-program
 
