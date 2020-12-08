@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081731.
+\ Last modified: 202012081824.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -27,10 +27,14 @@
 
 only forth definitions  decimal
 
+\ Gforth
+require string.fs \ dynamic strings
+
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
-\ XXX REMARK No Galope module required at the moment.
+require galope/n-to-str.fs     \ `n>str`
+require galope/unslurp-file.fs \ `unslurp-file`
 
 \ ==============================================================
 \ Word lists {{{1
@@ -203,6 +207,18 @@ variable latest-colon
 : set-default-boot ( -- )
   latest-colon @ boot-address ! ;
 
+\ ----------------------------------------------
+\ set-symbols {{{2
+
+$variable symbols$ ( -- a )
+  \ A dynamic string variable that holds the Z80 symbols.
+  \ `end-program` saves it into an output file, if it's not empty.
+
+variable z80-symbols ( -- a ) z80-symbols on
+  \ A flag. When the flag is zero, the Z80 symbols are not printed to
+  \ the symbols file, whose filename is that set by `set-filename`,
+  \ with an ".sym" extension added.
+
 \ ==============================================================
 \ Debugging tools {{{1
 
@@ -229,10 +245,19 @@ variable latest-call
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
 
+: new-symbol ( a nt -- )
+  base @ >r  swap >r
+  cr ." : new-symbol " .s
+  name>string s" : equ 0x" s+ r@ hex n>str s+
+  s"  ; (" s+ decimal r> n>str s+ s" )" s+ s\" \n" s+
+  symbols$ $+! 
+  r> base ! ;
+
 : header ( "name" -- a )
   create memory> @
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  the word `" latest .name ." `" \ XXX INFORMER
+  z80-symbols @ if memory> @ latest new-symbol then
   ;
   \ Create a header for word "name" and return the current target
   \ address associated to it.
@@ -380,6 +405,17 @@ memory> @ constant data-stack-bottom
   \ Create a Z80 code file with filename _ca len_ and the ".bin"
   \ extension.
 
+: (create-symbols) ( ca len -- )
+  s" .sym" s+ symbols$ $@ 2swap unslurp-file ;
+  \ Create a Z80 symbols file with filename _ca len_ and the ".sym"
+  \ extension.
+
+: create-symbols ( ca len -- )
+  symbols$ $@len if (create-symbols) else 2drop then ;
+  \ If there are symbols listed during the compilation, create a Z80
+  \ symbols file with filename _ca len_ and the ".sym" extension.
+  \ Else do nothing.
+
 \ ==============================================================
 \ Compiler directives {{{1
 
@@ -389,7 +425,9 @@ memory> @ constant data-stack-bottom
 
 : end-program ( -- )
   no-boot? if set-default-boot then
-  filename 2dup create-loader create-executable
+  filename 2dup create-loader
+           2dup create-executable
+                create-symbols
   forth-definitions
   \ bye \ XXX TODO
   ;
