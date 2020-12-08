@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081824.
+\ Last modified: 202012081843.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -34,6 +34,7 @@ require string.fs \ dynamic strings
 \ http://programandala.net/en.program.galope.html
 
 require galope/n-to-str.fs     \ `n>str`
+require galope/replaced.fs     \ `replaced`
 require galope/unslurp-file.fs \ `unslurp-file`
 
 \ ==============================================================
@@ -245,10 +246,13 @@ variable latest-call
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
 
+: tidy-symbol ( ca1 len1 -- ca2 len2 )
+  s" _" s" -" replaced
+  s" _" 2swap s+ ;
+
 : new-symbol ( a nt -- )
   base @ >r  swap >r
-  cr ." : new-symbol " .s
-  name>string s" : equ 0x" s+ r@ hex n>str s+
+  name>string tidy-symbol s" : equ 0x" s+ r@ hex n>str s+
   s"  ; (" s+ decimal r> n>str s+ s" )" s+ s\" \n" s+
   symbols$ $+! 
   r> base ! ;
@@ -452,4 +456,4 @@ memory> @ constant data-stack-bottom
 \
 \ 2020-12-08: Add code to create the targets files. Document `:` and
 \ `;`. Add `begin-program`, `end-program`, `set-origin`,
-\ `set-filename`, `boot-here`.
+\ `set-filename`, `boot-here`, `z80-symbols`, `create-symbols`.
