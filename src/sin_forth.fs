@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081957.
+\ Last modified: 202012082037.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -211,51 +211,59 @@ variable latest-colon
 \ ----------------------------------------------
 \ z80-symbols {{{2
 
-$variable symbols$ ( -- a )
-  \ A dynamic string variable that holds the Z80 symbols, in assembly.
-  \ `end-program` saves it into an output file, if it's not empty.
+$variable z80-symbols$ ( -- a )
+  \ A dynamic string variable that holds the Z80 assembly symbols, in
+  \ assembly. `end-program` saves it into an output file, if it's not
+  \ empty.
 
 variable z80-symbols ( -- a ) z80-symbols on
-  \ A flag. When the flag is zero, the Z80 symbols are not printed to
-  \ the symbols file, whose filename is that set by `set-filename`,
-  \ with an ".sym" extension added.
+  \ A flag. When the flag is zero, the Z80 assembly symbols are not
+  \ saved during the compilation.
 
 : n>0xstr ( n -- ca len )
   base @ >r s" 0x" rot hex n>str s+ r> base ! ;
 
-: tidy-symbol ( ca1 len1 -- ca2 len2 )
+: >z80-label ( ca1 len1 -- ca2 len2 )
   s" _" s" -" replaced
   s" _" 2swap s+ ;
+  \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
 
-: new-symbol ( a nt -- )
+: z80-symbol ( a nt -- )
   swap >r
-  name>string tidy-symbol s" : equ " s+ r@ n>0xstr s+
+  name>string >z80-label s" : equ " s+ r@ n>0xstr s+
   s"  ; (" s+ r> n>str s+ s" )" s+ s\" \n" s+
-  symbols$ $+! ;
+  z80-symbols$ $+! ;
 
 \ ----------------------------------------------
 \ z80dasm-blocks {{{2
 
 $variable z80dasm-blocks$ ( -- a )
-  \ A dynamic string variable that holds the Z80 block definitions, in
-  \ the format used by the z80dasm disassembler. `end-program` saves
-  \ it into an output file, if it's not empty.
+  \ A dynamic string variable that holds the z80dasm disassembler
+  \ block definitions. `end-program` saves it into an output file, if
+  \ it's not empty.
 
 variable z80dasm-blocks ( -- a ) z80dasm-blocks on
-  \ A flag. When the flag is zero, the Z80 symbols are not printed to
-  \ the symbols file, whose filename is that set by `set-filename`,
-  \ with an ".sym" extension added.
+  \ A flag. When the flag is zero, the z80dasm disassembler blocks
+  \ definitions are not saved during the compilation.
 
-: new-z80dasm-block {: start end D: block-type D: block-name -- :}
-  block-name tidy-symbol s" :" s+
+: z80dasm-block {: start end D: block-type D: block-name unlabeled -- :}
+  block-name >z80-label s" :" s+
   s"  start " start n>0xstr s+ s+
+  unlabeled if s"  unlabeled " s+ then
   s"  end " end n>0xstr s+ s+
   s"  type " block-type s+ s+
   s\" \n" s+ z80dasm-blocks$ $+! ;
+  \ Add a new z80dasm disassembler block defition with the following
+  \ parameters:
+  \
+  \ start     = start address
+  \ end       = end address
+  \ blocktype = string ("code", "bytedata", "worddata" or "pointers")
+  \ unlabeled = flag
 
-: new-z80dasm-cell-block ( a ca len -- )
+: z80dasm-cell-block ( a ca len -- )
   2>r dup 2 + s" worddata" latest name>string 2r> s+
-  new-z80dasm-block ;
+  true z80dasm-block ;
   \ Create a new z80dasm block definition for 1-cell data space
   \ created by the latest target word definition, e.g. a variable or a
   \ constant, being _a_ the start address in the target memory and _ca
@@ -292,7 +300,7 @@ variable latest-call
   create memory> @
   cr ." Compiling at " memory> @ a. \ XXX INFORMER
      ."  the word `" latest .name ." `" \ XXX INFORMER
-  z80-symbols @ if memory> @ latest new-symbol then
+  z80-symbols @ if memory> @ latest z80-symbol then
   ;
   \ Create a header for word "name" and return the current target
   \ address associated to it.
@@ -447,19 +455,19 @@ memory> @ constant data-stack-bottom
   \ extension.
 
 \ ----------------------------------------------
-\ Z80 assembler symbols file {{{2
+\ Z80 assembly symbols file {{{2
 
-: (create-symbols) ( ca len -- )
-  s" .symbols.asm" s+ symbols$ $@ 2swap unslurp-file ;
+: (create-z80-symbols) ( ca len -- )
+  s" .symbols.asm" s+ z80-symbols$ $@ 2swap unslurp-file ;
   \ Create a Z80 symbols file with base filename _ca len_.
 
-: create-symbols ( ca len -- )
-  symbols$ $@len if (create-symbols) else 2drop then ;
+: create-z80-symbols ( ca len -- )
+  z80-symbols$ $@len if (create-z80-symbols) else 2drop then ;
   \ If there are symbols listed during the compilation, create a Z80
   \ symbols file with base filename _ca len_. Else do nothing.
 
 \ ----------------------------------------------
-\ z80dasm blocks definition file {{{2
+\ z80dasm disassembler blocks file {{{2
 
 : (create-z80dasm-blocks) ( ca len -- )
   s" .z80dasm_blocks.txt" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
@@ -482,7 +490,7 @@ memory> @ constant data-stack-bottom
   no-boot? if set-default-boot then
   filename 2dup create-loader
            2dup create-executable
-           2dup create-symbols
+           2dup create-z80-symbols
                 create-z80dasm-blocks
   forth-definitions
   \ bye \ XXX TODO
@@ -508,4 +516,5 @@ memory> @ constant data-stack-bottom
 \
 \ 2020-12-08: Add code to create the targets files. Document `:` and
 \ `;`. Add `begin-program`, `end-program`, `set-origin`,
-\ `set-filename`, `boot-here`, `z80-symbols`, `create-symbols`.
+\ `set-filename`, `boot-here`. Create a Z80 assembly symbols file.
+\ Create a z80dasm disassembler blocks definition file.
