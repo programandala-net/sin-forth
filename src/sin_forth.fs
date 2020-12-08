@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081627.
+\ Last modified: 202012081705.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -83,6 +83,29 @@ $5E00 value origin  origin memory> !
   \ Initial and lowest target memory address where the target code is
   \ compiled.
 
+: t-! ( x a -- )
+\  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
+  memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
+  \ Store the 16-bit value _x_ into target memory address _a_.
+
+: t-c! ( c ca -- )
+\  cr 2dup swap . . ." t-!  (latest: " latest .name ." )" \ XXX INFORMER
+  memory + c! ;
+  \ Store the 8-bit value _c_ into target memory address _ca_.
+
+: t-c, ( c -- )
+  memory> @ t-c! 1 memory> +! ;
+  \ Compile the 8-bit value _c_ in the current target memory address
+  \ pointed by `memory>` and increase this pointer accordingly.
+
+: t-, ( x -- )
+  memory> @ t-! 2 memory> +! ;
+  \ Compile the 16-bit value _x_ in the current target memory address
+  \ pointed by `memory>` and update this pointer accordingly.
+
+\ ==============================================================
+\ Configuration directives {{{1
+
 variable modified-origin  modified-origin off
   \ A flag to remember if `origin` was modified by `set-origin`.
 
@@ -103,25 +126,35 @@ variable modified-origin  modified-origin off
   \
   \ }doc
 
-: t-! ( x a -- )
-\  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
-  memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
-  \ Store the 16-bit value _x_ into target memory address _a_.
+variable filename> ( -- a )
+  \ Address of the string stored by `set-filename` as a counted
+  \ string.
 
-: t-c! ( c ca -- )
-\  cr 2dup swap . . ." t-!  (latest: " latest .name ." )" \ XXX INFORMER
-  memory + c! ;
-  \ Store the 8-bit value _c_ into target memory address _ca_.
+: filename ( -- ca len )
+  filename> @ count ;
+  \ Return the string set by `set-filename`.
 
-: t-c, ( c -- )
-  memory> @ t-c! 1 memory> +! ;
-  \ Compile the 8-bit value _c_ in the current target memory address
-  \ pointed by `memory>` and increase this pointer accordingly.
+: set-filename ( ca len -- )
+  here >r s, r> filename> ! ;
 
-: t-, ( x -- )
-  memory> @ t-! 2 memory> +! ;
-  \ Compile the 16-bit value _x_ in the current target memory address
-  \ pointed by `memory>` and update this pointer accordingly.
+s" out" set-filename \ default value
+
+  \ doc{
+  \
+  \ set-filename ( ca len -- )
+  \
+  \ Set the filename of the output files to string _ca len_, not
+  \ including the extension, which will be added automatically.
+  \
+  \ Its default value is "out". Therefore the default names of the
+  \ output files are "out.bas" (the target BASIC loader) and "out.bin"
+  \ (the target executable).
+  \
+  \ WARNING: Since a 4-character filename extension is added to the
+  \ filename, _len_ should be at least 4 characters less than the
+  \ maximun filename length allowed by the target media or DOS.
+  \
+  \ }doc
 
 \ ==============================================================
 \ Debugging tools {{{1
@@ -280,29 +313,23 @@ memory> @ constant data-stack-bottom
   \ len2_ (which includes the dot), returning its file identifier
   \ _fid_.
 
-: loader ( ca len -- )
+: create-loader ( ca len -- )
   2dup s" .bas" new-file dup >r
   ['] .loader swap outfile-execute
   r> close-file throw ;
   \ Create a Sinclar BASIC loader (in text format) with
-  \ basename _ca len_ and the ".bas" extension, to load its
+  \ filename _ca len_ and the ".bas" extension, to load its
   \ corresponding code file with the ".bin" extension.
 
 : /executable ( -- len )
   memory> @ origin - ;
   \ Return the size _len_ of the target executable.
 
-: executable ( ca len -- )
+: create-executable ( ca len -- )
   s" .bin" new-file >r
   memory origin + /executable r@ write-file throw
   r> close-file throw ;
-  \ Create a Z80 code file with basename _ca len_ and the ".bin"
-  \ extension.
-
-: file ( ca len -- )
-  2dup loader executable ;
-  \ Create the target files with basename _ca len_: a BASIC loader
-  \ with the ".bas" extension and a Z80 executable with the ".bin"
+  \ Create a Z80 code file with filename _ca len_ and the ".bin"
   \ extension.
 
 \ ==============================================================
@@ -313,7 +340,7 @@ memory> @ constant data-stack-bottom
   \ Mark the start of the target program.
 
 : end-program ( -- )
-  s" test" file
+  filename 2dup create-loader create-executable
   forth-definitions
   \ bye \ XXX TODO
   ;
@@ -336,5 +363,6 @@ memory> @ constant data-stack-bottom
 \ a library, and also the compiler definitions `variable` and
 \ `constant`. Factor `header` from `:`.
 \
-\ 2020-12-08: Add `file` to create the targets files. Document `:` and
-\ `;`.
+\ 2020-12-08: Add code to create the targets files. Document `:` and
+\ `;`. Add `begin-program`, `end-program`, `set-origin`,
+\ `set-filename`.

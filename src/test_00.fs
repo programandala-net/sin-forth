@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012081627.
+\ Last modified: 202012081704.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -25,6 +25,7 @@
 require sin_forth.fs
 
 40000 set-origin
+s" test00" set-filename
 
 begin-program
 
@@ -65,4 +66,4 @@ end-program
 \ 2020-12-07: Extract the code from the main source.
 \
 \ 2020-12-08: Update with `begin-program`, `end-program`,
-\ `set-origin`.
+\ `set-origin`, `set-filename`.
