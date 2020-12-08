@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012080058.
+\ Last modified: 202012080317.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -67,7 +67,7 @@ compiler-definitions
 \ ==============================================================
 \ Target memory {{{1
 
-25000 constant initial-target
+25000 constant origin
   \ Start address of the target code in the ZX Spectrum memory.
 
 $10000 constant /memory
@@ -77,11 +77,11 @@ $10000 constant /memory
 memory /memory erase
   \ Reserve a 64-KiB space for the target memory and erase it.
 
-variable memory>  initial-target memory> !
+variable memory>  origin memory> !
   \ Z80 address ($0000..$FFFF) where the target code is being compiled
   \ in the ZX Spectrum memory. Therefore it's also a pointer to the
   \ first free address in `memory`. Its initial value is
-  \ `initial-target`.
+  \ `origin`.
 
 : t-! ( x a -- )
 \  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
@@ -120,7 +120,7 @@ variable memory>  initial-target memory> !
   \ Display the words defined in the target word list.
 
 \ ==============================================================
-\ Compiler words {{{1
+\ Compiler {{{1
 
 include assembler.fs
 
@@ -165,6 +165,50 @@ memory> @ constant data-stack-bottom
   \ memory) to top (low memory).
 
 \ ==============================================================
+\ Output files {{{1
+
+: .loader ( ca len -- )
+  .\" 1 CLEAR VAL\"" origin 1 - 0 .r
+  .\" \":LOAD \"" type .\" .bin\" CODE VAL\"" origin 0 .r
+  .\" \":RANDOMIZE USR VAL\"" origin 0 .r '"' emit ;
+  \ Display a one-line Sinclair BASIC program to load a binary file
+  \ whose basename is _ca len_, with an added ".bin" extension",
+  \ into memory address `origin`, and execute it at that address. The
+  \ execution token of ``.loader`` is used by `loader` in order to
+  \ redirect the standard output produced by ``.loader`` to a file.
+
+: new-file ( ca1 len1 ca2 len2 -- fid )
+  s+ w/o create-file throw ;
+  \ Create a new file with basename _ca1 len1_ and extension _ca2
+  \ len2_ (which includes the dot), returning its file identifier
+  \ _fid_.
+
+: loader ( ca len -- )
+  2dup s" .bas" new-file dup >r
+  ['] .loader swap outfile-execute
+  r> close-file throw ;
+  \ Create a Sinclar BASIC loader (in text format) with 
+  \ basename _ca len_ and the ".bas" extension, to load its
+  \ corresponding code file with the ".bin" extension.
+
+: /executable ( -- len )
+  memory> @ origin - ;
+  \ Return the size _len_ of the target executable.
+
+: executable ( ca len -- )
+  s" .bin" new-file >r
+  memory origin + /executable r@ write-file throw
+  r> close-file throw ;
+  \ Create a Z80 code file with basename _ca len_ and the ".bin"
+  \ extension.
+
+: file ( ca len -- )
+  2dup loader executable ;
+  \ Create the target files with basename _ca len_: a BASIC loader
+  \ with the ".bas" extension and a Z80 executable with the ".bin"
+  \ extension.
+
+\ ==============================================================
 \ Change log {{{1
 
 \ 2010-04-21: First draft ideas.
@@ -180,3 +224,5 @@ memory> @ constant data-stack-bottom
 \ compilable test code to its own file. Move the target definitions to
 \ a library, and also the compiler definitions `variable` and
 \ `constant`. Factor `header` from `:`.
+\
+\ 2020-12-08: Add `file` to create the targets files.

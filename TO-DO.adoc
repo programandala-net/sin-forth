@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-07
+:revdate: 2020-12-08
 
 == 2020-12-06
 
@@ -21,8 +21,9 @@
 - Make the data stack growing direction configurable.
 - Add `literal`, `2literal`, `cliteral`, `xliteral`, `sliteral`.
 - Make verbosity configurable.  
-- Add a compiler command to save the binary code.
-- Add a compiler command to create a BASIC loader.
 - Add a compiler `'` to get the target compilation address of a word
   defined by the compiler's `:`.
 - Make `origin` configurable.
+- Add an option to create a labels file, compatible with z80dasm.
+- Add a word to add a jump at `origin` to the latest defined word, or
+  as an alternative use its address in the BASIC loader.
