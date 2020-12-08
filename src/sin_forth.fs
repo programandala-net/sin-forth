@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012082037.
+\ Last modified: 202012082048.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -33,6 +33,7 @@ require string.fs \ dynamic strings
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
+require galope/minus-suffix.fs \ `-suffix`
 require galope/n-to-str.fs     \ `n>str`
 require galope/replaced.fs     \ `replaced`
 require galope/unslurp-file.fs \ `unslurp-file`
@@ -224,7 +225,10 @@ variable z80-symbols ( -- a ) z80-symbols on
   base @ >r s" 0x" rot hex n>str s+ r> base ! ;
 
 : >z80-label ( ca1 len1 -- ca2 len2 )
-  s" _" s" -" replaced
+  s" store_" s" !" replaced
+  s" plus_"  s" +" replaced
+  s" at_"    s" @" replaced
+  s" _" -suffix
   s" _" 2swap s+ ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
 
