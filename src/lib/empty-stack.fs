@@ -1,12 +1,12 @@
-\ lib/init-data-stack.fs
+\ lib/empty-stack.fs
 
 \ This file is part of Sin Forth.
 
-\ This file adds `init-data-stack` to the target system.
+\ This file adds `empty-stack` to the target system.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072206.
+\ Last modified: 202012080116.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -17,15 +17,16 @@ get-order get-current
 
 target-definitions
 
-: init-data-stack ( -- )
+: empty-stack ( -- )
   sp0 ix ldp#, ;
 
   \ doc{
   \
-  \ init-data-stack ( -- )
+  \ empty-stack ( -- )
   \
-  \ Init the data stack pointer, which is the ``IX`` Z80 register, by
-  \ storing the address returned by `sp0` into it.
+  \ Empty the data stack by restoring its pointer, which is the ``IX``
+  \ Z80 register, to its initial position, which is the address
+  \ returned by `sp0`.
   \
   \ }doc
 
@@ -35,3 +36,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-07: Extract the code from <data_stack.fs>.
+\
+\ 2020-12-08: Rename `init-data-stack` to `empty-stack`.
