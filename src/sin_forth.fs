@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081843.
+\ Last modified: 202012081914.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -209,10 +209,10 @@ variable latest-colon
   latest-colon @ boot-address ! ;
 
 \ ----------------------------------------------
-\ set-symbols {{{2
+\ z80-symbols {{{2
 
 $variable symbols$ ( -- a )
-  \ A dynamic string variable that holds the Z80 symbols.
+  \ A dynamic string variable that holds the Z80 symbols, in assembly.
   \ `end-program` saves it into an output file, if it's not empty.
 
 variable z80-symbols ( -- a ) z80-symbols on
@@ -250,12 +250,14 @@ variable latest-call
   s" _" s" -" replaced
   s" _" 2swap s+ ;
 
+: n>0xstr ( n -- ca len )
+  base @ >r s" 0x" rot hex n>str s+ r> base ! ;
+
 : new-symbol ( a nt -- )
-  base @ >r  swap >r
-  name>string tidy-symbol s" : equ 0x" s+ r@ hex n>str s+
-  s"  ; (" s+ decimal r> n>str s+ s" )" s+ s\" \n" s+
-  symbols$ $+! 
-  r> base ! ;
+  swap >r
+  name>string tidy-symbol s" : equ " s+ r@ n>0xstr s+
+  s"  ; (" s+ r> n>str s+ s" )" s+ s\" \n" s+
+  symbols$ $+! ;
 
 : header ( "name" -- a )
   create memory> @
