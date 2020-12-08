@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012081914.
+\ Last modified: 202012081950.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -220,6 +220,48 @@ variable z80-symbols ( -- a ) z80-symbols on
   \ the symbols file, whose filename is that set by `set-filename`,
   \ with an ".sym" extension added.
 
+: n>0xstr ( n -- ca len )
+  base @ >r s" 0x" rot hex n>str s+ r> base ! ;
+
+: tidy-symbol ( ca1 len1 -- ca2 len2 )
+  s" _" s" -" replaced
+  s" _" 2swap s+ ;
+
+: new-symbol ( a nt -- )
+  swap >r
+  name>string tidy-symbol s" : equ " s+ r@ n>0xstr s+
+  s"  ; (" s+ r> n>str s+ s" )" s+ s\" \n" s+
+  symbols$ $+! ;
+
+\ ----------------------------------------------
+\ z80dasm-blocks {{{2
+
+$variable z80dasm-blocks$ ( -- a )
+  \ A dynamic string variable that holds the Z80 block definitions, in
+  \ the format used by the z80dasm disassembler. `end-program` saves
+  \ it into an output file, if it's not empty.
+
+variable z80dasm-blocks ( -- a ) z80dasm-blocks on
+  \ A flag. When the flag is zero, the Z80 symbols are not printed to
+  \ the symbols file, whose filename is that set by `set-filename`,
+  \ with an ".sym" extension added.
+
+: new-z80dasm-block {: start end D: block-type D: block-name -- :}
+  block-name tidy-symbol s" :" s+
+  s"  start " start n>0xstr s+ s+
+  s"  end " end n>0xstr s+ s+
+  s"  type " block-type s+ s+
+  s\" \n" s+ z80dasm-blocks$ $+! ;
+
+: new-z80dasm-cell-block ( a ca len -- )
+  2>r dup 2 + s" worddata" latest name>string 2r> s+
+  new-z80dasm-block ;
+  \ Create a new z80dasm block definition for 1-cell data space
+  \ created by the latest target word definition, e.g. a variable or a
+  \ constant, being _a_ the start address in the target memory and _ca
+  \ len_ a suffix to be added to the name of the latest target
+  \ definition.
+
 \ ==============================================================
 \ Debugging tools {{{1
 
@@ -245,19 +287,6 @@ variable latest-call
   \ Target address where the latest Z80 `call` to a target word
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
-
-: tidy-symbol ( ca1 len1 -- ca2 len2 )
-  s" _" s" -" replaced
-  s" _" 2swap s+ ;
-
-: n>0xstr ( n -- ca len )
-  base @ >r s" 0x" rot hex n>str s+ r> base ! ;
-
-: new-symbol ( a nt -- )
-  swap >r
-  name>string tidy-symbol s" : equ " s+ r@ n>0xstr s+
-  s"  ; (" s+ r> n>str s+ s" )" s+ s\" \n" s+
-  symbols$ $+! ;
 
 : header ( "name" -- a )
   create memory> @
@@ -422,6 +451,17 @@ memory> @ constant data-stack-bottom
   \ symbols file with filename _ca len_ and the ".sym" extension.
   \ Else do nothing.
 
+: (create-z80dasm-blocks) ( ca len -- )
+  s" .z80dasm_blocks" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
+  \ Create a z80dasm blocks file with filename _ca len_ and the
+  \ ".z80dasm_blocks" extension.
+
+: create-z80dasm-blocks ( ca len -- )
+  z80dasm-blocks$ $@len if (create-z80dasm-blocks) else 2drop then ;
+  \ If there are z80dasm-blocks collected during the compilation,
+  \ create a z80dasm blocks file with filename _ca len_ and the
+  \ ".z80dasm_blocks" extension. Else do nothing.
+
 \ ==============================================================
 \ Compiler directives {{{1
 
@@ -433,7 +473,8 @@ memory> @ constant data-stack-bottom
   no-boot? if set-default-boot then
   filename 2dup create-loader
            2dup create-executable
-                create-symbols
+           2dup create-symbols
+                create-z80dasm-blocks
   forth-definitions
   \ bye \ XXX TODO
   ;
