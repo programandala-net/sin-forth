@@ -23,7 +23,6 @@
 - Make verbosity configurable.  
 - Add a compiler `'` to get the target compilation address of a word
   defined by the compiler's `:`.
-- Make `origin` configurable.
 - Add an option to create a labels file, compatible with z80dasm.
 - Add a word to add a jump at `origin` to the latest defined word, or
   as an alternative use its address in the BASIC loader.
