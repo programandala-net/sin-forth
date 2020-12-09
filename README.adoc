@@ -1,9 +1,29 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-06
+:revdate: 2020-12-09
 
-Project: A Forth cross compiler written in Forth with Gforth, to
-create machine code programs for the ZX Spectrum and compatible
-computers.
+== Description
 
-Author's website: http://programandala.net
+Sin Forth is a Forth cross compiler written in Forth with Gforth. It
+creates machine code programs for any model of the ZX Spectrum, ZX
+Spectrum 128 and compatible computers, including.
+
+Author's website: <http://programandala.net>.
+
+== Installation
+
+In order to use Sin Forth, its sources must be accessible from Gforth.
+
+One method is to add the Sin Forth <src/> directory to Gforth
+`fpath`. Consult the Gforth documentation.
+
+A second method is to make a symbolic link to Sin Forth's <src>
+directory from Gforth's <site-forth> directory. In a locally compiled
+Gforth, the command on a Linux shell would be the following:
+
+----
+sudo ln -s ~/YOUR-PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
+----
+
+where "YOUR-PATH" must be replaced with the corresponding path on your
+system.
