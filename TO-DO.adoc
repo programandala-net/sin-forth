@@ -32,4 +32,6 @@
 
 == 2020-12-09
 
-Make `memory>` use the `dp` target variable.
+- Make `memory>` use the `dp` target variable.
+- Improve `>z80-label` to replace "-" with "_" or "minus" depending on
+  the name.
