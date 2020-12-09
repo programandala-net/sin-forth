@@ -35,3 +35,4 @@
 - Make `memory>` use the `dp` target variable.
 - Improve `>z80-label` to replace "-" with "_" or "minus" depending on
   the name.
+- Let `data-stack` be used anywhere.  

@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012090148.
+\ Last modified: 202012090232.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -251,29 +251,38 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
   \ A flag. When the flag is zero, the z80dasm disassembler blocks
   \ definitions are not saved during the compilation.
 
-: z80dasm-block {: start end D: block-type D: block-name unlabeled -- :}
+: z80dasm-block {: start end
+                   D: block-type D: block-name
+                   unlabeled-start unlabeled-end -- :}
   block-name >z80-label s" :" s+
+  unlabeled-start if s"  unlabeled " s+ then
   s"  start " start n>0xstr s+ s+
-  unlabeled if s"  unlabeled " s+ then
+  unlabeled-end if s"  unlabeled " s+ then
   s"  end " end n>0xstr s+ s+
   s"  type " block-type s+ s+
   s\" \n" s+ z80dasm-blocks$ $+! ;
-  \ Add a new z80dasm disassembler block defition with the following
+  \ Create a z80dasm disassembler block defition with the following
   \ parameters:
   \
-  \ start     = start address
-  \ end       = end address
-  \ blocktype = string ("code", "bytedata", "worddata" or "pointers")
-  \ unlabeled = flag
+  \ start           = start address
+  \ end             = end address
+  \ blocktype       = string ("code", "bytedata", "worddata" or "pointers")
+  \ unlabeled-start = flag
+  \ unlabeled-end   = flag
 
 : z80dasm-cell-block ( a ca len -- )
   2>r dup 2 + s" worddata" latest name>string 2r> s+
-  true z80dasm-block ;
-  \ Create a new z80dasm block definition for 1-cell data space
-  \ created by the latest target word definition, e.g. a variable or a
-  \ constant, being _a_ the start address in the target memory and _ca
-  \ len_ a suffix to be added to the name of the latest target
-  \ definition.
+  false true z80dasm-block ;
+  \ Create a z80dasm block definition for 1-cell data space created by
+  \ the latest target word definition, e.g. a variable or a constant,
+  \ being _a_ its address in the target memory and _ca len_ a suffix
+  \ to be added to the name of the latest target definition.
+
+: z80dasm-stack-block ( a len -- )
+  over + s" worddata" s" data_stack" false false z80dasm-block ;
+  \ Create a z80dasm block definition for the data stack, whose top
+  \ (low address) is at target memory address
+  \ _a_ and its length is _len_ bytes.
 
 \ ==============================================================
 \ Debugging tools {{{1
@@ -410,9 +419,19 @@ variable latest-call
   \
   \ }doc
 
-$0100 memory> +!
-memory> @ constant data-stack-bottom
-  \ Reserve space for the data stack, which. grows from bottom (high
+\ ==============================================================
+\ Data stack {{{1
+
+$0100 constant /stack
+  \ Size of the data stack in bytes.
+
+0 value data-stack-bottom
+
+: data-stack ( -- )
+  z80dasm-blocks @ if memory> @ /stack z80dasm-stack-block then
+  /stack memory> +!
+  memory> @ to data-stack-bottom ;
+  \ Reserve space for the data stack, which grows from bottom (high
   \ memory) to top (low memory).
 
 \ ==============================================================
@@ -488,6 +507,7 @@ memory> @ constant data-stack-bottom
 \ Compiler directives {{{1
 
 : begin-program ( -- )
+  data-stack
   target-definitions ;
   \ Mark the start of the target program.
 
@@ -522,4 +542,7 @@ memory> @ constant data-stack-bottom
 \ 2020-12-08: Add code to create the targets files. Document `:` and
 \ `;`. Add `begin-program`, `end-program`, `set-origin`,
 \ `set-filename`, `boot-here`. Create a Z80 assembly symbols file.
-\ Create a z80dasm disassembler blocks definition file.
+\ Create a z80dasm disassembler blocks definitions file.
+\
+\ 2020-12-09: Create the data stack at the start of the target
+\ program.
