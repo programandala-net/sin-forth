@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ test_00.fs
+\ test_00_constant_emit.fs
 
 \ This file is part of:
 
@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012090330.
+\ Last modified: 202012100020.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -22,32 +22,32 @@
 \ ==============================================================
 \ Requirements and configuration {{{1
 
-require sin_forth.fs
+require sin_forth/sin_forth.fs
 
 40000 set-origin
 s" test00" set-filename
 
 begin-program
 
-\ require lib/allot.fs
-\ require lib/cell.fs
-\ require lib/comma.fs
-require lib/constant.fs
-\ require lib/d-p.fs
-require lib/emit.fs
-\ require lib/fetch.fs
-\ require lib/here.fs
-\ require lib/literal.fs
-\ require lib/init-data-stack.fs
-\ require lib/plus-store.fs
-\ require lib/pop-de.fs
-\ require lib/pop-hl-de.fs
-\ require lib/pop-hl.fs
-\ require lib/push-de.fs
-\ require lib/push-de-hl.fs
-\ require lib/push-hl.fs
-\ require lib/s-p-0.fs
-\ require lib/store.fs
+\ require sin_forth/lib/allot.fs
+\ require sin_forth/lib/cell.fs
+\ require sin_forth/lib/comma.fs
+require sin_forth/lib/constant.fs
+\ require sin_forth/lib/d-p.fs
+require sin_forth/lib/emit.fs
+\ require sin_forth/lib/fetch.fs
+\ require sin_forth/lib/here.fs
+\ require sin_forth/lib/literal.fs
+\ require sin_forth/lib/init-data-stack.fs
+\ require sin_forth/lib/plus-store.fs
+\ require sin_forth/lib/pop-de.fs
+\ require sin_forth/lib/pop-hl-de.fs
+\ require sin_forth/lib/pop-hl.fs
+\ require sin_forth/lib/push-de.fs
+\ require sin_forth/lib/push-de-hl.fs
+\ require sin_forth/lib/push-hl.fs
+\ require sin_forth/lib/s-p-0.fs
+\ require sin_forth/lib/store.fs
 
 \ ==============================================================
 \ Code {{{1
@@ -70,3 +70,6 @@ end-program
 \
 \ 2020-12-09: Compiled and executed and executed in an emulated ZX
 \ Spectrum 128: it prints an "A" and returns to BASIC.
+\
+\ 2020-12-10: Moved into <test> and renamed from <test_00.fs> to
+\ <test_00_constant_emit.fs>.
