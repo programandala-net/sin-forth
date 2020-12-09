@@ -6,14 +6,14 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072255.
+\ Last modified: 202012090119.
 \ See change log at the end of the file.
 
 \ ==============================================================
 
-get-order get-current
-
 require pop-hl.fs \ `pop-hl`
+
+get-order get-current
 
 target-definitions
 
@@ -47,3 +47,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-07: Start.
+\
+\ 2020-12-09: Move `require` to the top.
