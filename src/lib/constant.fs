@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012082026.
+\ Last modified: 202012090153.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,7 +21,7 @@ compiler-definitions
   [ compiler-wordlist >order ] header [ previous ]
   z80dasm-blocks @ if dup s" _constant_data" z80dasm-cell-block then
   dup , t-!  2 memory> +!
-  does> @ s" h ldp#, push-hl" evaluate ;
+  does> @ s" fthl, push-hl" evaluate ;
 
 set-current set-order
 
@@ -32,3 +32,5 @@ set-current set-order
 \ `header`.
 \
 \ 2020-12-08: Create a z80dasm block.
+\
+\ 2020-12-09: Fix the Z80 instruction.
