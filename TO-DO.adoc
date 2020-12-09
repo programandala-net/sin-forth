@@ -17,7 +17,6 @@
   `compiler-wordlist` to `compiler-wordlist`. For example, also `memory`,
   `t-,`, `initial-target` etc., should not be accesible during the
   compilation of the target, just in case.
-- Make the stacks size configurable.
 - Make the data stack growing direction configurable.
 - Add `literal`, `2literal`, `cliteral`, `xliteral`, `sliteral`.
 - Make verbosity configurable.  
@@ -35,4 +34,3 @@
 - Make `memory>` use the `dp` target variable.
 - Improve `>z80-label` to replace "-" with "_" or "minus" depending on
   the name.
-- Let `data-stack` be used anywhere.  

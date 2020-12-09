@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012090232.
+\ Last modified: 202012090256.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -184,6 +184,7 @@ no-boot boot-address !
 : no-boot? ( -- f )
   boot-address @ no-boot = ;
   \ Has `boot-address` not been set?
+  \ I.e., has `boot-here` not been executed before?
 
 : boot-here ( -- )
   memory> @ boot-address ! ;
@@ -422,17 +423,45 @@ variable latest-call
 \ ==============================================================
 \ Data stack {{{1
 
-$0100 constant /stack
-  \ Size of the data stack in bytes.
+64 constant /stack
 
-0 value data-stack-bottom
+  \ doc{
+  \
+  \ /stack ( -- len )
+  \
+  \ Return the size _len_, in in target cells, of the default data
+  \ stack created by `end-program` when `data-stack-here` has not been
+  \ included in the target program.
+  \
+  \ }doc
 
-: data-stack ( -- )
-  z80dasm-blocks @ if memory> @ /stack z80dasm-stack-block then
-  /stack memory> +!
-  memory> @ to data-stack-bottom ;
-  \ Reserve space for the data stack, which grows from bottom (high
-  \ memory) to top (low memory).
+-1 constant no-data-stack
+no-data-stack value data-stack-bottom
+  \ Store an impossible default value into `data-stack-bottom`, in
+  \ order to detect whether it has been set or not.
+
+: no-data-stack? ( -- f )
+  data-stack-bottom no-data-stack = ;
+  \ Has `data-stack-bottom` not been set?
+  \ I.e., has `data-stack-here` not been executed before?
+
+: data-stack-here ( len -- )
+  no-data-stack? 0= abort" second `data-stack-here` not allowed"
+  2 * z80dasm-blocks @ if memory> @ over z80dasm-stack-block then
+  memory> +!  memory> @ to data-stack-bottom ;
+
+  \ doc{
+  \
+  \ data-stack-here ( len -- )
+  \
+  \ Create the data stack, _len_ target cells big, at the current
+  \ target memory pointer. The data stack grows from bottom (high
+  \ memory) to top (low memory). If ``data-stack-here`` is not
+  \ executed during the compilation of the target program, it will be
+  \ executed by `end-program` with the default size returned by
+  \ `/stack`.
+  \
+  \ }doc
 
 \ ==============================================================
 \ Output files {{{1
@@ -507,12 +536,12 @@ $0100 constant /stack
 \ Compiler directives {{{1
 
 : begin-program ( -- )
-  data-stack
   target-definitions ;
   \ Mark the start of the target program.
 
 : end-program ( -- )
-  no-boot? if set-default-boot then
+  no-data-stack? if /stack data-stack-here  then
+  no-boot?       if set-default-boot        then
   filename 2dup create-loader
            2dup create-executable
            2dup create-z80-symbols
@@ -544,5 +573,5 @@ $0100 constant /stack
 \ `set-filename`, `boot-here`. Create a Z80 assembly symbols file.
 \ Create a z80dasm disassembler blocks definitions file.
 \
-\ 2020-12-09: Create the data stack at the start of the target
-\ program.
+\ 2020-12-09: Make the address and size of the data stack
+\ configurable.

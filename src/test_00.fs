@@ -56,6 +56,8 @@ require lib/emit.fs
 
 : game ( -- ) zx emit ;
 
+4 data-stack-here
+
 end-program
 
 \ ==============================================================
