@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ sin_forth.fs
+\ compiler.fs
 
 \ This file is part of:
 
@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012090256.
+\ Last modified: 202012100032.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -574,4 +574,4 @@ no-data-stack value data-stack-bottom
 \ Create a z80dasm disassembler blocks definitions file.
 \
 \ 2020-12-09: Make the address and size of the data stack
-\ configurable.
+\ configurable. Rename this file from <sin_forth.fs> to <compiler.fs>.

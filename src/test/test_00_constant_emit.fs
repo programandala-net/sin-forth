@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012100020.
+\ Last modified: 202012100031.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -22,7 +22,7 @@
 \ ==============================================================
 \ Requirements and configuration {{{1
 
-require sin_forth/sin_forth.fs
+require sin_forth/compiler.fs
 
 40000 set-origin
 s" test00" set-filename
