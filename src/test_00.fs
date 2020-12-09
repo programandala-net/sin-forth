@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012081731.
+\ Last modified: 202012090330.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -67,3 +67,6 @@ end-program
 \
 \ 2020-12-08: Update with `begin-program`, `end-program`,
 \ `set-origin`, `set-filename`.
+\
+\ 2020-12-09: Compiled and executed and executed in an emulated ZX
+\ Spectrum 128: it prints an "A" and returns to BASIC.
