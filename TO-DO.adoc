@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-08
+:revdate: 2020-12-09
 
 == 2020-12-06
 
@@ -29,3 +29,7 @@
 - Make the configuration directives homogenous and analog, in order to
   prevent name clashes, also with words like `on` and `off`,  when
   they are used inside the target programa.
+
+== 2020-12-09
+
+Make `memory>` use the `dp` target variable.
