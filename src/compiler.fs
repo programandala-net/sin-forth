@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012101828.
+\ Last modified: 202012101858.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -470,18 +470,16 @@ no-data-stack value data-stack-bottom
 \ ==============================================================
 \ Output files {{{1
 
-: new-file ( ca1 len1 ca2 len2 -- fid )
-  s+ w/o create-file throw ;
-  \ Create a new file with basename _ca1 len1_ and extension _ca2
-  \ len2_ (which includes the dot), returning its file identifier
-  \ _fid_.
+: new-file ( ca len -- fid )
+  w/o create-file throw ;
+  \ Create a new file _ca len_ returning its file identifier _fid_.
 
 \ ----------------------------------------------
 \ Sinclair BASIC loader file {{{2
 
-: .loader ( ca len -- )
+: .loader ( -- )
   .\" 1 CLEAR VAL\"" origin 1 - 0 .r
-  .\" \":LOAD \"" type .\" .bin\" CODE VAL\"" origin 0 .r
+  .\" \":LOAD \"\" CODE VAL\"" origin 0 .r
   .\" \":RANDOMIZE USR VAL\"" boot-address @ 0 .r '"' emit ;
   \ Display a one-line Sinclair BASIC program to load a binary file
   \ whose basename is _ca len_, with an added ".bin" extension",
@@ -490,7 +488,7 @@ no-data-stack value data-stack-bottom
   \ redirect the standard output produced by ``.loader`` to a file.
 
 : create-loader ( ca len -- )
-  2dup s" .bas" new-file dup >r
+  s" .bas" s+ new-file dup >r
   ['] .loader swap outfile-execute
   r> close-file throw ;
   \ Create a Sinclar BASIC loader (in text format) with
@@ -505,7 +503,7 @@ no-data-stack value data-stack-bottom
   \ Return the size _len_ of the target executable.
 
 : create-executable ( ca len -- )
-  s" .bin" new-file >r
+  s" .bin" s+ new-file >r
   memory origin + /executable r@ write-file throw
   r> close-file throw ;
   \ Create a Z80 code file with filename _ca len_ and the ".bin"
@@ -580,4 +578,5 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-10: Deactivate debugging messages. Deactivate `warnings`
 \ while loading the requirements. Add `bye` to `end-program`.
-\ Rename `header` to `creator`.
+\ Rename `header` to `creator`. Remove the executable name from the
+\ BASIC loader. Simplify `new-file`.
