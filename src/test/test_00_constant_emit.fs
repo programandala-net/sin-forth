@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012100031.
+\ Last modified: 202012100233.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -29,25 +29,8 @@ s" test00" set-filename
 
 begin-program
 
-\ require sin_forth/lib/allot.fs
-\ require sin_forth/lib/cell.fs
-\ require sin_forth/lib/comma.fs
 require sin_forth/lib/constant.fs
-\ require sin_forth/lib/d-p.fs
 require sin_forth/lib/emit.fs
-\ require sin_forth/lib/fetch.fs
-\ require sin_forth/lib/here.fs
-\ require sin_forth/lib/literal.fs
-\ require sin_forth/lib/init-data-stack.fs
-\ require sin_forth/lib/plus-store.fs
-\ require sin_forth/lib/pop-de.fs
-\ require sin_forth/lib/pop-hl-de.fs
-\ require sin_forth/lib/pop-hl.fs
-\ require sin_forth/lib/push-de.fs
-\ require sin_forth/lib/push-de-hl.fs
-\ require sin_forth/lib/push-hl.fs
-\ require sin_forth/lib/s-p-0.fs
-\ require sin_forth/lib/store.fs
 
 \ ==============================================================
 \ Code {{{1
