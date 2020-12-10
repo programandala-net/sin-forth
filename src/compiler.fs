@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012101650.
+\ Last modified: 202012101828.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -317,7 +317,7 @@ variable latest-call
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
 
-: header ( "name" -- a )
+: creator ( "name" -- a )
   create memory> @
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  the word `" latest .name ." `" \ XXX INFORMER
@@ -326,8 +326,7 @@ variable latest-call
   \ address _a_ associated to it.
 
 : : ( "name" -- )
-  [ compiler-wordlist >order ] header [ previous ]
-  dup latest-colon ! ,
+  creator dup latest-colon ! ,
   does> @  memory> @ latest-call !
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  a call to " dup a. \ XXX INFORMER
@@ -581,3 +580,4 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-10: Deactivate debugging messages. Deactivate `warnings`
 \ while loading the requirements. Add `bye` to `end-program`.
+\ Rename `header` to `creator`.
