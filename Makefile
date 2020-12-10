@@ -9,7 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020.
 
-# Last modified: 202012100226.
+# Last modified: 202012100315.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -33,7 +33,7 @@ tests:
 asm:
 	@for file in $$(ls target/*.bin);do\
 		base=target/$$(basename $${file} .bin);\
-		z80dasm -a -g 40000 -l \
+		z80dasm -a -g 40000 -l -t \
 			-S $$base.symbols.asm \
 			-b $$base.z80dasm_blocks.txt \
 			-o $$base.asm \
