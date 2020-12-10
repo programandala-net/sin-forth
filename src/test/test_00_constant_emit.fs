@@ -15,29 +15,21 @@
 \ See change log at the end of the file.
 
 \ ==============================================================
-\ Description {{{1
-
-\ This file is a test program compilable by Sin Forth.
-
-\ ==============================================================
-\ Requirements and configuration {{{1
 
 require sin_forth/compiler.fs
 
 40000 set-origin
-s" test00" set-filename
+s" test_00_constant_emit" set-filename
 
 begin-program
 
 require sin_forth/lib/constant.fs
 require sin_forth/lib/emit.fs
 
-\ ==============================================================
-\ Code {{{1
-
 65 constant zx
 
-: game ( -- ) zx emit ;
+boot-here
+zx emit ret,
 
 4 data-stack-here
 
