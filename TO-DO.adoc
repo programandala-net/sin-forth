@@ -16,7 +16,7 @@
   `t-,`, `initial-target` etc., should not be accesible during the
   compilation of the target, just in case.
 - Make the data stack growing direction configurable.
-- Add `literal`, `2literal`, `cliteral`, `xliteral`, `sliteral`.
+- Add `2literal`, `cliteral`, `xliteral`, `sliteral`.
 - Make verbosity configurable.
 - Add a compiler `'` to get the target compilation address of a word
   defined by the compiler's `:`.
@@ -53,3 +53,5 @@
 
 - Extract the code start addresses from the source and pass it to
   `z80dasm` in <Makefile>.
+- Use shorter names for `literal`, `2literal`, `cliteral`, `xliteral`,
+  `sliteral`.
