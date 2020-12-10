@@ -42,3 +42,14 @@
 - Use the _dea_ notation, taken from the lina Forth system.
 - Mark the stack comments of compiler words, to make it clear it's the
   Gforth's stack, not the target stack.
+- Rename `header`, which exists in Gforth, in order to make the search
+  order changing unnecessary in compiler definitions. But `'` is in the
+  same case. Perhaps just simplify the search order changes, e.g. by
+  `compiler{`, `target{`, `host{`  and `}`;
+  `{compiler`, `{target`, `{host`  and `}`;
+  `<<compiler`, `<<target`, `<<host`  and `>>`;
+  `compiler<<`, `target<<`, `host<<`  and `>>`;
+  `compiler[`, `target[`, `host[`  and `]`;
+  `[compiler`, `[target`, `[host`  and `]`;
+  `c[`, `t[`, `h[`  and `]`;
+  `[compiler]`, `[target]`, `[host]`  and `[previous]`...
