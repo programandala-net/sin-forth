@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012100032.
+\ Last modified: 202012100232.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -27,6 +27,10 @@
 
 only forth definitions  decimal
 
+warnings off
+  \ This hides some warnings from the Forth Foundation Library,
+  \ which is used by some Galope modules.
+
 \ Gforth
 require string.fs \ dynamic strings
 
@@ -37,6 +41,8 @@ require galope/minus-suffix.fs \ `-suffix`
 require galope/n-to-str.fs     \ `n>str`
 require galope/replaced.fs     \ `replaced`
 require galope/unslurp-file.fs \ `unslurp-file`
+
+warnings on
 
 \ ==============================================================
 \ Word lists {{{1
@@ -313,19 +319,18 @@ variable latest-call
 
 : header ( "name" -- a )
   create memory> @
-  cr ." Compiling at " memory> @ a. \ XXX INFORMER
-     ."  the word `" latest .name ." `" \ XXX INFORMER
-  z80-symbols @ if memory> @ latest z80-symbol then
-  ;
-  \ Create a header for word "name" and return the current target
-  \ address associated to it.
+\  cr ." Compiling at " memory> @ a. \ XXX INFORMER
+\     ."  the word `" latest .name ." `" \ XXX INFORMER
+  z80-symbols @ if memory> @ latest z80-symbol then ;
+  \ Create a host header for word _name_ and return the current target
+  \ address _a_ associated to it.
 
 : : ( "name" -- )
   [ compiler-wordlist >order ] header [ previous ]
   dup latest-colon ! ,
   does> @  memory> @ latest-call !
-  cr ." Compiling at " memory> @ a. \ XXX INFORMER
-     ."  a call to " dup a. \ XXX INFORMER
+\  cr ." Compiling at " memory> @ a. \ XXX INFORMER
+\     ."  a call to " dup a. \ XXX INFORMER
   call, ;
 
   \ doc{
@@ -379,7 +384,7 @@ variable latest-call
   \ Replace the latest Z80 call with a jump (opcode $C3).
 
 : ; ( -- )
-  cr ." Compiling at " memory> @ a. ."  a `;`" \ XXX INFORMER
+\  cr ." Compiling at " memory> @ a. ."  a `;`" \ XXX INFORMER
   tail-call? if optimize-ret else ret, then ;
 
   \ XXX TODO Improve the documentation. Add an example where several
@@ -546,9 +551,7 @@ no-data-stack value data-stack-bottom
            2dup create-executable
            2dup create-z80-symbols
                 create-z80dasm-blocks
-  forth-definitions
-  \ bye \ XXX TODO
-  ;
+  forth-definitions bye ;
   \ Mark the end of the target program.
 
 \ ==============================================================
@@ -575,3 +578,6 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-09: Make the address and size of the data stack
 \ configurable. Rename this file from <sin_forth.fs> to <compiler.fs>.
+\
+\ 2020-12-10: Deactivate debugging messages. Deactivate `warnings`
+\ while loading the requirements. Add `bye` to `end-program`.
