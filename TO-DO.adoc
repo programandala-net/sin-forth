@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-09
+:revdate: 2020-12-10
 
 == 2020-12-06
 
@@ -34,3 +34,10 @@
 - Make `memory>` use the `dp` target variable.
 - Improve `>z80-label` to replace "-" with "_" or "minus" depending on
   the name.
+
+== 2020-12-10
+
+- Fix: in <Makefile> `bin2tap` needs the execution address, which
+  depends on the length of the code. Solution: Create TAP files from
+  the BASIC loader (with zmakebas) and from the binary file (with
+  bin2code). Then concatenate them.
