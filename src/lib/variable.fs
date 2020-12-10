@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012082026.
+\ Last modified: 202012101654.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,7 +21,7 @@ compiler-definitions
   [ compiler-wordlist >order ] header [ previous ]
   z80dasm-blocks @ if dup s" _variable_data" z80dasm-cell-block then
   , 2 memory> +!
-  does> s" h ldp#, push-hl" evaluate ;
+  does> ( dfa ) h ldp#, [ target-wordlist >order ] push-hl [ previous ] ;
 
 set-current set-order
 
@@ -32,3 +32,6 @@ set-current set-order
 \ `header`.
 \
 \ 2020-12-08: Create a z80dasm block.
+\
+\ 2020-12-10: Add stack notation to `does>` and simplify its code,
+\ removing `evaluate`.
