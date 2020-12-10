@@ -4,8 +4,6 @@
 
 == 2020-12-06
 
-- Update the cross-references to the old `assembler` vocabulary in the
-  documentation of the assembler.
 - Update non-standard throw codes 22 in the assembler.
 - Update the documentation of the assembler.
 
