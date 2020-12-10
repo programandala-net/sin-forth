@@ -17,7 +17,7 @@
   compilation of the target, just in case.
 - Make the data stack growing direction configurable.
 - Add `literal`, `2literal`, `cliteral`, `xliteral`, `sliteral`.
-- Make verbosity configurable.  
+- Make verbosity configurable.
 - Add a compiler `'` to get the target compilation address of a word
   defined by the compiler's `:`.
 
@@ -39,3 +39,6 @@
   depends on the length of the code. Solution: Create TAP files from
   the BASIC loader (with zmakebas) and from the binary file (with
   bin2code). Then concatenate them.
+- Use the _dea_ notation, taken from the lina Forth system.
+- Mark the stack comments of compiler words, to make it clear it's the
+  Gforth's stack, not the target stack.
