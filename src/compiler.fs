@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012100232.
+\ Last modified: 202012101650.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -235,7 +235,7 @@ variable z80-symbols ( -- a ) z80-symbols on
   s" store_" s" !" replaced
   s" plus_"  s" +" replaced
   s" _"      s" -" replaced
-  s" at_"    s" @" replaced
+  s" fetch_" s" @" replaced
   s" _" -suffix
   s" _" 2swap s+ ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
