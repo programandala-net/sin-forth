@@ -18,8 +18,6 @@
 - Make the data stack growing direction configurable.
 - Add `2literal`, `cliteral`, `xliteral`, `sliteral`.
 - Make verbosity configurable.
-- Add a compiler `'` to get the target compilation address of a word
-  defined by the compiler's `:`.
 
 == 2020-12-08
 
