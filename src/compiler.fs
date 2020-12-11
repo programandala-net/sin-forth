@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012110306.
+\ Last modified: 202012110334.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -375,12 +375,15 @@ variable latest-call
   \ Create a host header for word _name_ and return the current target
   \ address _a_ associated to it.
 
-: : ( "name" -- )
-  creator dup latest-colon ! ,
-  does> @  memory> @ latest-call !
+: do-call ( dfa -- )
+  @  memory> @ latest-call !
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  a call to " dup a. \ XXX INFORMER
   call, ;
+
+: : ( "name" -- )
+  creator dup latest-colon ! ,
+  does> ( dfa ) do-call ;
 
   \ doc{
   \
@@ -633,4 +636,5 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-11: Improve the word lists. Select the host Forth words that
 \ are recognized during the compilation. Add immediate words to modify
-\ the search order during compilation. Improve `>z80-label`.
+\ the search order during compilation. Improve `>z80-label`. Factor
+\ `do-call` from `:`, to reuse it in `defer`.
