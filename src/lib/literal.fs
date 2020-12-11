@@ -2,11 +2,11 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `s-p-0` to the target system.
+\ This file adds `literal` to the compiler.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012110151.
+\ Last modified: 202012111651.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,13 +23,20 @@ compiler-definitions
 
   \ doc{
   \
-  \ literal ( x -- )
+  \ literal
+  \   Compilation: ( x -- )
+  \   Run-time:    ( -- x )
   \
-  \ Compile _x_ in the current definition.
+  \ Compilation: ( x -- )
   \
-  \ ``literal`` is a compiler word, i.e. it is always executed.
+  \ Compile the code required to put cell _x_ on the stack at run-time.
   \
-  \ See also: `lit`, `cliteral`, `2literal`, `xliteral`.
+  \ Run-time:    ( -- x )
+  \
+  \ Return the compiled cell _x_.
+  \
+  \ // XXX TODO
+  \ // See also: `lit`, `cliteral`, `2literal`, `xliteral`.
   \
   \ }doc
 
@@ -40,4 +47,5 @@ set-current set-order
 
 \ 2020-12-07: Start.
 \
-\ 2020-12-11: Update the search-order selection words.
+\ 2020-12-11: Update the search-order selection words. Improve
+\ documentation.
