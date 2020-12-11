@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012110140.
+\ Last modified: 202012110158.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -73,19 +73,41 @@ wordlist constant target-wordlist
   target-order  
   target-wordlist set-current ;
 
+: host{ ( -- )
+  forth-wordlist >order ; immediate
+
+: compiler{ ( -- )
+  compiler-wordlist >order ; immediate
+
+: target{ ( -- )
+  target-wordlist >order ; immediate
+
+: } ( -- )
+  previous ; immediate
+
 compiler-wordlist set-current
 
 synonym compiler-definitions compiler-definitions
-synonym target-definitions target-definitions
 synonym compiler-order compiler-order
+synonym target-definitions target-definitions
 synonym target-order target-order
+
+synonym } }
+synonym compiler{ compiler{
+synonym host{ host{
+synonym target{ target{ 
 
 target-wordlist set-current
 
 synonym compiler-definitions compiler-definitions
-synonym target-definitions target-definitions
 synonym compiler-order compiler-order
+synonym target-definitions target-definitions
 synonym target-order target-order
+
+synonym } }
+synonym compiler{ compiler{
+synonym host{ host{
+synonym target{ target{ 
 
 \ ==============================================================
 \ Standard words needed during the compilation {{{1
@@ -609,4 +631,5 @@ no-data-stack value data-stack-bottom
 \ loader. Simplify `new-file`.
 \
 \ 2020-12-11: Improve the word lists. Select the host Forth words that
-\ are recognized during the compilation.
+\ are recognized during the compilation. Add immediate words to modify
+\ the search order during compilation.

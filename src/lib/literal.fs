@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012090108.
+\ Last modified: 202012110151.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -19,7 +19,7 @@ compiler-definitions
 
 : literal ( x -- )
   h ldp#, \ ld hl,x
-  [ target-wordlist >order ] push-hl [ previous ] ;
+  target{ push-hl } ;
 
   \ doc{
   \
@@ -39,3 +39,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-07: Start.
+\
+\ 2020-12-11: Update the search-order selection words.

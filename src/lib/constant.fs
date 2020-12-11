@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012101826.
+\ Last modified: 202012110151.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,7 +21,7 @@ compiler-definitions
   creator
   z80dasm-blocks @ if dup s" _constant_data" z80dasm-cell-block then
   dup , t-!  2 memory> +!
-  does> ( dfa ) @ fthl, [ target-wordlist >order ] push-hl [ previous ] ;
+  does> ( dfa ) @ fthl, target{ push-hl } ;
 
 set-current set-order
 
@@ -37,3 +37,5 @@ set-current set-order
 \
 \ 2020-12-10: Add stack notation to `does>` and simplify its code,
 \ removing `evaluate`. Update with `creator`.
+\
+\ 2020-12-11: Update the search-order selection words.
