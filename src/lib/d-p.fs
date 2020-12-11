@@ -6,10 +6,12 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111808.
+\ Last modified: 202012112233.
 \ See change log at the end of the file.
 
 \ ==============================================================
+
+require variable.fs
 
 get-order get-current
 
@@ -35,4 +37,4 @@ set-current set-order
 
 \ 2020-12-07: Extract the code from <sin_forth.fs>.
 \
-\ 2020-12-11: Document.
+\ 2020-12-11: Document. Add requirement.

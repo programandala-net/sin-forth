@@ -6,10 +6,12 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111814.
+\ Last modified: 202012112233.
 \ See change log at the end of the file.
 
 \ ==============================================================
+
+require constant.fs
 
 get-order get-current
 
@@ -39,4 +41,4 @@ set-current set-order
 \ 2020-12-09: Add the setting of the search order and the current
 \ wordlist.
 \
-\ 2020-12-11: Document.
+\ 2020-12-11: Document. Add requirement.
