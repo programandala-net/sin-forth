@@ -23,7 +23,7 @@
 \ Credits {{{1
 
 \ This code was adapted from Couplement Forth
-\ v0.2.0-dev.30.0+202012062211
+\ v0.2.0-dev.30.0+202012062153
 \ (http://programandala.net/en.program.couplement_forth).
 
 \ Couplement Forth was forked from ForthCoupe
@@ -53,7 +53,7 @@ target-definitions
   \
   \ Pop _x_ into the ``HL`` Z80 register.
   \
-  \ See also: `push-hl`, `pop-de`, `pop-hl-de`.
+  \ See also: `push-hl`, `pop-de`, `pop-hl-de`, `pop-de-hl`.
   \
   \ }doc
 
@@ -63,3 +63,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-07: Extract the code from <src/data_stack.fs>.
+\
+\ 2020-12-11: Update documentation.

@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012111632.
+\ Last modified: 202012111654.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,7 +23,7 @@
 \ Credits {{{1
 
 \ This code was adapted from Couplement Forth
-\ v0.2.0-dev.30.0+202012111632
+\ v0.2.0-dev.30.0+202012062153
 \ (http://programandala.net/en.program.couplement_forth).
 
 \ Couplement Forth was forked from ForthCoupe
@@ -61,7 +61,7 @@ target-definitions
   \ the theoretic register pair ``HLDE``, being ``HL`` its high part
   \ (on top of stack) and ``DE`` its low part.
   \
-  \ See also: `pop-hl-de`, `push-de`, `push-hl`.
+  \ See also: `pop-hl-de`, `push-hl-de`, `push-de`, `push-hl`.
   \
   \ }doc
 
@@ -72,4 +72,4 @@ set-current set-order
 
 \ 2020-12-07: Extract the code from <src/data_stack.fs>.
 \
-\ 2020-12-11: Fix typo in documentation.
+\ 2020-12-11: Fix typo in documentation. Update documentation.

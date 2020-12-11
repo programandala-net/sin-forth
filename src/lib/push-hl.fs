@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012072206.
+\ Last modified: 202012111654.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,7 +23,7 @@
 \ Credits {{{1
 
 \ This code was adapted from Couplement Forth
-\ v0.2.0-dev.30.0+202012062211
+\ v0.2.0-dev.30.0+202012062153
 \ (http://programandala.net/en.program.couplement_forth).
 
 \ Couplement Forth was forked from ForthCoupe
@@ -53,7 +53,7 @@ target-definitions
   \
   \ Push the content _x_ of the ``HL`` Z80 register.
   \
-  \ See also: `pop-hl`, `push-de`, `push-de-hl`.
+  \ See also: `pop-hl`, `push-de`, `push-de-hl`, `push-hl-de`.
   \
   \ }doc
 
@@ -63,3 +63,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-07: Extract the code from <src/data_stack.fs>.
+\
+\ 2020-12-11: Update documentation.
