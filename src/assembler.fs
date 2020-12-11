@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012110131.
+\ Last modified: 202012120010.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -1667,9 +1667,10 @@ $46 mc bitx, $86 mc resx, $C6 mc setx,
   \
   \ }doc
 
-: ftpx, ( disp regpi regp -- ) 3dup 1+ ftx, rot 1+ -rot ftx, ;
+\ : ftpx, ( disp regpi regp -- ) 3dup 1+ ftx, rot 1+ -rot ftx, ;
+  \ XXX FIXME The method is wrong, because `ix` compiles an opcode
+  \ prefix.
 
-  \ doc{
   \
   \ ftpx, ( disp regpi regp -- ) "f-t-p-x-comma"
   \
@@ -1682,11 +1683,11 @@ $46 mc bitx, $86 mc resx, $C6 mc setx,
   \
   \ See also: `stpx,`, `ftx,`.
   \
-  \ }doc
 
-: stpx, ( disp regpi regp -- ) 3dup 1+ stx, rot 1+ -rot stx, ;
+\ : stpx, ( disp regpi regp -- ) 3dup 1+ stx, rot 1+ -rot stx, ;
+  \ XXX FIXME The method is wrong, because `ix` compiles an opcode
+  \ prefix.
 
-  \ doc{
   \
   \ stpx, ( disp regpi regp -- ) "s-t-p-x-comma"
   \
@@ -1699,7 +1700,6 @@ $46 mc bitx, $86 mc resx, $C6 mc setx,
   \
   \ See also: `ftpx,`, `stx,`.
   \
-  \ }doc
 
   \ Conditions (Z80 opcodes for the required absolute-jump
   \ instruction)
@@ -2651,3 +2651,6 @@ set-current set-order \ restore the entry status
 \
 \ 2020-12-10: Remove or unmark the `assembler` cross-references in the
 \ documentation, because that word doesn't exist in Sin Forth.
+\
+\ 2020-12-12: Comment out `ftpx,` and `stpx,`, which don't work and
+\ need a rewrite.
