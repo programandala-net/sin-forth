@@ -9,17 +9,38 @@
 
 # By Marcos Cruz (programandala.net), 2020.
 
-# Last modified: 202012110011.
+# Last modified: 202012111837.
 # See change log at the end of the file.
 
 # ==============================================================
 # Requirements {{{1
+
+# Asciidoctor (by Dan Allen, Sarah White et al.)
+#   http://asciidoctor.org
+
+# Asciidoctor EPUB3 (by Dan Allen and Sarah White)
+#   (>v0.5.0.alpha.15)
+#   http://github.com/asciidoctor/asciidoctor-epub3
+
+# Asciidoctor PDF (by Dan Allen and Sarah White)
+#   http://github.com/asciidoctor/asciidoctor-pdf
 
 # bin2code (by Metalbrain)
 #   http://metalbrain.speccy.org/link-eng.htm
 
 # bin2tap (by Metalbrain)
 #   http://metalbrain.speccy.org/link-eng.htm
+
+# cat (by Torbjorn Granlund and Richard M. Stallman)
+#   Part of GNU Coreutils
+#   http://gnu.org/software/coreutils
+
+# Glosara (by Marcos Cruz)
+#   http://programandala.net/en.program.glosara.html
+
+# sort (by Mike Haertel and Paul Eggert)
+#   Part of GNU Coreutils
+#   http://gnu.org/software/coreutils
 
 # z80dasm (by Tomaž Šolc)
 #   https://www.tablix.org/~avian/blog/articles/z80dasm/
@@ -36,12 +57,19 @@
 .PHONY: all
 all: tests
 
+.PHONY: doc
+doc: epub html pdf
+
 .PHONY: tests
 tests: bin asm tap
 
 .PHONY: clean
 clean:
-	@rm -f target/*
+	rm -f target/*
+
+.PHONY: cleandoc
+cleandoc:
+	rm -f doc/* tmp/doc.*
 
 # ==============================================================
 # Tests files {{{1
@@ -79,7 +107,7 @@ target/%.bin: src/test/%.fs
 
 # XXX TODO
 # %.bin: %.fs
-# 	cp -f src/test/$< $(dir 
+# 	cp -f src/test/$< $(dir
 # 	./$<
 
 # ==============================================================
@@ -149,7 +177,141 @@ tap: $(taped_tests)
 	cat $^ > $@
 
 # ==============================================================
+# Documentation {{{1
+
+# ----------------------------------------------
+# Interface {{{2
+
+.PHONY: epub
+epub: \
+	doc/sin_forth_manual.epub
+
+.PHONY: html
+html: \
+	doc/sin_forth_manual.html
+
+.PHONY: pdf
+pdf: \
+	doc/sin_forth_manual.pdf
+
+# ----------------------------------------------
+# Variables {{{2
+
+version=$(shell cat VERSION.txt)
+
+book=sin_forth
+title="Sin Forth"
+lang="en"
+editor="Marcos Cruz"
+publisher="programandala.net"
+description="Sin Forth user manual"
+
+cover=$(book)_cover
+cover_author="Marcos Cruz\n(programandala.net)"
+cover_title="Sin Forth"
+cover_subtitle="Version $(version)"
+
+core_files = $(sort $(wildcard src/*.fs))
+lib_files = $(sort $(wildcard src/lib/*.fs))
+
+# ----------------------------------------------
+# Common rules {{{2
+
+%.zip: %
+	zip -9 $@ $<
+
+%.gz: %
+	gzip -9 --force --keep $<
+
+%.html: %.adoc
+	asciidoctor --out-file=$@ $<
+
+%.glossary.adoc: %.files.txt
+	glosara --level=4 --sections --input=$< > $@
+
+tmp/doc.%.linked.adoc: src/doc/%.adoc
+	glosara --annex $< > $@
+
+tmp/doc.README.linked.adoc: README.adoc
+	glosara --annex $< > $@
+
+%.dbk: %.adoc
+	asciidoctor \
+		--backend=docbook \
+		--attribute=version=$(version) \
+		--out-file=$@ $<
+
+# ----------------------------------------------
+# Documentation {{{2
+
+doc/sin_forth_manual.epub: \
+	tmp/doc.manual.adoc \
+	README.adoc \
+	doc/$(cover).jpg
+	asciidoctor-epub3 \
+		--trace \
+		--attribute=epub-chapter-level=2 \
+		--attribute=version=$(version) \
+		--out-file=$@ $< \
+		2> tmp/doc.unknown_anchors.log
+
+doc/sin_forth_manual.pdf: \
+	tmp/doc.manual.adoc \
+	README.adoc \
+	tmp/$(cover).pdf
+	asciidoctor-pdf \
+		--trace \
+		--attribute=version=$(version) \
+		--out-file=$@ $<
+
+doc/sin_forth_manual.html: \
+	tmp/doc.manual.adoc \
+	README.adoc
+	asciidoctor \
+		--attribute=version=$(version) \
+		--out-file=$@ $<
+
+tmp/doc.files.txt: \
+	$(core_files) \
+	$(lib_files)
+	ls -1 $^ > $@
+
+# Preserve the links in the DocBook source by removing the
+# enclosing <literal> tags:
+
+doc/sin_forth_manual.dbk: tmp/doc.manual.dbk
+	sed \
+		-e "s/<literal><link/<link/g" \
+		-e "s/<\/link><\/literal>/<\/link>/g" $< > $@
+
+tmp/doc.manual.adoc: \
+	tmp/doc.manual_skeleton.linked.adoc \
+	tmp/doc.stack_notation.linked.adoc \
+	tmp/doc.z80_flags_notation.linked.adoc \
+	tmp/doc.z80_instructions.linked.adoc \
+	src/doc/glossary_heading.adoc \
+	tmp/doc.glossary.adoc \
+	tmp/doc.README.linked.adoc \
+	VERSION.txt
+	cat \
+		tmp/doc.manual_skeleton.linked.adoc \
+		tmp/doc.stack_notation.linked.adoc \
+		tmp/doc.z80_flags_notation.linked.adoc \
+		tmp/doc.z80_instructions.linked.adoc \
+		src/doc/glossary_heading.adoc \
+		tmp/doc.glossary.adoc \
+		> $@
+
+# ----------------------------------------------
+# Cover image {{{2
+
+include Makefile.cover_image
+
+# ==============================================================
 # Change log {{{1
 
 # 2020-12-10: Start. Add rules to compile all tests, disassembly them and
 # convert the executables into ZX Spectrum TAP files.
+#
+# 2020-12-11: Prepare the rules to build the documentation, adapted from the
+# <Makefile> of Solo Forth.

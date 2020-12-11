@@ -1,0 +1,32 @@
+// z80_flags_notation.adoc
+
+// This file is part of Sin Forth
+// http://programandala.net/en.program.sin_forth.html
+
+// By Marcos Cruz (programanda.net), 2017, 2018, 2020.
+
+// Last modified: 202012111929.
+// See change log at the end of the file.
+
+=== Z80 flags notation
+
+[cols="1,4,1",id="_stacknotationforz80flags"]
+.Z80 flags notation
+|===
+| Symbol | Description          | bit
+
+| Fc     | Carry flag           | 0
+| Fh     | Half Carry flag      | 4
+| Fn     | Add/Subtract flag    | 1
+| Fp     | Parity/Overflow flag | 2
+| Fs     | Sign flag            | 7
+| Fz     | Zero flag            | 6
+|===
+
+// =============================================================
+// Change log
+
+// 2017..2020: Part of Solo Forth
+// (http://programandala.net/en.program.solo_forth.html).
+//
+// 2020-12-11: Start. Copy the file from Solo Forth.

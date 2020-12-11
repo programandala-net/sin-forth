@@ -1,0 +1,12 @@
+// glossary_heading.adoc
+
+// This file is part of Sin Forth
+// http://programandala.net/en.program.sin_forth.html
+
+// Last modified: 202012112025.
+
+// =============================================================
+
+== Glossary
+
+//

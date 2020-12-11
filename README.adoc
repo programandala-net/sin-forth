@@ -4,18 +4,27 @@
 
 == Description
 
-Sin Forth is a Forth cross compiler written in Forth with Gforth. It
-creates machine code programs for any model of the ZX Spectrum, ZX
-Spectrum 128 and compatible computers, including.
+// tag::description[]
+
+Sin Forth is a Forth cross compiler written in
+http://forth-standar.org[Forth] with
+http://gnu.org/software/gforth[Gforth].
+
+Sin Forth creates machine code programs for any model of the ZX
+Spectrum, ZX Spectrum 128 and compatible computers, including the ZX
+Spectrum Next.
+
+// end::description[]
 
 Author's website: <http://programandala.net>.
 
+// Installation {{{1
 == Installation
 
 In order to use Sin Forth, its sources must be accessible from Gforth.
 
-One method is to add the Sin Forth <src/> directory to Gforth
-`fpath`. Consult the Gforth documentation.
+One method is to add the Sin Forth's <src> directory to Gforth's
+`fpath`. Consult the documentation of Gforth.
 
 A second method is to make a symbolic link to Sin Forth's <src>
 directory from Gforth's <site-forth> directory. In a locally compiled
@@ -25,5 +34,38 @@ Gforth, the command on a Linux shell would be the following:
 sudo ln -s ~/YOUR-PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
 ----
 
-where "YOUR-PATH" must be replaced with the corresponding path on your
-system.
+where "YOUR-PATH" must be replaced with the corresponding path to Sin
+Forth's <src> directory on your system.
+
+// Requirements {{{1
+== Requirements
+
+Sin Forth uses some modules of the
+http://programandala.net/en.program.galope.html[Galope library].
+
+Some of modules of Galope need the http://irdvo.nl/FFL/[Forth
+Foundation Library].
+
+// Project directories {{{1
+[#_tree]
+== Project directories
+
+// tag::tree[]
+
+[cols="12,14,54"]
+|===
+| Directory   | Subdirectory | Description
+
+| doc         |              | Manuals in EPUB, HTML and PDF
+| src         |              | Sources
+| src         | doc          | Files used to build the documentation
+| src         | lib          | Library
+| tmp         |              | Temporary files created by ``make``
+// | tools       |              | Development and user tools
+// | vim         |              | Vim files
+// | vim         | ftplugin     | Filetype plugin
+// | vim         | syntax       | Syntax highlighting
+|===
+
+// end::tree[]
+

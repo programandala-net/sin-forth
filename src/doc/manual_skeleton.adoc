@@ -1,0 +1,120 @@
+= Sin Forth: Version {version}
+:author: Marcos Cruz
+:producer: Marcos Cruz
+:revdate: 2020-12-11
+:doctype: book
+:lang: en
+ifdef::backend-html5[]
+:toc:
+:toclevels: 2
+:toc-placement!:
+endif::[]
+ifdef::backend-pdf[]
+:toc:
+:toclevels: 2
+:toc-placement!:
+:front-cover-image: ../tmp/sin_forth_cover.pdf
+endif::[]
+:linkattrs:
+:keywords: Forth, programming, ZX Spectrum, computer
+:username:
+:source:
+ifdef::backend-epub3[]
+:copyright: 2020 Marcos Cruz
+:front-cover-image: ../doc/sin_forth_cover.jpg
+endif::[]
+
+// This file is part of Sin Forth
+// http://programandala.net/en.program.sin_forth.html
+
+// Last modified: 202012111917.
+// See change log at the end of the file.
+
+ifdef::backend-html5[]
+toc::[]
+endif::[]
+ifdef::backend-pdf[]
+toc::[]
+endif::[]
+
+// =============================================================
+
+// NOTE: English is only my third language in fluency, so please excuse
+// any mistakes. Any kind of correction will be appreciated. Contact:
+// http://programandala.net[programandala.net].
+
+// =============================================================
+
+// Description {{{1
+== Description
+
+include::doc.README.linked.adoc[tags=description]
+
+// Main features {{{2
+// === Main features
+
+// include::doc.README.linked.adoc[tags=mainfeatures]
+
+// About this manual {{{1
+== About this manual
+
+This manual is built automatically from the sources. It contains mainly a
+<<_description,description of the compiler>>, the basic <<_run,usage
+information>> and a complete <<_glossary,glossary>> with cross references.
+
+// Download {{{1
+== Download
+
+Sin Forth can be downloaded from two sites:
+
+// XXX FIXME -- Asciidoctor bug?
+//
+// The following text creates a link with text
+// "Sin Forth repository":
+//
+//- http://github.com/programandala-net/solo-forth[Sin Forth repository
+//  in GitHub,role="external"]
+
+- http://programandala.net/en.program.sin_forth.html[Sin Forth home page]
+- http://github.com/programandala-net/sin-forth[Sin Forth mirror repository in GitHub,role="external"]
+
+// Project directories {{{1
+[#_tree]
+== Project directories
+
+include::doc.README.linked.adoc[tags=tree]
+
+// How to use the library {{{1
+[#_library]
+== How to use the library
+
+// include::doc.README.linked.adoc[tags=library_on_plus3dos]
+
+// Exception codes {{{1
+== Exception codes
+
+Exception codes (also called `throw` codes of `throw` values) are used
+as prescribed by the Forth-2012 standard: codes -255..-1 are used only
+as assigned by the standard, and codes -4095..-256 are reserved for
+Sin Forth.  Therefore, programs shall not define values for use with
+`throw` in the range -4095..-1.
+
+[%autowidth]
+.Exception code ranges
+|===
+| Range         | Reserved for
+
+| 1..32767      | Programs
+| -255..-1      | Standard Forth
+| -4095..-256   | Sin Forth
+| -32768..-4096 | Programs
+|===
+
+// Notation {{{1
+== Notation
+
+// =============================================================
+// Change log {{{1
+
+// 2020-12-11: Start. Adapt from Solo Forth
+// (http://programandala.net/en.program.solo_forth.html).
