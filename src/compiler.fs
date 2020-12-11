@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012110158.
+\ Last modified: 202012110306.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -281,10 +281,11 @@ variable z80-symbols ( -- a ) z80-symbols on
   base @ >r s" 0x" rot hex n>str s+ r> base ! ;
 
 : >z80-label ( ca1 len1 -- ca2 len2 )
-  s" store_" s" !" replaced
-  s" plus_"  s" +" replaced
-  s" _"      s" -" replaced
-  s" fetch_" s" @" replaced
+  s" _store_" s" !"  replaced
+  s" _plus_"  s" +"  replaced
+  s" _"       s" -"  replaced
+  s" _fetch_" s" @"  replaced
+  s" _"       s" __" replaced
   s" _" -suffix
   s" _" 2swap s+ ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
@@ -632,4 +633,4 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-11: Improve the word lists. Select the host Forth words that
 \ are recognized during the compilation. Add immediate words to modify
-\ the search order during compilation.
+\ the search order during compilation. Improve `>z80-label`.
