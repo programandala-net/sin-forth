@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012100043.
+\ Last modified: 202012110300.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -22,7 +22,7 @@ compiler-definitions
 
   \ doc{
   \
-  \ ' ( "name" -- dea )
+  \ ' Compiler: ( "name" -- dea ) "tick"
   \
   \ Parse _name_ and return its _dea_ (dictionary entry address).
   \ The actual meaning of _dea_ depends on the definer word used to
@@ -36,8 +36,6 @@ compiler-definitions
   \ | `variable` | address of its content
   \ |===
   \
-  \ ``'`` is a compiler word, executed during the compilation.
-  \
   \ }doc
 
 set-current set-order
@@ -46,3 +44,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-10: Start.
+\
+\ 2020-12-11: Improve documentation.
