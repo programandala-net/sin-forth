@@ -46,5 +46,3 @@
   `z80dasm` in <Makefile>.
 - Use shorter names for `literal`, `2literal`, `cliteral`, `xliteral`,
   `sliteral`.
-- Rename `'` to `[']`, more coherent with the apparently "immediate"
-  behaviour of the compiler words. 

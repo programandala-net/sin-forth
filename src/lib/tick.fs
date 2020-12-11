@@ -2,11 +2,11 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `tick` to the compiler.
+\ This file adds `'` to the compiler.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012110300.
+\ Last modified: 202012111721.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -33,8 +33,11 @@ compiler-definitions
   \
   \ | `:`        | execution address
   \ | `constant` | address of its content
+  \ | `defer`    | execution address, which contains a Z80 ``jp``
   \ | `variable` | address of its content
   \ |===
+  \
+  \ See also: `[']`.
   \
   \ }doc
 
@@ -45,4 +48,4 @@ set-current set-order
 
 \ 2020-12-10: Start.
 \
-\ 2020-12-11: Improve documentation.
+\ 2020-12-11: Improve and update the documentation.
