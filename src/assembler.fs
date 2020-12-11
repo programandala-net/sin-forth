@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012100257.
+\ Last modified: 202012110131.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -62,10 +62,10 @@ require galope/three-dup.fs \ `3dup`
 : 2- ( x1 -- x2 ) 2 - ;
 : 2+ ( x1 -- x2 ) 2 + ;
 
+compiler-definitions
+
 \ ==============================================================
 \ Tools {{{1
-
-compiler-definitions
 
 : ?pairs ( x1 x2 -- ) <> #-22 ?throw ;
 

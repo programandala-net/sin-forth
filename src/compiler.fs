@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012101858.
+\ Last modified: 202012110140.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -56,25 +56,52 @@ wordlist constant target-wordlist
   \ The target system word list.
 
 : compiler-order ( -- )
-  only forth
+  only
   compiler-wordlist >order
   forth-wordlist >order ;
 
 : compiler-definitions ( -- )
-  compiler-order  compiler-wordlist set-current ;
-
-: forth-definitions ( -- )
-  compiler-order  forth-wordlist set-current ;
+  compiler-order
+  compiler-wordlist set-current ;
 
 : target-order ( -- )
-  only forth
+  only
   compiler-wordlist >order
   target-wordlist >order ;
 
 : target-definitions ( -- )
-  target-order  target-wordlist set-current ;
+  target-order  
+  target-wordlist set-current ;
+
+compiler-wordlist set-current
+
+synonym compiler-definitions compiler-definitions
+synonym target-definitions target-definitions
+synonym compiler-order compiler-order
+synonym target-order target-order
+
+target-wordlist set-current
+
+synonym compiler-definitions compiler-definitions
+synonym target-definitions target-definitions
+synonym compiler-order compiler-order
+synonym target-order target-order
+
+\ ==============================================================
+\ Standard words needed during the compilation {{{1
 
 compiler-definitions
+
+synonym ( (  \ )
+synonym \ \
+synonym get-current get-current
+synonym get-order get-order
+synonym include include
+synonym require require
+synonym s" s"
+synonym s\" s\"
+synonym set-current set-current
+synonym set-order set-order
 
 \ ==============================================================
 \ Target memory {{{1
@@ -548,7 +575,7 @@ no-data-stack value data-stack-bottom
            2dup create-executable
            2dup create-z80-symbols
                 create-z80dasm-blocks
-  forth-definitions bye ;
+  only forth definitions bye ;
   \ Mark the end of the target program.
 
 \ ==============================================================
@@ -577,6 +604,9 @@ no-data-stack value data-stack-bottom
 \ configurable. Rename this file from <sin_forth.fs> to <compiler.fs>.
 \
 \ 2020-12-10: Deactivate debugging messages. Deactivate `warnings`
-\ while loading the requirements. Add `bye` to `end-program`.
-\ Rename `header` to `creator`. Remove the executable name from the
-\ BASIC loader. Simplify `new-file`.
+\ while loading the requirements. Add `bye` to `end-program`. Rename
+\ `header` to `creator`. Remove the executable name from the BASIC
+\ loader. Simplify `new-file`.
+\
+\ 2020-12-11: Improve the word lists. Select the host Forth words that
+\ are recognized during the compilation.
