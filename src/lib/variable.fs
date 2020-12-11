@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012110151.
+\ Last modified: 202012110211.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,7 +21,7 @@ compiler-definitions
   creator
   z80dasm-blocks @ if dup s" _variable_data" z80dasm-cell-block then
   , 2 memory> +!
-  does> ( dfa ) h ldp#, target{ push-hl } ;
+  does> ( dfa ) @ h ldp#, target{ push-hl } ;
 
 set-current set-order
 
@@ -36,4 +36,5 @@ set-current set-order
 \ 2020-12-10: Add stack notation to `does>` and simplify its code,
 \ removing `evaluate`. Update with `creator`.
 \
-\ 2020-12-11: Update the search-order selection words.
+\ 2020-12-11: Update the search-order selection words. Fix the `does>`
+\ code.
