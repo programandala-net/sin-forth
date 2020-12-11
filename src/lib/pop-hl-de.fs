@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012072206.
+\ Last modified: 202012111632.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,7 +23,7 @@
 \ Credits {{{1
 
 \ This code was adapted from Couplement Forth
-\ v0.2.0-dev.30.0+202012062211
+\ v0.2.0-dev.30.0+202012111632
 \ (http://programandala.net/en.program.couplement_forth).
 
 \ Couplement Forth was forked from ForthCoupe
@@ -59,7 +59,7 @@ target-definitions
   \ _x1_ into the ``DE`` Z80 register. The cell pair _x1 x2_
   \ can be seen also a double number _d_, equivalent to the content of
   \ the theoretic register pair ``HLDE``, being ``HL`` its high part
-  \ (on top of stack) and ``DE`` it low part.
+  \ (on top of stack) and ``DE`` its low part.
   \
   \ See also: `push-hl-de`, `pop-de`, `pop-hl`.
   \
@@ -71,3 +71,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-07: Extract the code from <src/data_stack.fs>.
+\
+\ 2020-12-11: Fix typo in documentation.
