@@ -22,7 +22,7 @@ compiler-definitions
 
   \ doc{
   \
-  \ ' Compiler: ( "name" -- dea ) "tick"
+  \ '  Compilation: ( "name" -- dea ) "tick"
   \
   \ Parse _name_ and return its _dea_ (dictionary entry address).
   \ The actual meaning of _dea_ depends on the definer word used to

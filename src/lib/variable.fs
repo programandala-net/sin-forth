@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012110211.
+\ Last modified: 202012111819.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,6 +23,31 @@ compiler-definitions
   , 2 memory> +!
   does> ( dfa ) @ h ldp#, target{ push-hl } ;
 
+  \ doc{
+  \
+  \ variable  Compilation: ( "name" -- ) Run-time:    ( -- a )
+  \
+  \ Compilation: ( "name" -- )
+  \
+  \ Parse _name_.  Create a definition for _name_, which is referred
+  \ to as a "variable".  `allot` one `cell` of data space, the data
+  \ field of _name_, to hold the contents of the variable. When _name_
+  \ is later executed, the address of its data field is placed on the
+  \ stack.
+  \
+  \ The program is responsible for initializing the contents of the
+  \ variable.
+  \
+  \ Run-time: ( -- a )
+  \
+  \ Place on the stack the data field address _a_ of _name_.
+
+  \ // XXX TODO
+  \ // See also: `cvariable`, `2variable`, `constant`.
+  \ See also: `constant`.
+  \
+  \ }doc
+
 set-current set-order
 
 \ ==============================================================
@@ -37,4 +62,4 @@ set-current set-order
 \ removing `evaluate`. Update with `creator`.
 \
 \ 2020-12-11: Update the search-order selection words. Fix the `does>`
-\ code.
+\ code. Document.

@@ -31,7 +31,7 @@ compiler-definitions
   \
   \ Compile the code required to put cell _x_ on the stack at run-time.
   \
-  \ Run-time:    ( -- x )
+  \ Run-time: ( -- x )
   \
   \ Return the compiled cell _x_.
   \

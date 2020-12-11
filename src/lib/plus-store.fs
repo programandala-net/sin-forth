@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072206.
+\ Last modified: 202012111759.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -27,9 +27,23 @@ target-definitions
   d adc,      \ adc a,d
   a m ld, ;   \ ld (hl),a
 
+  \ doc{
+  \
+  \ +! ( n|u a -- ) "plus-store"
+  \
+  \ Add _n|u_ to the single-cell number at _a_.
+  \
+  \ // XXX TODO
+  \ // See also: `c+!`, `@`, `+`, `!`.
+  \ See also: `@`, `+`, `!`.
+  \
+  \ }doc
+
 set-current set-order
 
 \ ==============================================================
 \ Change log {{{1
 
 \ 2020-12-07: Extract the code from <sin_forth.fs>.
+\
+\ 2020-12-11: Document.

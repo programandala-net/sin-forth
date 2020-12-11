@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111720.
+\ Last modified: 202012111816.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,7 +23,7 @@ previous
 
   \ doc{
   \
-  \ ['] Compiler: ( "name" -- dea ) "bracke-ttick"
+  \ [']  Compilation: ( "name" -- dea ) "bracket-ttick"
   \
   \ Parse _name_ and return its _dea_ (dictionary entry address).
   \ ``[']`` is a synonym of `'`, to facilitate the conversion of

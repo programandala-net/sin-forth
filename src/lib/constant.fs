@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012110151.
+\ Last modified: 202012111810.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,6 +23,27 @@ compiler-definitions
   dup , t-!  2 memory> +!
   does> ( dfa ) @ fthl, target{ push-hl } ;
 
+  \ doc{
+  \
+  \ constant  Compilation: ( x "name" -- )
+  \           Run-time:    ( -- x )
+  \
+  \ Compilation: ( x "name" -- )
+  \
+  \ Parse _name_. Create a definition for _name_ that will place _x_
+  \ on the stack. _name_ is referred to as a "constant".
+  \
+  \ Run-time: ( -- x )
+  \
+  \ Place _x_ on the stack.
+  \
+  \ // XXX TODO
+  \ // See also: `2constant`, `cconstant`, `fconstant`, `const`,
+  \ // `[const]`, `variable`.
+  \ See also: `variable`, `!>`.
+  \
+  \ }doc
+
 set-current set-order
 
 \ ==============================================================
@@ -38,4 +59,4 @@ set-current set-order
 \ 2020-12-10: Add stack notation to `does>` and simplify its code,
 \ removing `evaluate`. Update with `creator`.
 \
-\ 2020-12-11: Update the search-order selection words.
+\ 2020-12-11: Update the search-order selection words. Document.

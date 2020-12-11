@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012110319.
+\ Last modified: 202012111805.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -24,6 +24,18 @@ target-definitions
   h incp,     \ inc hl
   d m ld, ;   \ ld (hl),d
 
+  \ doc{
+  \
+  \ defer! ( dea1 dea2 -- ) "defer-store"
+  \
+  \ Set the deferred word _dea2_ to execute _dea1_.
+  \
+  \ // XXX TODO
+  \ // See also: `defer@`, `defer`, `>action`.
+  \ See also: `defer`.
+  \
+  \ }doc
+
 set-current set-order
 
 \ ==============================================================
@@ -31,4 +43,4 @@ set-current set-order
 
 \ 2020-12-10: Start.
 \
-\ 2020-12-11: Add the requirement.
+\ 2020-12-11: Add the requirement. Document.

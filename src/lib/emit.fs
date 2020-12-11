@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012090119.
+\ Last modified: 202012111755.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -31,6 +31,8 @@ target-definitions
   \
   \ Display character _c_.
   \
+  \ See also: `emit-a`.
+  \
   \ }doc
 
   \ doc{
@@ -38,6 +40,8 @@ target-definitions
   \ emit-a ( -- )
   \
   \ Display the character contained in the ``A`` Z80 register.
+  \
+  \ See also: `emit`.
   \
   \ }doc
 
@@ -49,3 +53,5 @@ set-current set-order
 \ 2020-12-07: Start.
 \
 \ 2020-12-09: Move `require` to the top.
+\
+\ 2020-12-11: Improve documentation.

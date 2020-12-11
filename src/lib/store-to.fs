@@ -26,14 +26,14 @@ compiler-definitions
 
   \ doc{
   \
-  \ !> Compiler: ( "name" -- )
-  \    Run-time: ( x -- )
+  \ !> Compilation: ( "name" -- )
+  \    Run-time:    ( x -- )
   \ "store-to"
 
   \
   \ Modify the value returned by a word defined by `constant`.
   \
-  \ Compiler: ( "name" -- )
+  \ Compilation: ( "name" -- )
   \
   \ Parse _name_, which is a word created by `constant`,
   \ and compile the run-time semantics given below.
@@ -59,4 +59,4 @@ set-current set-order
 \ 2020-12-11: Update the search-order selection words. Rename from
 \ `to` to `!>`, because the definition of `value` is identical to
 \ `constant`. `!>` is included in Solo Forth, which borrowed the idea
-\ from IsForth.
+\ from IsForth. Update documentation.

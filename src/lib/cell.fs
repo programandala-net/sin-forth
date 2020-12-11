@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012090117.
+\ Last modified: 202012111814.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -17,6 +17,18 @@ target-definitions
 
 2 constant cell
 
+  \ doc{
+  \
+  \ cell ( -- n )
+  \
+  \ _n_ is the size in bytes of one cell. ``cell`` returns 2 in
+  \ Sin Forth.
+  \
+  \ // XXX TODO
+  \ // See also: `cells`, `cell+`, `cell-`, `cell/`, `cell-bits`.
+  \
+  \ }doc
+
 set-current set-order
 
 \ ==============================================================
@@ -26,3 +38,5 @@ set-current set-order
 \
 \ 2020-12-09: Add the setting of the search order and the current
 \ wordlist.
+\
+\ 2020-12-11: Document.
