@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111507.
+\ Last modified: 202012120032.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -25,8 +25,12 @@ begin-program
 
 require sin_forth/lib/emit.fs
 require sin_forth/lib/literal.fs
-require sin_forth/lib/minus.fs
-require sin_forth/lib/plus.fs \ `+`
+require sin_forth/lib/minus.fs     \ `-`
+require sin_forth/lib/plus.fs      \ `+`
+require sin_forth/lib/one-plus.fs  \ `1+`
+require sin_forth/lib/one-minus.fs \ `1-`
+require sin_forth/lib/two-plus.fs  \ `2+`
+require sin_forth/lib/two-minus.fs \ `2-`
 
 boot-here
 
@@ -34,7 +38,11 @@ boot-here
 01 literal $41 literal + emit \ "B"
 68 literal  01 literal - emit \ "C"
 99 literal  31 literal - emit \ "D"
-ret, 
+68 literal  1+           emit \ "E"
+71 literal  1-           emit \ "F"
+69 literal  2+           emit \ "G"
+74 literal  2-           emit \ "H"
+ret,
 
 4 data-stack-here
 
@@ -43,4 +51,6 @@ end-program
 \ ==============================================================
 \ Change log {{{1
 
-\ 2020-12-11: Start.
+\ 2020-12-11: Start. Test `+` and `-`.
+\
+\ 2020-12-12: Test also `1+`, `1-`, `2+` and `2-`.
