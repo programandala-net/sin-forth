@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012110334.
+\ Last modified: 202012112353.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -281,13 +281,16 @@ variable z80-symbols ( -- a ) z80-symbols on
   base @ >r s" 0x" rot hex n>str s+ r> base ! ;
 
 : >z80-label ( ca1 len1 -- ca2 len2 )
+  2dup s" -"  str= if 2drop s" _minus"   exit then
+  2dup s" 1-" str= if 2drop s" _1_minus" exit then
   s" _store_" s" !"  replaced
   s" _plus_"  s" +"  replaced
-  s" _"       s" -"  replaced
   s" _fetch_" s" @"  replaced
-  s" _"       s" __" replaced
+  s" _"       s" -"  replaced
   s" _" -suffix
-  s" _" 2swap s+ ;
+  s" _" 2swap s+ 
+  s" _"       s" __" replaced
+  ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
 
 : z80-symbol ( a nt -- )
