@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111651.
+\ Last modified: 202012130030.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -19,7 +19,7 @@ compiler-definitions
 
 : literal ( x -- )
   h ldp#, \ ld hl,x
-  target{ push-hl } ;
+  push-hl ;
 
   \ doc{
   \
@@ -49,3 +49,5 @@ set-current set-order
 \
 \ 2020-12-11: Update the search-order selection words. Improve
 \ documentation.
+\
+\ 2020-12-13: Update: Remove `target{`.

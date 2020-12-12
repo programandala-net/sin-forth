@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111810.
+\ Last modified: 202012130029.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,7 +21,7 @@ compiler-definitions
   creator
   z80dasm-blocks @ if dup s" _constant_data" z80dasm-cell-block then
   dup , t-!  2 memory> +!
-  does> ( dfa ) @ fthl, target{ push-hl } ;
+  does> ( dfa ) @ fthl, push-hl ;
 
   \ doc{
   \
@@ -60,3 +60,5 @@ set-current set-order
 \ removing `evaluate`. Update with `creator`.
 \
 \ 2020-12-11: Update the search-order selection words. Document.
+\
+\ 2020-12-13: Update: Remove `target{`.

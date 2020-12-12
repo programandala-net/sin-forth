@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012122019.
+\ Last modified: 202012130025.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -57,6 +57,7 @@ wordlist constant target-wordlist
 
 : compiler-order ( -- )
   only
+  target-wordlist >order
   compiler-wordlist >order
   forth-wordlist >order ;
 
@@ -672,3 +673,6 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-12: Improve `>z80-label`. Add `dea-constant` to make
 \ `creator` create a DEA compiler constant for every definition.
+\
+\ 2020-12-13: Add `target-wordlist` at the bottom of the search order
+\ set by `compiler-order`.

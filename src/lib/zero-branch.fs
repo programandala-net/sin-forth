@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012121719.
+\ Last modified: 202012130026.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -19,12 +19,13 @@ compiler-definitions
 
 : 0branch \ Compilation: ( -- )
           \ Run-time:    ( f -- )
-  target{ pop-hl }    \ pop hl
-  compiler{ l a ld, } \ ld a,l \ XXX REMARK `compiler{` is needed
+  pop-hl              \ pop hl
+  compiler{ l } a ld, \ ld a,l \ XXX REMARK `compiler{` is needed
                                \ because `l` is a word of Gforth.
   h or,               \ or h   ; HL = zero?
-  $0000 z? ?jp,       \ jp z,0 ; jump if zero, to an address which…
-                      \        ; …will be resolved by `>resolve`
+  $0000 z? ?jp,       \ jp z,0 ; jump if zero, to an address which
+                      \        ; will be left by `>mark` and resolved
+                      \        ; by `>resolved`
   ;
 
   \ doc{
@@ -57,3 +58,6 @@ set-current set-order
 \ 2020-12-11: Start.
 \
 \ 2020-12-12: Finish and document.
+\
+\ 2020-12-13: Update the search-order selectors, remove `target{`.
+\ Improve documentation.
