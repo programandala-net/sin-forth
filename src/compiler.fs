@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012120131.
+\ Last modified: 202012122016.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -385,8 +385,19 @@ variable latest-call
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
 
+: dea-constant ( ca len a -- )
+  >r s" _dea" s+ nextname r> constant ;
+  \ Create a constant with the target entry name _ca len_ and the
+  \ "_dea" suffix, with value _a_ which is its DEA (definition entry
+  \ address), i.e. the target memory address where the entry is
+  \ defined. For example, the DEA of the target word `=` will be
+  \ returned by the compiler constant `=_dea`. These constants make it
+  \ possible to manipulate the compiled code by the compiled program,
+  \ without using the compiler `'` during the compilation.
+
 : creator ( "name" -- a )
-  create memory> @
+  parse-name 2dup memory> @ dea-constant
+                  nextname create memory> @
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  the word `" latest .name ." `" \ XXX INFORMER
   z80-symbols @ if memory> @ latest z80-symbol then ;
@@ -658,4 +669,5 @@ no-data-stack value data-stack-bottom
 \ the search order during compilation. Improve `>z80-label`. Factor
 \ `do-call` from `:`, to reuse it in `defer`.
 \
-\ 2020-12-12: Improve `>z80-label`.
+\ 2020-12-12: Improve `>z80-label`. Add `dea-constant` to make
+\ `creator` create a DEA compiler constant for every definition.
