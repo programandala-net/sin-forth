@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012112353.
+\ Last modified: 202012120118.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -283,10 +283,19 @@ variable z80-symbols ( -- a ) z80-symbols on
 : >z80-label ( ca1 len1 -- ca2 len2 )
   2dup s" -"  str= if 2drop s" _minus"   exit then
   2dup s" 1-" str= if 2drop s" _1_minus" exit then
-  s" _store_" s" !"  replaced
-  s" _plus_"  s" +"  replaced
-  s" _fetch_" s" @"  replaced
-  s" _"       s" -"  replaced
+  s" _store_"        s" !"  replaced
+  s" _star_"         s" *"  replaced
+  s" _plus_"         s" +"  replaced
+  s" _comma_"        s" ,"  replaced
+  s" _"              s" -"  replaced
+  s" _dot_"          s" ."  replaced
+  s" _slash_"        s" /"  replaced
+  s" _colon_"        s" :"  replaced
+  s" _semicolon_"    s" ;"  replaced
+  s" _less_than_"    s" <"  replaced
+  s" _greater_than_" s" >"  replaced
+  s" _fetch_"        s" @"  replaced
+  s" _backslash_"    s" \"  replaced
   s" _" -suffix
   s" _" 2swap s+ 
   s" _"       s" __" replaced
@@ -641,3 +650,5 @@ no-data-stack value data-stack-bottom
 \ are recognized during the compilation. Add immediate words to modify
 \ the search order during compilation. Improve `>z80-label`. Factor
 \ `do-call` from `:`, to reuse it in `defer`.
+\
+\ 2020-12-12: Improve `>z80-label`.
