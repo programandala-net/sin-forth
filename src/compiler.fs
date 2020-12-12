@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012122016.
+\ Last modified: 202012122019.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -293,6 +293,7 @@ variable z80-symbols ( -- a ) z80-symbols on
   s" _colon_"        s" :"  replaced
   s" _semicolon_"    s" ;"  replaced
   s" _less_than_"    s" <"  replaced
+  s" _equals_"       s" ="  replaced
   s" _greater_than_" s" >"  replaced
   s" _fetch_"        s" @"  replaced
   s" _backslash_"    s" \"  replaced
