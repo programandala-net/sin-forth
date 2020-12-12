@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012120118.
+\ Last modified: 202012120131.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -302,11 +302,17 @@ variable z80-symbols ( -- a ) z80-symbols on
   ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
 
-: z80-symbol ( a nt -- )
-  swap >r
-  name>string >z80-label s" : equ " s+ r@ n>0xstr s+
+: (z80-symbol) ( a ca len -- )
+  s" : equ " s+ rot dup >r n>0xstr s+
   s"  ; (" s+ r> n>str s+ s" )" s+ s\" \n" s+
   z80-symbols$ $+! ;
+  \ Create a Z80 symbol _ca len_ for the disassembly, with the target
+  \ code address _a_ as its value.
+
+: z80-symbol ( a nt -- )
+  name>string >z80-label (z80-symbol) ;
+  \ Create a Z80 symbol for the disassembly, from the word name
+  \ identified by _nt_ and the target code address _a_ as value.
 
 \ ----------------------------------------------
 \ z80dasm-blocks {{{2
@@ -609,6 +615,7 @@ no-data-stack value data-stack-bottom
 : end-program ( -- )
   no-data-stack? if /stack data-stack-here  then
   no-boot?       if set-default-boot        then
+  boot-address @ s" __BOOT_HERE" (z80-symbol)
   filename 2dup create-loader
            2dup create-executable
            2dup create-z80-symbols
