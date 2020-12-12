@@ -2,11 +2,11 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `0branch` to the target system.
+\ This file adds `0branch` to the compiler.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012120147.
+\ Last modified: 202012121719.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -15,7 +15,6 @@ require pop-hl.fs
 
 get-order get-current
 
-\ target-definitions
 compiler-definitions
 
 : 0branch \ Compilation: ( -- )
@@ -30,14 +29,23 @@ compiler-definitions
 
   \ doc{
   \
-  \ 0branch ( f -- ) "zero-branch"
+  \ 0branch  Compilation: ( -- )
+  \          Run-time:    ( f -- )
+  \ "zero-branch"
+
   \
-  \ A run-time procedure to branch conditionally. If  _f_
-  \ is false (zero), a Z80 ``jp`` is executed to an address
-  \ resolved during the compilation.
+  \ Compilation: Compile Z80 code to perform the run-time semantics
+  \ below. The destination address must be resolved by `>resolve`
+  \ during the compilation.
+  \
+  \ Run-time: If  _f_ is false (zero), a Z80 ``jp`` is executed to an
+  \ address that was resolved by `>resolve` during the compilation.
+
   \
   \ // XXX TODO
   \ // See also: `branch`, `?branch`, `-branch`, `+branch`.
+  \
+  \ See also: `branch`.
   \
   \ }doc
 

@@ -6,13 +6,10 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012072206.
+\ Last modified: 202012121657.
 \ See change log at the end of the file.
 
 \ ==============================================================
-
-require here.fs  \ `here`
-require comma.fs \ `,`
 
 get-order get-current
 
@@ -32,8 +29,7 @@ compiler-definitions
   \ Used at the source of a forward branch.  Typically used after
   \ either `branch`, `0branch` or `?branch`.
   \
-  \ // XXX TODO
-  \ // See also: `<mark`.
+  \ See also: `<mark`.
   \
   \ }doc
 
