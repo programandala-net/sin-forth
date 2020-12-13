@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130026.
+\ Last modified: 202012130107.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -25,7 +25,7 @@ compiler-definitions
   h or,               \ or h   ; HL = zero?
   $0000 z? ?jp,       \ jp z,0 ; jump if zero, to an address which
                       \        ; will be left by `>mark` and resolved
-                      \        ; by `>resolved`
+                      \        ; by `>resolve` or `<resolve`.
   ;
 
   \ doc{
