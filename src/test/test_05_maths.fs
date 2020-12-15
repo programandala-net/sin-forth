@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012120032.
+\ Last modified: 202012151856.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -29,6 +29,7 @@ require sin_forth/lib/minus.fs     \ `-`
 require sin_forth/lib/plus.fs      \ `+`
 require sin_forth/lib/one-plus.fs  \ `1+`
 require sin_forth/lib/one-minus.fs \ `1-`
+require sin_forth/lib/store.fs     \ `!`
 require sin_forth/lib/two-plus.fs  \ `2+`
 require sin_forth/lib/two-minus.fs \ `2-`
 
@@ -42,6 +43,9 @@ boot-here
 71 literal  1-           emit \ "F"
 69 literal  2+           emit \ "G"
 74 literal  2-           emit \ "H"
+
+$00FF literal 1+ 1- emit \ "COPY"
+
 ret,
 
 4 data-stack-here
@@ -54,3 +58,5 @@ end-program
 \ 2020-12-11: Start. Test `+` and `-`.
 \
 \ 2020-12-12: Test also `1+`, `1-`, `2+` and `2-`.
+\
+\ 2020-12-15: Add additional test for the new version of `1+`.
