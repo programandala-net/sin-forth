@@ -1,13 +1,13 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-09
+:revdate: 2020-12-13
 
 == Description
 
 // tag::description[]
 
 Sin Forth is a Forth cross compiler written in
-http://forth-standar.org[Forth] with
+http://forth-standard.org[Forth] with
 http://gnu.org/software/gforth[Gforth].
 
 Sin Forth creates machine code programs for any model of the ZX
@@ -52,20 +52,15 @@ Foundation Library].
 
 // tag::tree[]
 
-[cols="12,14,54"]
-|===
-| Directory   | Subdirectory | Description
-
-| doc         |              | Manuals in EPUB, HTML and PDF
-| src         |              | Sources
-| src         | doc          | Files used to build the documentation
-| src         | lib          | Library
-| tmp         |              | Temporary files created by ``make``
-// | tools       |              | Development and user tools
-// | vim         |              | Vim files
-// | vim         | ftplugin     | Filetype plugin
-// | vim         | syntax       | Syntax highlighting
-|===
+[horizontal]
+``doc``       ::  Manuals in EPUB, HTML and PDF
+``doc/www``   ::  Online documentation
+``src``       ::  Compiler sources
+``src/doc``   ::  Documentation sources
+``src/lib``   ::  Library sources
+``src/tests`` ::  Tests sources
+``target``    ::  Compiled and disassembled tests
+``tmp``       ::  Temporary files created by ``make``
 
 // end::tree[]
 
