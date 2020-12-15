@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012120010.
+\ Last modified: 202012152031.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -306,6 +306,14 @@ $DD constant ix-op  $FD constant iy-op
 : m1 ( 8b "name" -- ) (c does> ( -- ) ( dfa ) c@ t-c, ;
   \ 1-byte opcode without parameters.
 
+: m1- ( regp 8b "name" -- ) (c does> ( -- ) ( regp dfa ) 
+  swap h <> abort" Wrong register. Only `h`, `ix` and `iy` allowed."
+  c@ t-c, ;
+  \ 1-byte opcode without parameters, with a syntactic-sugar _regp_.
+  \ This variant of `m1` is used only to define `ldsp,`, in order to
+  \ make an explicit `h` register mandatory: `h ldsp,` instead of just
+  \ `ldsp,`. This way also `ix ldsp,` and `iy ldsp,` can be used.
+
 : m2 ( 8b "name" -- ) (c does> ( reg -- ) ( reg dfa ) c@ + t-c, ;
   \ 1-byte opcode with register encoded in bits 0-3.
 
@@ -382,7 +390,7 @@ $98 m2 sbc, $B8 m2 cp, $C1 m3p pop, $C5 m3p push, $C6 m4 add#, $C7 m2 rst,
 $C9 m1 ret, $CE m4 adc#, $D3 m4 out, $41 m3 outbc, $D6 m4 sub#,
 $D9 m1 exx, $DB m4 in, $40 m3 inbc, $0DE m4 sbc#, $E3 m1 exsp,
 $E6 m4 and#, $E9 m1 jphl, $EB m1 exde, $EE m4 xor#, $F3 m1 di,
-$F6 m4 or#, $F9 m1 ldsp, $FB m1 ei, $FE m4 cp#, $00 m6 rlc, $08 m6 rrc,
+$F6 m4 or#, $F9 m1- ldsp, $FB m1 ei, $FE m4 cp#, $00 m6 rlc, $08 m6 rrc,
 $10 m6 rl, $18 m6 rr, $20 m6 sla, $28 m6 sra, $30 m6 sll, $38 m6 srl,
 $40 m7 bit, $80 m7 res, $C0 m7 set,
 $A0ED m8 ldi, $B0ED m8 ldir, $A8ED m8 ldd, $B8ED m8 lddr, $44ED m8 neg, $57ED m8 ldai,
@@ -2639,12 +2647,12 @@ set-current set-order \ restore the entry status
 \ As part of Sin Forth {{{2
 
 \ 2020-12-06: Copy the code from the assembler of Solo Forth
-\ v0.14.0-rc.124+20201123. Add requirements and
-\ rearrange the code to make the Solo Forth `need` unnecessary. Update
-\ the layout of the source. Remove assembler macros. Replace
-\ `cconstant` with `constant`. Mark hex numbers. Add `jp,` and
-\ `call,`, which were defined in the Solo Forth's kernel. Replace `,`
-\ and `c,` with the target versions `t-,` and `t-c,`.
+\ v0.14.0-rc.124+20201123. Add requirements and rearrange the code to
+\ make the Solo Forth `need` unnecessary. Update the layout of the
+\ source. Remove assembler macros. Replace `cconstant` with
+\ `constant`. Mark hex numbers. Add `jp,` and `call,`, which were
+\ defined in the Solo Forth's kernel. Replace `,` and `c,` with the
+\ target versions `t-,` and `t-c,`.
 \
 \ 2020-12-07: Update after the new simpler handling of the search
 \ order.
@@ -2654,3 +2662,6 @@ set-current set-order \ restore the entry status
 \
 \ 2020-12-12: Comment out `ftpx,` and `stpx,`, which don't work and
 \ need a rewrite.
+\
+\ 2020-12-15: Add `m1-` to define a new version of `ldsp,` that
+\ requires a register.
