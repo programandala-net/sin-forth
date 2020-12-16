@@ -9,7 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020.
 
-# Last modified: 202012111837.
+# Last modified: 202012130301.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -58,18 +58,20 @@
 all: tests
 
 .PHONY: doc
-doc: epub html pdf
+doc: manual wwwdoc
 
 .PHONY: tests
 tests: bin asm tap
+
+.PHONY: distclean
+distclean: clean cleandoc
 
 .PHONY: clean
 clean:
 	rm -f target/*
 
 .PHONY: cleandoc
-cleandoc:
-	rm -f doc/* tmp/doc.*
+cleandoc: cleanmanual cleanwww
 
 # ==============================================================
 # Tests files {{{1
@@ -180,21 +182,6 @@ tap: $(taped_tests)
 # Documentation {{{1
 
 # ----------------------------------------------
-# Interface {{{2
-
-.PHONY: epub
-epub: \
-	doc/sin_forth_manual.epub
-
-.PHONY: html
-html: \
-	doc/sin_forth_manual.html
-
-.PHONY: pdf
-pdf: \
-	doc/sin_forth_manual.pdf
-
-# ----------------------------------------------
 # Variables {{{2
 
 version=$(shell cat VERSION.txt)
@@ -242,7 +229,51 @@ tmp/doc.README.linked.adoc: README.adoc
 		--out-file=$@ $<
 
 # ----------------------------------------------
-# Documentation {{{2
+# Online documentation {{{2
+
+.PHONY: wwwdoc
+wwwdoc: wwwreadme
+
+.PHONY: cleanwww
+cleanwww:
+	rm -f \
+		doc/www/* \
+		tmp/README.*
+
+.PHONY: wwwreadme
+wwwreadme: doc/www/README.html
+
+doc/www/README.html: tmp/README.html
+	echo "<div class='fossil-doc' data-title='Title Text'>" > $@;\
+	cat $< >> $@;\
+	echo "</div>" >> $@
+
+tmp/README.html: README.adoc
+	asciidoctor \
+		--embedded \
+		--out-file=$@ $<
+
+# ----------------------------------------------
+# User manual {{{2
+
+.PHONY: manual
+manual: epub html pdf
+
+.PHONY: cleanmanual
+cleanmanual:
+	rm -f doc/* tmp/doc.*
+
+.PHONY: epub
+epub: \
+	doc/sin_forth_manual.epub
+
+.PHONY: html
+html: \
+	doc/sin_forth_manual.html
+
+.PHONY: pdf
+pdf: \
+	doc/sin_forth_manual.pdf
 
 doc/sin_forth_manual.epub: \
 	tmp/doc.manual.adoc \
@@ -315,3 +346,6 @@ include Makefile.cover_image
 #
 # 2020-12-11: Prepare the rules to build the documentation, adapted from the
 # <Makefile> of Solo Forth.
+#
+# 2020-12-13: Build an online version of the README file, as part of the
+# embedded documentation.
