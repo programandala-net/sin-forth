@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012111654.
+\ Last modified: 202012160142.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,7 +23,7 @@
 \ Credits {{{1
 
 \ This code was adapted from Couplement Forth
-\ v0.2.0-dev.30.0+202012062153
+\ v0.2.0-dev.30.0+202012160142
 \ (http://programandala.net/en.program.couplement_forth).
 
 \ Couplement Forth was forked from ForthCoupe
@@ -45,7 +45,7 @@ target-definitions
   0 ix d ftx,         \ ld d,(ix+0) ;  19
   ix incp,            \ inc ix      ;  10
   ;                   \ ret         ;  10
-                      \             ; 068 total (68 average with push-hl)
+                      \             ; 068 total (68 average with push-de)
 
   \ doc{
   \
@@ -65,3 +65,5 @@ set-current set-order
 \ 2020-12-07: Extract the code from <data_stack.fs>.
 \
 \ 2020-12-11: Update documentation.
+\
+\ 2020-12-16: Fix typo.
