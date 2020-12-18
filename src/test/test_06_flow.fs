@@ -11,7 +11,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130108.
+\ Last modified: 202012181750.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -29,11 +29,15 @@ require sin_forth/lib/begin.fs     \ `begin`
 require sin_forth/lib/dup.fs       \ `dup`
 require sin_forth/lib/emit.fs      \ `emit`
 require sin_forth/lib/equals.fs    \ `=`
+require sin_forth/lib/for.fs       \ `for`
 require sin_forth/lib/if.fs        \ `if`
 require sin_forth/lib/literal.fs   \ `literal`
 require sin_forth/lib/one-minus.fs \ `1-`
 require sin_forth/lib/one-plus.fs  \ `1+`
+require sin_forth/lib/plus.fs      \ `plus`
+require sin_forth/lib/r-fetch.fs   \ `r@`
 require sin_forth/lib/repeat.fs    \ `repeat`
+require sin_forth/lib/step.fs      \ `step`
 require sin_forth/lib/then.fs      \ `then`
 require sin_forth/lib/until.fs     \ `until`
 require sin_forth/lib/while.fs     \ `while`
@@ -61,6 +65,11 @@ begin dup emit 1- dup '`' literal =
 until
 \ XXX TODO drop
 
+\ Type from 'z' to 'a'
+13 literal emit
+host{ 'z' 'a' - } literal
+for r@ 'a' literal + emit step
+
 ret,
 
 4 data-stack-here
@@ -73,3 +82,5 @@ end-program
 \ 2020-12-11: Start.
 \
 \ 2020-12-13: Add `begin`, `while`, `repeat`, `until`.
+\
+\ 2020-12-18: Add `for`, `step`.
