@@ -1,0 +1,2 @@
+*.fs linguist-language=Forth
+*.z80s linguist-language=Assembly
