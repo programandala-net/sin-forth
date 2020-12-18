@@ -1,12 +1,13 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-13
+:revdate: 2020-12-18
 
+// Description {{{1
 == Description
 
 // tag::description[]
 
-Sin Forth is a Forth cross compiler written in
+Sin Forth is a Forth cross compiler under development, written in
 http://forth-standard.org[Forth] with
 http://gnu.org/software/gforth[Gforth].
 
@@ -17,6 +18,14 @@ Spectrum Next.
 // end::description[]
 
 Author's website: <http://programandala.net>.
+
+// Repository {{{1
+== Repository
+
+The code is developed in a http://fossil-csm.org[Fossil] repository,
+which is not online yet, but a
+http://github.com/programandala.net/sin-forth[GitHub mirror] is
+provided.
 
 // Installation {{{1
 == Installation
@@ -43,7 +52,7 @@ Forth's <src> directory on your system.
 Sin Forth uses some modules of the
 http://programandala.net/en.program.galope.html[Galope library].
 
-Some of modules of Galope need the http://irdvo.nl/FFL/[Forth
+Some modules of Galope need modules of the http://irdvo.nl/FFL/[Forth
 Foundation Library].
 
 // Project directories {{{1
@@ -63,4 +72,3 @@ Foundation Library].
 ``tmp``       ::  Temporary files created by ``make``
 
 // end::tree[]
-
