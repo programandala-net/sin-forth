@@ -1,0 +1,142 @@
+<div class='fossil-doc' data-title='Title Text'>
+<div class="sect1">
+<h2 id="_description">Description</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sin Forth is a Forth cross compiler under development, written in
+<a href="http://forth-standard.org">Forth</a> with
+<a href="http://gnu.org/software/gforth">Gforth</a>.</p>
+</div>
+<div class="paragraph">
+<p>Sin Forth creates machine code programs for any model of the ZX
+Spectrum, ZX Spectrum 128 and compatible computers, including the ZX
+Spectrum Next.</p>
+</div>
+<div class="paragraph">
+<p>Author&#8217;s website: <a href="http://programandala.net" class="bare">http://programandala.net</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_repository">Repository</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The code is developed in a <a href="http://fossil-csm.org">Fossil</a> repository,
+which is not online yet, but a
+<a href="http://github.com/programandala.net/sin-forth">GitHub mirror</a> is
+provided.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation">Installation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to use Sin Forth, its sources must be accessible from Gforth.</p>
+</div>
+<div class="paragraph">
+<p>One method is to add the Sin Forth&#8217;s &lt;src&gt; directory to Gforth&#8217;s
+<code>fpath</code>. Consult the documentation of Gforth.</p>
+</div>
+<div class="paragraph">
+<p>A second method is to make a symbolic link to Sin Forth&#8217;s &lt;src&gt;
+directory from Gforth&#8217;s &lt;site-forth&gt; directory. In a locally compiled
+Gforth, the command on a Linux shell would be the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo ln -s ~/YOUR-PATH/src/ /usr/local/share/gforth/site-forth/sin_forth</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where "YOUR-PATH" must be replaced with the corresponding path to Sin
+Forth&#8217;s &lt;src&gt; directory on your system.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_requirements">Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sin Forth uses some modules of the
+<a href="http://programandala.net/en.program.galope.html">Galope library</a>.</p>
+</div>
+<div class="paragraph">
+<p>Some modules of Galope need modules of the <a href="http://irdvo.nl/FFL/">Forth
+Foundation Library</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tree">Project directories</h2>
+<div class="sectionbody">
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>doc</code>       
+</td>
+<td class="hdlist2">
+<p>Manuals in EPUB, HTML and PDF</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>doc/www</code>   
+</td>
+<td class="hdlist2">
+<p>Online documentation</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>src</code>       
+</td>
+<td class="hdlist2">
+<p>Compiler sources</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>src/doc</code>   
+</td>
+<td class="hdlist2">
+<p>Documentation sources</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>src/lib</code>   
+</td>
+<td class="hdlist2">
+<p>Library sources</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>src/tests</code> 
+</td>
+<td class="hdlist2">
+<p>Tests sources</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>target</code>    
+</td>
+<td class="hdlist2">
+<p>Compiled and disassembled tests</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>tmp</code>       
+</td>
+<td class="hdlist2">
+<p>Temporary files created by <code>make</code></p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div></div>
