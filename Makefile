@@ -9,7 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020.
 
-# Last modified: 202012130301.
+# Last modified: 202012240044.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -244,7 +244,7 @@ cleanwww:
 wwwreadme: doc/www/README.html
 
 doc/www/README.html: tmp/README.html
-	echo "<div class='fossil-doc' data-title='Title Text'>" > $@;\
+	echo "<div class='fossil-doc' data-title='README'>" > $@;\
 	cat $< >> $@;\
 	echo "</div>" >> $@
 
@@ -349,3 +349,5 @@ include Makefile.cover_image
 #
 # 2020-12-13: Build an online version of the README file, as part of the
 # embedded documentation.
+#
+# 2020-12-24: Fix the title of the online README.
