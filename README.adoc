@@ -1,6 +1,6 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-18
+:revdate: 2020-12-24
 
 // Description {{{1
 == Description
@@ -22,10 +22,8 @@ Author's website: <http://programandala.net>.
 // Repository {{{1
 == Repository
 
-The code is developed in a http://fossil-csm.org[Fossil] repository,
-which is not online yet, but a
-http://github.com/programandala.net/sin-forth[GitHub mirror] is
-provided.
+- http://fossil.programandala.net/sin_forth[Fossil repository]
+- http://github.com/programandala.net/sin-forth[GitHub mirror]
 
 // Installation {{{1
 == Installation
@@ -63,7 +61,7 @@ Foundation Library].
 
 [horizontal]
 ``doc``       ::  Manuals in EPUB, HTML and PDF
-``doc/www``   ::  Online documentation
+``doc/www``   ::  Online documentation for the Fossil repository
 ``src``       ::  Compiler sources
 ``src/doc``   ::  Documentation sources
 ``src/lib``   ::  Library sources
