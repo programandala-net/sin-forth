@@ -6,20 +6,22 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012240159.
+\ Last modified: 202012240205.
 \ See change log at the end of the file.
 
 \ ==============================================================
 
-require pop-hl.fs  \ `pop-hl`
-require push-hl.fs \ `push-hl`
+require push-hl.fs  \ `push-hl`
 
 get-order get-current
 
 target-definitions
 
 : dup ( x -- x x )
-  pop-hl push-hl push-hl ;
+  0 ix l ftx, \ ld l,(ix+0)
+  1 ix h ftx, \ ld h,(ix+1)
+  push-hl     \ call push_hl
+  ;           \ ret
 
   \ doc{
   \
@@ -41,3 +43,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-12: Start.
+\
+\ 2020-12-24: Rewrite a faster version, without `pop-hl`.

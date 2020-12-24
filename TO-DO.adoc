@@ -44,7 +44,3 @@
   `z80dasm` in <Makefile>.
 - Use shorter names for `literal`, `2literal`, `cliteral`, `xliteral`,
   `sliteral`.
-
-== 2020-12-24
-
-- Faster `dup`.
