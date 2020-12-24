@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012120006.
+\ Last modified: 202012151700.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -18,7 +18,7 @@ target-definitions
 : 1- ( n1 -- n2 )
 
   \ XXX slow variant:
-  \ pop-hl h decp, push-hl ;
+  \ pop-hl h decp, push-hl
 
   \ XXX fast variant:
   0 ix l ftx, \ ld l,(ix+0)
@@ -26,6 +26,13 @@ target-definitions
   h decp,     \ dec hl
   l 0 ix stx, \ ld (ix+0),l
   h 1 ix stx, \ ld (ix+0),h
+
+  \ XXX even faster variant:
+  \ XXX TODO
+  \ 0 ix decx,  \ dec (ix+0) ; low byte
+  \ s? ?jr,
+  \ 1 ix decx,  \ dec (ix+1) ; high byte
+
   ;           \ ret
 
 set-current set-order
