@@ -6,12 +6,10 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130037.
+\ Last modified: 202012240146.
 \ See change log at the end of the file.
 
 \ ==============================================================
-
-require pop-hl.fs
 
 get-order get-current
 
@@ -21,15 +19,17 @@ synonym branch jp,
 
   \ doc{
   \
-  \ branch  Compilation: ( dest -- ) Run-time:    ( -- )
+  \ branch
+  \   Compilation: ( dest -- )
+  \   Run-time:    ( -- )
   \
   \ Compilation: compile the Z80 ``jp`` instruction to jump
   \ unconditionally to _dest_.
   \
   \ Run-time: branch unconditionally to _dest_.
   \
-  \ // XXX TODO // See also: `?branch`, `0branch`, `-branch`,
-  \ `+branch`.
+  \ // XXX TODO
+  \ // See also: `?branch`, `0branch`, `-branch`, `+branch`.
   \
   \ See also: `0branch`.
   \
@@ -45,3 +45,5 @@ set-current set-order
 \ 2020-12-12: Finish and document.
 \
 \ 2020-12-13: Define as a synonym.
+\
+\ 2020-12-24: Remove useless requirement. Fix layout of documentation.
