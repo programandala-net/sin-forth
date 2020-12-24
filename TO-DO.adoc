@@ -49,3 +49,4 @@
 
 - Add macros to preserve the alternate `hl'` register, which must be
   preserved in order to return to BASIC.
+- Add flag to compile fast or slow versions of some words.
