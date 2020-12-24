@@ -44,3 +44,8 @@
   `z80dasm` in <Makefile>.
 - Use shorter names for `literal`, `2literal`, `cliteral`, `xliteral`,
   `sliteral`.
+
+== 2020-12-24
+
+- Add macros to preserve the alternate `hl'` register, which must be
+  preserved in order to return to BASIC.
