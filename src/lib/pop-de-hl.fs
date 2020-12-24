@@ -2,7 +2,7 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `pop-de-hl` to the target system.
+\ This file adds `pop-de-hl` to the target.
 
 \ By Marcos Cruz (programandala.net), 2020.
 

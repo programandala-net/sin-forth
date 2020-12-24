@@ -2,7 +2,7 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `pop-hl` to the target system.
+\ This file adds `pop-hl` to the target.
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 

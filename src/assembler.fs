@@ -1,8 +1,6 @@
 \ assembler.fs
 
-\ This file is part of:
-
-\ Sin Forth
+\ This file is part of Sin Forth.
 
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.

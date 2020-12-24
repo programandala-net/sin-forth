@@ -2,7 +2,7 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `true` to the target system.
+\ This file adds `true` to the target.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
