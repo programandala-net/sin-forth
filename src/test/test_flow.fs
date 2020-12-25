@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ test_06_flow.fs
+\ test_flow.fs
 
 \ This file is part of Sin Forth.
 
@@ -19,7 +19,7 @@
 require sin_forth/compiler.fs
 
 40000 set-origin
-s" test_06_flow" set-filename
+s" test_flow" set-filename
 
 begin-program
 

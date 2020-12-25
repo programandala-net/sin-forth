@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ test_04_defer.fs
+\ test_defer.fs
 
 \ This file is part of Sin Forth.
 
@@ -17,7 +17,7 @@
 require sin_forth/compiler.fs
 
 40000 set-origin
-s" test_04_defer" set-filename
+s" test_defer" set-filename
 
 begin-program
 

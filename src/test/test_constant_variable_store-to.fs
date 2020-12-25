@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ test_03_constant_variable_store-to.fs
+\ test_constant_variable_store-to.fs
 
 \ This file is part of Sin Forth.
 
@@ -17,7 +17,7 @@
 require sin_forth/compiler.fs
 
 40000 set-origin
-s" test_03_constant_variable_store-to" set-filename
+s" test_constant_variable_store-to" set-filename
 
 begin-program
 

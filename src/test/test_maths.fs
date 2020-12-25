@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ test_05_maths.fs
+\ test_maths.fs
 
 \ This file is part of Sin Forth.
 
@@ -17,7 +17,7 @@
 require sin_forth/compiler.fs
 
 40000 set-origin
-s" test_05_maths" set-filename
+s" test_maths" set-filename
 
 begin-program
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ test_02_tick.fs
+\ test_tick.fs
 
 \ This file is part of Sin Forth.
 
@@ -17,7 +17,7 @@
 require sin_forth/compiler.fs
 
 40000 set-origin
-s" test_02_tick" set-filename
+s" test_tick" set-filename
 
 begin-program
 
