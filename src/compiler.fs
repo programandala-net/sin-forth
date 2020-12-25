@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012252341.
+\ Last modified: 202012260042.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -633,7 +633,7 @@ no-data-stack value data-stack-bottom
   \ nothing.
 
 \ ==============================================================
-\ Special words needed during the compilation {{{1
+\ Words to handle the target memory {{{1
 
 : t-allot \ Compilation: ( +n -- )
   dup 0< abort" Negative number not allowed by `t-allot`"
@@ -641,6 +641,33 @@ no-data-stack value data-stack-bottom
   memory> +! ;
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
+
+: t-here ( -- a )
+  memory> @ memory + ;
+  \ Return the host address _a_ that is the current equivalent
+  \ address of the target data-space pointer.
+
+: t-char+ ( n1 -- n2 )
+  1+ ;
+  \ Add the size in bytes of a target character to _n1_, giving
+  \ _n2_.
+
+: t-s, ( ca len -- )
+  \ XXX TODO
+  tuck t-here place t-char+ t-allot ;
+
+  \ doc{
+  \
+  \ t-s, ( ca len -- ) "s-comma"
+  \
+  \ Compile the string _ca len_ in target data space.
+  \
+  \ ``t-s,`` is a compiler version of `s,` which works in target data
+  \ space.
+  \
+  \ See also: `t-allot`.
+  \
+  \ }doc
 
 \ ==============================================================
 \ Compiler directives {{{1
@@ -702,3 +729,5 @@ no-data-stack value data-stack-bottom
 \ set by `compiler-order`.
 \
 \ 2020-12-25: Add `t-allot`, `h-@` and `h-constant`.
+\
+\ 2020-12-26: Add `t-here`, `t-char+` and `t-s,`.
