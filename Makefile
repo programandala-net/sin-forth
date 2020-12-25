@@ -9,7 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020.
 
-# Last modified: 202012240044.
+# Last modified: 202012251550.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -60,9 +60,6 @@ all: tests
 .PHONY: doc
 doc: manual wwwdoc
 
-.PHONY: tests
-tests: bin asm tap
-
 .PHONY: distclean
 distclean: clean cleandoc
 
@@ -86,7 +83,7 @@ disassembled_tests=$(addsuffix .asm, $(target_tests))
 # ==============================================================
 # Compile the tests {{{1
 
-# XXX OLD
+# XXX OLD method
 .PHONY: tests_old
 tests_old:
 	cp -f src/test/*.fs target/;\
@@ -94,23 +91,17 @@ tests_old:
 	run-parts --regex='.*\.fs' .;\
 	rm -f *.fs
 
-# XXX NEW
-.PHONY: bin
-bin: $(compiled_tests)
-
-# XXX TODO
-# target/%.fs: src/test/%.fs
-# 	./$<;\
-# 	mv -f test_* target/
+# XXX NEW method
+.PHONY: tests
+tests: $(compiled_tests)
 
 target/%.bin: src/test/%.fs
 	./$<;\
 	mv -f test_* target/
 
-# XXX TODO
-# %.bin: %.fs
-# 	cp -f src/test/$< $(dir
-# 	./$<
+target/%.bas: src/test/%.fs
+	./$<;\
+	mv -f test_* target/
 
 # ==============================================================
 # Disassembly the compiled tests {{{1
@@ -118,7 +109,7 @@ target/%.bin: src/test/%.fs
 # ----------------------------------------------
 # Disassembly all executables {{{2
 
-# XXX OLD
+# XXX OLD method
 .PHONY: asm_old
 asm_old:
 	@for file in $$(ls target/*.bin);do\
@@ -130,7 +121,7 @@ asm_old:
 			$$file;\
 	done;
 
-# XXX NEW
+# XXX NEW method
 .PHONY: asm
 asm: $(disassembled_tests)
 
@@ -157,6 +148,7 @@ asm: $(disassembled_tests)
 # an argument, which is not currently possible. By default, the start address
 # of the code is used.
 
+# XXX OLD
 .PHONY: bin2tap
 bin2tap:
 	@for file in $$(ls target/*.bin);do\
@@ -353,3 +345,6 @@ include Makefile.cover_image
 # embedded documentation.
 #
 # 2020-12-24: Fix the title of the online README.
+#
+# 2020-12-25: Add a rule to build a TAP file from a test BASIC loader, in order
+# to build the final TAP file directly.
