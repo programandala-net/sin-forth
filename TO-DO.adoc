@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-24
+:revdate: 2020-12-25
 
 == 2020-12-06
 
@@ -50,3 +50,8 @@
 - Add macros to preserve the alternate `hl'` register, which must be
   preserved in order to return to BASIC.
 - Add flag to compile fast or slow versions of some words.
+
+== 2020-12-25
+
+- Combine `drop` and `2drop`. `drop` can be a second entry point of
+  `2drop`.
