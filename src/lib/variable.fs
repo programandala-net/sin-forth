@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130031.
+\ Last modified: 202012252043.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -25,7 +25,10 @@ compiler-definitions
 
   \ doc{
   \
-  \ variable  Compilation: ( "name" -- ) Run-time:    ( -- a )
+  \ variable
+  \   Compilation: ( "name" -- )
+  \   Run-time:    ( -- a )
+
   \
   \ Compilation: ( "name" -- )
   \
@@ -44,7 +47,7 @@ compiler-definitions
 
   \ // XXX TODO
   \ // See also: `cvariable`, `2variable`, `constant`.
-  \ See also: `constant`.
+  \ See also: `constant`, `create`.
   \
   \ }doc
 
@@ -65,3 +68,6 @@ set-current set-order
 \ code. Document.
 \
 \ 2020-12-13: Update: Remove `target{`.
+\
+\ 2020-12-25: Fix layout of the documentation. Add cross-reference to
+\ `create`.
