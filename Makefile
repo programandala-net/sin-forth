@@ -231,6 +231,8 @@ tmp/doc.README.linked.adoc: README.adoc
 # ----------------------------------------------
 # Online documentation {{{2
 
+# Online documentation displayed on the Fossil repository.
+
 .PHONY: wwwdoc
 wwwdoc: wwwreadme
 
