@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012130025.
+\ Last modified: 202012252341.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -108,10 +108,12 @@ synonym compiler{ compiler{
 synonym host{ host{
 synonym target{ target{ 
 
+compiler-definitions
+
 \ ==============================================================
 \ Standard words needed during the compilation {{{1
 
-compiler-definitions
+\ Words that are not defined in the target and thus can their names:
 
 synonym ( (  \ )
 synonym \ \
@@ -123,6 +125,12 @@ synonym s" s"
 synonym s\" s\"
 synonym set-current set-current
 synonym set-order set-order
+
+\ Words that are defined in the target and thus need a "h-" prefix
+\ (from "host"):
+
+synonym h-@ @
+synonym h-constant constant
 
 \ ==============================================================
 \ Target memory {{{1
@@ -358,6 +366,14 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
   \ Create a z80dasm block definition for the data stack, whose top
   \ (low address) is at target memory address
   \ _a_ and its length is _len_ bytes.
+
+: z80dasm-allot-block ( len -- )
+  memory> @ tuck + s" bytedata"
+  base @ >r hex  s" alloted_at_" memory> @ n>str s+
+         r> base !
+  false false z80dasm-block ;
+  \ Create a z80dasm block definition for allocated data space of
+  \ _len_ bytes.
 
 \ ==============================================================
 \ Debugging tools {{{1
@@ -617,6 +633,16 @@ no-data-stack value data-stack-bottom
   \ nothing.
 
 \ ==============================================================
+\ Special words needed during the compilation {{{1
+
+: t-allot \ Compilation: ( +n -- )
+  dup 0< abort" Negative number not allowed by `t-allot`"
+  z80dasm-blocks @ if dup z80dasm-allot-block then
+  memory> +! ;
+  \ A compiler version of `allot` that handles the data-space
+  \ pointer of the target.
+
+\ ==============================================================
 \ Compiler directives {{{1
 
 : begin-program ( -- )
@@ -674,3 +700,5 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-13: Add `target-wordlist` at the bottom of the search order
 \ set by `compiler-order`.
+\
+\ 2020-12-25: Add `t-allot`, `h-@` and `h-constant`.
