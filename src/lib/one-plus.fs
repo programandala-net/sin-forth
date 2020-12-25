@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012151700.
+\ Last modified: 202012260020.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -34,6 +34,20 @@ target-definitions
 
   ;           \ ret
 
+  \ doc{
+  \
+  \ 1+ ( n1 -- n2 ) "one-plus"
+  \
+  \ Add 1 to _n1_, according to the operation of `+`, giving _n2_.
+  \
+  \ ``1+`` is equivalent to ``1 +`` but faster.
+  \
+  \ // XXX TODO
+  \ // See also: `1-`, `2+`, `8+`, `c@1+`, `1`, `+`.
+  \ See also: `1-`, `2+`, `char+`.
+  \
+  \ }doc
+
 set-current set-order
 
 \ ==============================================================
@@ -42,3 +56,5 @@ set-current set-order
 \ 2020-12-11: Start.
 \
 \ 2020-12-15: Write faster variant with `incx,`.
+\
+\ 2020-12-26: Document.
