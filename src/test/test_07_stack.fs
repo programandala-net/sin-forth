@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012240254.
+\ Last modified: 202012251430.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -29,6 +29,7 @@ require sin_forth/lib/nip.fs      \ `nip`
 require sin_forth/lib/over.fs     \ `over`
 require sin_forth/lib/swap.fs     \ `swap`
 require sin_forth/lib/two-drop.fs \ `2drop`
+require sin_forth/lib/two-nip.fs  \ `2nip`
 require sin_forth/lib/two-over.fs \ `2over`
 require sin_forth/lib/two-swap.fs \ `2swap`
 
@@ -36,11 +37,16 @@ boot-here
 
 exx, h push, \ preserve the HL' register, used by BASIC
 
+00 literal
+00 literal
 67 literal \ "C"
 68 literal \ "D"
+2nip
+
 00 literal
 65 literal \ "A"
 nip
+
 66 literal \ "B"
 
 2swap
@@ -76,3 +82,5 @@ end-program
 
 \ 2020-12-24: Start. Test `drop`, `dup`, `swap`, `over`, `2over`,
 \ `2swap`, `2drop`, `nip`.
+\
+\ 2020-12-25: Test `2nip`.
