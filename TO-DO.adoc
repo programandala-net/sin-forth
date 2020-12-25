@@ -55,3 +55,5 @@
 
 - Combine `drop` and `2drop`. `drop` can be a second entry point of
   `2drop`.
+- Rename `after` to its original name `aft`; rename `step` to its
+  usual name `next`.

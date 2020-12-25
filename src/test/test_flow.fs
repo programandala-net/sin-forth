@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012181750.
+\ Last modified: 202012251743.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,6 +23,7 @@ s" test_flow" set-filename
 
 begin-program
 
+require sin_forth/lib/after.fs     \ `after`
 require sin_forth/lib/begin.fs     \ `begin`
 require sin_forth/lib/dup.fs       \ `dup`
 require sin_forth/lib/emit.fs      \ `emit`
@@ -68,6 +69,16 @@ until
 host{ 'z' 'a' - } literal
 for r@ 'a' literal + emit step
 
+\ Type from '3' to '0'
+13 literal emit
+host{ '3' '0' - } literal
+for r@ '0' literal + emit step
+
+\ Type from '2' to '0'
+13 literal emit
+host{ '3' '0' - } literal
+for after r@ '0' literal + emit then step
+
 ret,
 
 4 data-stack-here
@@ -82,3 +93,5 @@ end-program
 \ 2020-12-13: Add `begin`, `while`, `repeat`, `until`.
 \
 \ 2020-12-18: Add `for`, `step`.
+\
+\ 2020-12-25: Add `after`.
