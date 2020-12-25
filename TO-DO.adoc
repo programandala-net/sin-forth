@@ -57,3 +57,7 @@
   `2drop`.
 - Rename `after` to its original name `aft`; rename `step` to its
   usual name `next`.
+- Factor `push-a` from `count`.
+- Document the standard words used by the compiler.
+- Document the "h-" and "t-" words.
+- Uniform the notation of the compilation data stack, e.g. "C:".
