@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012260049.
+\ Last modified: 202012260139.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,6 +21,9 @@ s" test_type" set-filename
 
 begin-program
 
+require sin_forth/lib/c-r.fs
+require sin_forth/lib/count.fs
+require sin_forth/lib/create.fs
 require sin_forth/lib/drop.fs
 require sin_forth/lib/emit.fs
 require sin_forth/lib/literal.fs
@@ -29,31 +32,32 @@ require sin_forth/lib/type.fs
 
 : the-end ( -- ) "The End" sliteral type ;
 
+create zx
+"Sinclair ZX Spectrum" t-s,
+
 boot-here
 exx, h push,
 
 'a' literal emit
 'b' literal emit
-'c' literal emit
-13 literal emit
+'c' literal emit cr
 
 '1' literal emit
 '2' literal emit
-'3' literal emit
-13 literal emit
+'3' literal emit cr
 
-s" abc" sliteral type
-13 literal emit
+s" abc" sliteral type cr
 
-s" 123" sliteral type
-13 literal emit
+s" 123" sliteral type cr
+
+zx count type cr
 
 the-end
 
 h pop, exx,
 ret,
 
-4 data-stack-here
+8 data-stack-here
 
 end-program
 
@@ -62,4 +66,5 @@ end-program
 
 \ 2020-12-25: Start.
 \
-\ 2020-12-26: Complete.
+\ 2020-12-26: Complete. Update with `cr`. Use also `create`, `t-s,`
+\ and `count`.
