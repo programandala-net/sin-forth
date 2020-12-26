@@ -20,8 +20,7 @@ get-order get-current
 target-definitions
 
 : = ( x1 x2 -- f )
-  pop-de-hl          \ pop de
-                     \ pop hl
+  pop-de-hl          \ call pop_de_hl
   a or,              \ or a ; Fc=0
   d sbcp,            \ sbc hl,de
   false_dea nz? ?jp, \ jp nz,false_dea
@@ -44,3 +43,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-12: Start.
+\
+\ 2020-12-26: Fix code comment.
