@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012111654.
+\ Last modified: 202012260313.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -61,7 +61,7 @@ target-definitions
   \ the theoretic register pair ``HLDE``, being ``HL`` its high part
   \ (on top of stack) and ``DE`` its low part.
   \
-  \ See also: `push-hl-de`, `pop-de-hl`, `pop-de`, `pop-hl`.
+  \ See also: `push-hl-de`, `pop-de-hl`, `pop-de`, `pop-hl`, `pop-a`.
   \
   \ }doc
 
@@ -73,3 +73,5 @@ set-current set-order
 \ 2020-12-07: Extract the code from <src/data_stack.fs>.
 \
 \ 2020-12-11: Fix typo in documentation. Update documentation.
+\
+\ 2020-12-26: Update the documentation with `pop-a`.

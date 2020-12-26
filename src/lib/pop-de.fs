@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012160142.
+\ Last modified: 202012260310.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,7 +53,7 @@ target-definitions
   \
   \ Pop _x_ into the ``DE`` Z80 register.
   \
-  \ See also: `push-de`, `pop-hl`, `pop-hl-de`, `pop-de-hl`.
+  \ See also: `push-de`, `pop-hl`, `pop-hl-de`, `pop-de-hl`, `pop-a`.
   \
   \ }doc
 
@@ -67,3 +67,5 @@ set-current set-order
 \ 2020-12-11: Update documentation.
 \
 \ 2020-12-16: Fix typo.
+\
+\ 2020-12-26: Update the documentation with `pop-a`.

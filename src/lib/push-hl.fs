@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012111654.
+\ Last modified: 202012260309.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,7 +53,8 @@ target-definitions
   \
   \ Push the content _x_ of the ``HL`` Z80 register.
   \
-  \ See also: `pop-hl`, `push-de`, `push-de-hl`, `push-hl-de`.
+  \ See also: `pop-hl`, `push-de`, `push-de-hl`, `push-hl-de`,
+  \ `push-a`.
   \
   \ }doc
 
@@ -65,3 +66,5 @@ set-current set-order
 \ 2020-12-07: Extract the code from <src/data_stack.fs>.
 \
 \ 2020-12-11: Update documentation.
+\
+\ 2020-12-26: Update the documentation with `push-a`.
