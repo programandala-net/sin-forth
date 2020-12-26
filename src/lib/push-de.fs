@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012260315.
+\ Last modified: 202012261953.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,8 +53,8 @@ target-definitions
   \
   \ Push the content _x_ of the ``DE`` Z80 register.
   \
-  \ See also: `pop-de`, `push-hl`, `push-de-hl`, `push-hl-de`,
-  \ `push-a`.
+  \ See also: `pop-de`, `push-bc`, `push-hl`, `push-de-hl`,
+  \ `push-hl-de`, `push-a`.
   \
   \ }doc
 
@@ -69,4 +69,4 @@ set-current set-order
 \
 \ 2020-12-16: Fix typo.
 \
-\ 2020-12-26: Update the documentation with `push-a`.
+\ 2020-12-26: Update the documentation with `push-a` and `push-bc`.

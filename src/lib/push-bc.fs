@@ -1,12 +1,12 @@
-\ lib/push-a.fs
+\ lib/push-bc.fs
 
 \ This file is part of Sin Forth.
 
-\ This file adds `push-a` to the target.
+\ This file adds `push-bc` to the target.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012261952.
+\ Last modified: 202012261947.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -15,23 +15,23 @@ get-order get-current
 
 target-definitions
 
-: push-a ( -- c )
+: push-bc ( -- x )
                       \             ; T Cycles
   ix decp,            \ dec ix      ;  10
-  0 0 ix st#x,        \ ld (ix+0),0 ;  19
+  b 0 ix stx,         \ ld (ix+0),b ;  19
   ix decp,            \ dec ix      ;  10
-  a 0 ix stx,         \ ld (ix+0),l ;  19
+  c 0 ix stx,         \ ld (ix+0),c ;  19
   ;                   \ ret         ;  10
-                      \             ; 068 total (58.5 average with pop-a)
+                      \             ; 068 total (68 average with pop-de)
 
   \ doc{
   \
-  \ push-a ( -- c )
+  \ push-bc ( -- x )
   \
-  \ Push the content _c_ of the ``A`` Z80 register.
+  \ Push the content _x_ of the ``DE`` Z80 register.
   \
-  \ See also: `pop-a`, `push-bc`, `push-de`, `push-hl`, `push-de-hl`,
-  \ `push-hl-de`.
+  \ See also: `pop-bc`, `push-de`, `push-hl`, `push-de-hl`,
+  \ `push-hl-de`, `push-a`.
   \
   \ }doc
 
@@ -40,4 +40,4 @@ set-current set-order
 \ ==============================================================
 \ Change log {{{1
 
-\ 2020-12-26: Start. Update documentation with `push-bc`.
+\ 2020-12-26: Start.

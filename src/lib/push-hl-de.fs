@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012260318.
+\ Last modified: 202012261954.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -39,8 +39,8 @@ target-definitions
   \ the theoretic register pair ``DEHL``, being ``DE`` its high part
   \ (on top of stack) and ``HL`` its low part.
   \
-  \ See also: `pop-de-hl`, `push-de-hl`, `push-de`, `push-hl`,
-  \ `push-a`.
+  \ See also: `pop-de-hl`, `push-de-hl`, `push-bc`, `push-de`,
+  \ `push-hl`, `push-a`.
   \
   \ }doc
 
@@ -51,4 +51,4 @@ set-current set-order
 
 \ 2020-12-11: Start.
 \
-\ 2020-12-26: Update the documentation with `push-a`.
+\ 2020-12-26: Update the documentation with `push-a` and `push-bc`.

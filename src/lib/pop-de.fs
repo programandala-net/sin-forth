@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012260310.
+\ Last modified: 202012261950.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -23,7 +23,7 @@
 \ Credits {{{1
 
 \ This code was adapted from Couplement Forth
-\ v0.2.0-dev.30.0+202012160142
+\ v0.2.0-dev.30.0+202012062153
 \ (http://programandala.net/en.program.couplement_forth).
 
 \ Couplement Forth was forked from ForthCoupe
@@ -53,7 +53,8 @@ target-definitions
   \
   \ Pop _x_ into the ``DE`` Z80 register.
   \
-  \ See also: `push-de`, `pop-hl`, `pop-hl-de`, `pop-de-hl`, `pop-a`.
+  \ See also: `push-de`, `pop-bc`, `pop-hl`, `pop-hl-de`, `pop-de-hl`,
+  \ `pop-a`.
   \
   \ }doc
 
@@ -68,4 +69,4 @@ set-current set-order
 \
 \ 2020-12-16: Fix typo.
 \
-\ 2020-12-26: Update the documentation with `pop-a`.
+\ 2020-12-26: Update the documentation with `pop-a` and `pop-bc`.

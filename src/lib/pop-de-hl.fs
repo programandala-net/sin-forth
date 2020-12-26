@@ -6,11 +6,10 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012260311.
+\ Last modified: 202012261951.
 \ See change log at the end of the file.
 
 \ ==============================================================
-\ pop-hl-de {{{1
 
 get-order get-current
 
@@ -39,7 +38,8 @@ target-definitions
   \ the theoretic register pair ``DEHL``, being ``DE`` its high part
   \ (on top of stack) and ``HL`` its low part.
   \
-  \ See also: `push-de-hl`, `pop-hl-de`, `pop-de`, `pop-hl`, `pop-a`.
+  \ See also: `push-de-hl`, `pop-hl-de`, `pop-bc`, `pop-de`, `pop-hl`,
+  \ `pop-a`.
   \
   \ }doc
 
@@ -50,4 +50,4 @@ set-current set-order
 
 \ 2020-12-11: Start.
 \
-\ 2020-12-26: Update the documentation with `pop-a`.
+\ 2020-12-26: Update the documentation with `pop-a` and `pop-bc`.
