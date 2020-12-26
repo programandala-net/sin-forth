@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130107.
+\ Last modified: 202012262203.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -17,36 +17,37 @@ get-order get-current
 
 compiler-definitions
 
-: 0branch \ Compilation: ( -- )
+: 0branch \ Compilation: ( dest -- )
           \ Run-time:    ( f -- )
-  pop-hl              \ pop hl
-  compiler{ l } a ld, \ ld a,l \ XXX REMARK `compiler{` is needed
-                               \ because `l` is a word of Gforth.
-  h or,               \ or h   ; HL = zero?
-  $0000 z? ?jp,       \ jp z,0 ; jump if zero, to an address which
-                      \        ; will be left by `>mark` and resolved
-                      \        ; by `>resolve` or `<resolve`.
-  ;
+  compiler{
+  pop-hl        \ pop hl
+  l a ld,       \ ld a,l \ XXX REMARK `compiler{` is needed
+                         \ because `l` is a word of Gforth.
+  h or,         \ or h   ; HL = zero?
+  $0000 z? ?jp, \ jp z,0 ; jump if zero, to an address which
+                \        ; will be left by `>mark` and resolved
+                \        ; by `>resolve` or `<resolve`.
+  } ;
 
   \ doc{
   \
-  \ 0branch  Compilation: ( -- )
+  \ 0branch  Compilation: ( dest -- )
   \          Run-time:    ( f -- )
   \ "zero-branch"
 
   \
   \ Compilation: Compile Z80 code to perform the run-time semantics
-  \ below. The destination address must be resolved by `>resolve`
-  \ during the compilation.
+  \ below. The destination address _dest_ must be resolved by
+  \ `>resolve` during the compilation.
   \
   \ Run-time: If  _f_ is false (zero), a Z80 ``jp`` is executed to an
   \ address that was resolved by `>resolve` during the compilation.
 
   \
   \ // XXX TODO
-  \ // See also: `branch`, `?branch`, `-branch`, `+branch`.
+  \ // See also: `-branch`, `+branch`.
   \
-  \ See also: `branch`.
+  \ See also: `branch`, `?branch`.
   \
   \ }doc
 
@@ -61,3 +62,6 @@ set-current set-order
 \
 \ 2020-12-13: Update the search-order selectors, remove `target{`.
 \ Improve documentation.
+\
+\ 2020-12-26: Fix the stack comment. Update the documentation with
+\ `?branch`.
