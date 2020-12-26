@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130029.
+\ Last modified: 202012262211.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -38,9 +38,9 @@ compiler-definitions
   \ Place _x_ on the stack.
   \
   \ // XXX TODO
-  \ // See also: `2constant`, `cconstant`, `fconstant`, `const`,
+  \ // See also: `2constant`, `fconstant`, `const`,
   \ // `[const]`, `variable`.
-  \ See also: `variable`, `!>`.
+  \ See also: `variable`, `cconstant`, `!>`.
   \
   \ }doc
 
@@ -62,3 +62,5 @@ set-current set-order
 \ 2020-12-11: Update the search-order selection words. Document.
 \
 \ 2020-12-13: Update: Remove `target{`.
+\
+\ 2020-12-26: Update documentation with `cconstant`.

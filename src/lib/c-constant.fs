@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012260213.
+\ Last modified: 202012262214.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -31,10 +31,10 @@ compiler-definitions
   \ _c_ on the stack. _name_ is referred to as a "c-constant".
   \
   \ // XXX TODO
-  \ // See also: `constant`, `2constant`, `c!>`, `cconst`,
+  \ // See also: `2constant`, `c!>`, `cconst`,
   \ // `[cconst]`, `cvalue`, `cvariable`.
   \
-  \ See also: `constant`. 
+  \ See also: `cvariable`, `constant`.
   \
   \ }doc
 
@@ -43,4 +43,4 @@ set-current set-order
 \ ==============================================================
 \ Change log {{{1
 
-\ 2020-12-26: Start.
+\ 2020-12-26: Start. Update documentation with `cvariable`.

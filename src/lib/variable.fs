@@ -46,8 +46,8 @@ compiler-definitions
   \ Place on the stack the data field address _a_ of _name_.
 
   \ // XXX TODO
-  \ // See also: `cvariable`, `2variable`, `constant`.
-  \ See also: `constant`, `create`.
+  \ // See also: `2variable`
+  \ See also: `@`, `!`, `cvariable`, `constant`, `create`.
   \
   \ }doc
 
@@ -71,3 +71,5 @@ set-current set-order
 \
 \ 2020-12-25: Fix layout of the documentation. Add cross-reference to
 \ `create`.
+\
+\ 2020-12-26: Update documentation with `cvariable`.
