@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012260042.
+\ Last modified: 202012260218.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -360,6 +360,15 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
   \ the latest target word definition, e.g. a variable or a constant,
   \ being _a_ its address in the target memory and _ca len_ a suffix
   \ to be added to the name of the latest target definition.
+
+: z80dasm-char-block ( ca1 ca2 len2 -- )
+  2>r dup 1+ s" bytedata" latest name>string 2r> s+
+  false true z80dasm-block ;
+  \ Create a z80dasm block definition for 1-character data space created by
+  \ the latest target word definition, e.g. a character variable or a
+  \ character constant, being _ca1_ its address in the target memory
+  \ and _ca2 len2_ a suffix to be added to the name of the latest
+  \ target definition.
 
 : z80dasm-stack-block ( a len -- )
   over + s" worddata" s" data_stack" false false z80dasm-block ;
@@ -730,4 +739,5 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-25: Add `t-allot`, `h-@` and `h-constant`.
 \
-\ 2020-12-26: Add `t-here`, `t-char+` and `t-s,`.
+\ 2020-12-26: Add `t-here`, `t-char+` and `t-s,`. Add
+\ `z80dasm-char-block`, needed by `cconstant` and `cvariable`.
