@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-25
+:revdate: 2020-12-26
 
 == 2020-12-06
 
@@ -61,3 +61,7 @@
 - Document the standard words used by the compiler.
 - Document the "h-" and "t-" words.
 - Uniform the notation of the compilation data stack, e.g. "C:".
+
+== 2020-12-26
+
+- Make `cr` a deferred word.

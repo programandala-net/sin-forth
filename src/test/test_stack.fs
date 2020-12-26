@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012251446.
+\ Last modified: 202012260119.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -21,6 +21,7 @@ s" test_stack" set-filename
 
 begin-program
 
+require sin_forth/lib/c-r.fs      \ `cr`
 require sin_forth/lib/emit.fs     \ `emit`
 require sin_forth/lib/literal.fs  \ `literal`
 require sin_forth/lib/drop.fs     \ `drop`
@@ -61,7 +62,7 @@ nip
       drop
       swap emit \ "C"
            emit \ "D"
-13 literal emit \ carriage return
+             cr
       swap emit \ "A"
            emit \ "B"
 
@@ -86,3 +87,5 @@ end-program
 \ `2swap`, `2drop`, `nip`.
 \
 \ 2020-12-25: Test `2nip`, `tuck`.
+\
+\ 2020-12-26: Update with `cr`.

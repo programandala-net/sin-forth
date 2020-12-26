@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111755.
+\ Last modified: 202012260124.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -31,7 +31,7 @@ target-definitions
   \
   \ Display character _c_.
   \
-  \ See also: `emit-a`.
+  \ See also: `emit-a`, `cr`.
   \
   \ }doc
 
@@ -41,7 +41,7 @@ target-definitions
   \
   \ Display the character contained in the ``A`` Z80 register.
   \
-  \ See also: `emit`.
+  \ See also: `emit`, `cr`.
   \
   \ }doc
 
@@ -55,3 +55,5 @@ set-current set-order
 \ 2020-12-09: Move `require` to the top.
 \
 \ 2020-12-11: Improve documentation.
+\
+\ 2020-12-26: Update documentation with `cr`.

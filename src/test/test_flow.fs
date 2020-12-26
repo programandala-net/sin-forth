@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012251743.
+\ Last modified: 202012260120.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -25,6 +25,7 @@ begin-program
 
 require sin_forth/lib/after.fs     \ `after`
 require sin_forth/lib/begin.fs     \ `begin`
+require sin_forth/lib/c-r.fs       \ `cr`
 require sin_forth/lib/dup.fs       \ `dup`
 require sin_forth/lib/emit.fs      \ `emit`
 require sin_forth/lib/equals.fs    \ `=`
@@ -50,7 +51,7 @@ boot-here
 3 literal if 'C' literal emit then
 
 \ Type from 'a' to 'z':
-13 literal emit
+cr
 'a' literal
 begin dup '{' literal = 0 literal =
 while dup emit 1+
@@ -58,24 +59,24 @@ repeat
 \ XXX TODO drop
 
 \ Type from 'z' to 'a'
-13 literal emit
+cr
 'z' literal
 begin dup emit 1- dup '`' literal =
 until
 \ XXX TODO drop
 
 \ Type from 'z' to 'a'
-13 literal emit
+cr
 host{ 'z' 'a' - } literal
 for r@ 'a' literal + emit step
 
 \ Type from '3' to '0'
-13 literal emit
+cr
 host{ '3' '0' - } literal
 for r@ '0' literal + emit step
 
 \ Type from '2' to '0'
-13 literal emit
+cr
 host{ '3' '0' - } literal
 for after r@ '0' literal + emit then step
 
@@ -95,3 +96,5 @@ end-program
 \ 2020-12-18: Add `for`, `step`.
 \
 \ 2020-12-25: Add `after`.
+\
+\ 2020-12-26: Update with `cr`.
