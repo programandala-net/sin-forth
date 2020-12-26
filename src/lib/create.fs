@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012130031.
+\ Last modified: 202012260059.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -18,9 +18,7 @@ get-order get-current
 compiler-definitions
 
 : create ( "name" -- )
-  creator
-  \ z80dasm-blocks @ if dup s" _create_data" z80dasm-cell-block then
-  , 2 memory> +!
+  creator ,
   does> ( dfa ) @ h ldp#, push-hl ;
 
   \ doc{
@@ -62,3 +60,5 @@ set-current set-order
 \ code. Document.
 \
 \ 2020-12-13: Update: Remove `target{`.
+\
+\ 2020-12-26: Fix: don't allocate space.
