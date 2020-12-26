@@ -9,7 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020.
 
-# Last modified: 202012251550.
+# Last modified: 202012260130.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -93,7 +93,10 @@ tests_old:
 
 # XXX NEW method
 .PHONY: tests
-tests: $(compiled_tests)
+tests: bins taps asms
+
+.PHONY: bins
+bins: $(compiled_tests)
 
 target/%.bin: src/test/%.fs
 	./$<;\
@@ -122,8 +125,8 @@ asm_old:
 	done;
 
 # XXX NEW method
-.PHONY: asm
-asm: $(disassembled_tests)
+.PHONY: asms
+asms: $(disassembled_tests)
 
 # ----------------------------------------------
 # Disassembly an executable {{{2
@@ -158,8 +161,8 @@ bin2tap:
 # ----------------------------------------------
 # Convert a BAS and a BIN into a TAP {{{2
 
-.PHONY: tap
-tap: $(taped_tests)
+.PHONY: taps
+taps: $(taped_tests)
 
 %.bas.tap: %.bas
 	zmakebas -n Autoload -a 1 -o $@ $<
@@ -348,3 +351,6 @@ include Makefile.cover_image
 #
 # 2020-12-25: Add a rule to build a TAP file from a test BASIC loader, in order
 # to build the final TAP file directly.
+#
+# 2020-12-26: Improve thP rule names. Improve `tests` to build also
+# TAP and assembly files.
