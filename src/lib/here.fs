@@ -1,12 +1,12 @@
-\ lib/s-p-0.fs
+\ lib/here.fs
 
 \ This file is part of Sin Forth.
 
-\ This file adds `s-p-0` to the target.
+\ This file adds `here` to the target.
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012111758.
+\ Last modified: 202012261533.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -40,3 +40,5 @@ set-current set-order
 \ 2020-12-07: Extract the code from <sin_forth.fs>.
 \
 \ 2020-12-11: Document.
+\
+\ 2020-12-26: Fix the file header.
