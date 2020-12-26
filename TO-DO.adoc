@@ -70,3 +70,4 @@
   `forth-wordlist` in the target search order, and make some
   `compiler{` unnecesary, now used to prevent `l` and other assembler
   words from being found in the host system first. See `step`.
+- Fix the position of parsed arguments in stack comments.
