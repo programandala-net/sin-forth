@@ -6,13 +6,14 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012251730.
+\ Last modified: 202012260105.
 \ See change log at the end of the file.
 
 \ ==============================================================
 
 require after.fs   \ `after`
 require count.fs   \ `count`
+require drop.fs    \ `drop`
 require emit.fs    \ `emit`
 require for.fs     \ `for`
 require r-fetch.fs \ `r@`
@@ -50,3 +51,5 @@ set-current set-order
 \ 2020-12-11: Start.
 \
 \ 2020-12-25: Complete with `after` and `count` after eForth.
+\
+\ 2020-12-26: Fix: require `drop`.
