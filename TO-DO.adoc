@@ -4,7 +4,6 @@
 
 == 2020-12-06
 
-- Update non-standard throw codes 22 in the assembler.
 - Update the documentation of the assembler.
 
 == 2020-12-07

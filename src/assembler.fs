@@ -7,7 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012262156.
+\ Last modified: 202012270116.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,9 +53,9 @@ get-order get-current \ save the entry status
 
 only forth definitions
 
-require galope/array-to.fs \ `array>`
+require galope/array-to.fs       \ `array>`
 require galope/question-throw.fs \ `?throw`
-require galope/three-dup.fs \ `3dup`
+require galope/three-dup.fs      \ `3dup`
 
 : 2- ( x1 -- x2 ) 2 - ;
 : 2+ ( x1 -- x2 ) 2 + ;
@@ -94,14 +94,15 @@ assembler-definitions
   \
   \ }doc
 
-: ?rel ( n -- ) $80 + $FF swap u< #-269 ?throw ;
+: ?rel ( n -- )
+  $80 + $FF swap u< abort" relative jump too long" ;
 
   \ doc{
   \
   \ ?rel ( n -- ) "question-rel"
   \
-  \ If Z80 relative branch _n_ is too long, `throw`
-  \ exception #-269 (relative jump too long).
+  \ If Z80 relative branch _n_ is too long, abort with
+  \ error "relative jump too long".
   \
   \ }doc
 
@@ -1816,16 +1817,17 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : jp>jr ( op1 -- op2 )
-  dup $C3 = if drop $18 exit then dup c? > #-273 ?throw $A2 - ;
+  dup $C3 = if drop $18 exit then dup c? >
+  abort" invalid assembler condition" $A2 - ;
   \ Note: Opcodes: $C3 is `jp`; $18 is `jr`.
 
   \ doc{
   \
   \ jp>jr ( op1 -- op2 ) "j-p-greater-than-j-r"
   \
-  \ Convert a Z80 absolute-jump instruction _op1_
-  \ to its relative-jump equivalent _op2_. Throw error #-273 if
-  \ the jump condition is invalid.
+  \ Convert a Z80 absolute-jump instruction _op1_ to its relative-jump
+  \ equivalent _op2_. If the jump condition is invalid, abort with
+  \ error "invalid assembler condition".
   \
   \ ``jp>jr`` is a factor of `?jr,`, `rif` and `runtil`.
   \
@@ -2671,4 +2673,5 @@ set-current set-order \ restore the entry status
 \ requires a register.
 \
 \ 2020-12-26: Update with `assembler-definitions`. Fix layout of the
-\ usage example of `unresolved`.
+\ usage example of `unresolved`. Replace non-standard exception codes
+\ with `abort"`.
