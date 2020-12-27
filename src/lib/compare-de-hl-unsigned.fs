@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012252030.
+\ Last modified: 202012262341.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -16,7 +16,7 @@ get-order get-current
 target-definitions
 
 : compare-de-hl-unsigned ( -- )
-  compiler{
+  assembler{
             \         ;  T  B
             \         ; -- --
   h a ld,   \ ld a,h  ; 04 01
@@ -55,3 +55,5 @@ set-current set-order
 \ Change log {{{1
 
 \ 2020-12-25: Start.
+\
+\ 2020-12-26: Update with `assembler{`.

@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012262203.
+\ Last modified: 202012262340.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -19,10 +19,9 @@ compiler-definitions
 
 : 0branch \ Compilation: ( dest -- )
           \ Run-time:    ( f -- )
-  compiler{
+  assembler{
   pop-hl        \ pop hl
-  l a ld,       \ ld a,l \ XXX REMARK `compiler{` is needed
-                         \ because `l` is a word of Gforth.
+  l a ld,       \ ld a,l
   h or,         \ or h   ; HL = zero?
   $0000 z? ?jp, \ jp z,0 ; jump if zero, to an address which
                 \        ; will be left by `>mark` and resolved
@@ -64,4 +63,4 @@ set-current set-order
 \ Improve documentation.
 \
 \ 2020-12-26: Fix the stack comment. Update the documentation with
-\ `?branch`.
+\ `?branch`. Update with `assembler{`.

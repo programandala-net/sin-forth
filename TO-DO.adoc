@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-26
+:revdate: 2020-12-27
 
 == 2020-12-06
 
@@ -66,8 +66,4 @@
 
 - Make `cr` a deferred word.
 - Add a rule to build any individual test by its basename.
-- Move the assembler words to a word list, in order to set it above
-  `forth-wordlist` in the target search order, and make some
-  `compiler{` unnecesary, now used to prevent `l` and other assembler
-  words from being found in the host system first. See `step`.
 - Fix the position of parsed arguments in stack comments.

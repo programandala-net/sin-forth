@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
 
-\ Last modified: 202012260218.
+\ Last modified: 202012262224.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -50,27 +50,11 @@ only forth definitions  decimal
 wordlist constant compiler-wordlist
   \ The compiler word list.
 
+wordlist constant assembler-wordlist
+  \ The assembler-specific compiler word list.
+
 wordlist constant target-wordlist
-  \ The target system word list.
-
-: compiler-order ( -- )
-  only
-  target-wordlist >order
-  compiler-wordlist >order
-  forth-wordlist >order ;
-
-: compiler-definitions ( -- )
-  compiler-order
-  compiler-wordlist set-current ;
-
-: target-order ( -- )
-  only
-  compiler-wordlist >order
-  target-wordlist >order ;
-
-: target-definitions ( -- )
-  target-order  
-  target-wordlist set-current ;
+  \ The target word list.
 
 : host{ ( -- )
   forth-wordlist >order ; immediate
@@ -78,35 +62,74 @@ wordlist constant target-wordlist
 : compiler{ ( -- )
   compiler-wordlist >order ; immediate
 
+: assembler{ ( -- )
+  assembler-wordlist >order ; immediate
+
 : target{ ( -- )
   target-wordlist >order ; immediate
+
+: compiler-order ( -- )
+  only
+  postpone target{
+  postpone compiler{
+  postpone assembler{
+  postpone host{ ;
+
+: compiler-definitions ( -- )
+  compiler-order
+  compiler-wordlist set-current ;
+
+: target-order ( -- )
+  only
+  postpone compiler{
+  postpone assembler{
+  postpone target{ ;
+
+: target-definitions ( -- )
+  target-order
+  target-wordlist set-current ;
+
+: assembler-order ( -- )
+  only
+  postpone target{
+  postpone compiler{
+  postpone assembler{
+  postpone host{ ;
+
+: assembler-definitions ( -- )
+  assembler-order
+  assembler-wordlist set-current ;
 
 : } ( -- )
   previous ; immediate
 
 compiler-wordlist set-current
 
+synonym assembler-definitions assembler-definitions
 synonym compiler-definitions compiler-definitions
 synonym compiler-order compiler-order
 synonym target-definitions target-definitions
 synonym target-order target-order
 
 synonym } }
+synonym assembler{ assembler{
 synonym compiler{ compiler{
 synonym host{ host{
-synonym target{ target{ 
+synonym target{ target{
 
 target-wordlist set-current
 
+synonym assembler-definitions assembler-definitions
 synonym compiler-definitions compiler-definitions
 synonym compiler-order compiler-order
 synonym target-definitions target-definitions
 synonym target-order target-order
 
 synonym } }
+synonym assembler{ assembler{
 synonym compiler{ compiler{
 synonym host{ host{
-synonym target{ target{ 
+synonym target{ target{
 
 compiler-definitions
 
@@ -305,7 +328,7 @@ variable z80-symbols ( -- a ) z80-symbols on
   s" _fetch_"        s" @"  replaced
   s" _backslash_"    s" \"  replaced
   s" _" -suffix
-  s" _" 2swap s+ 
+  s" _" 2swap s+
   s" _"       s" __" replaced
   ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
@@ -394,10 +417,16 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
 : .m ( a n -- ) swap memory + swap dump ;
   \ Dump _n_ bytes from target memory address _a_.
 
-: compiler-words ( -- ) compiler-wordlist >order words previous ;
+: [.o] ( -- ) cr .order ; immediate
+  \ Display the current search order.
+
+: [.s] ( -- ) cr .s ; immediate
+  \ Display the host data stack.
+
+: compiler-words ( -- ) postpone compiler{ words previous ;
   \ Display the words defined in the compiler word list.
 
-: target-words ( -- ) target-wordlist >order words previous ;
+: target-words ( -- ) postpone target{ words previous ;
   \ Display the words defined in the target word list.
 
 \ ==============================================================
@@ -433,7 +462,7 @@ variable latest-call
   @  memory> @ latest-call !
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  a call to " dup a. \ XXX INFORMER
-  call, ;
+  assembler{ call, } ;
 
 : : ( "name" -- )
   creator dup latest-colon ! ,
@@ -740,4 +769,5 @@ no-data-stack value data-stack-bottom
 \ 2020-12-25: Add `t-allot`, `h-@` and `h-constant`.
 \
 \ 2020-12-26: Add `t-here`, `t-char+` and `t-s,`. Add
-\ `z80dasm-char-block`, needed by `cconstant` and `cvariable`.
+\ `z80dasm-char-block`, needed by `cconstant` and `cvariable`. Add
+\ `assembler-wordlist` and related words.

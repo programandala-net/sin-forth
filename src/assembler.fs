@@ -7,7 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
 
-\ Last modified: 202012152031.
+\ Last modified: 202012262156.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -60,7 +60,7 @@ require galope/three-dup.fs \ `3dup`
 : 2- ( x1 -- x2 ) 2 - ;
 : 2+ ( x1 -- x2 ) 2 + ;
 
-compiler-definitions
+assembler-definitions
 
 \ ==============================================================
 \ Tools {{{1
@@ -304,7 +304,7 @@ $DD constant ix-op  $FD constant iy-op
 : m1 ( 8b "name" -- ) (c does> ( -- ) ( dfa ) c@ t-c, ;
   \ 1-byte opcode without parameters.
 
-: m1- ( regp 8b "name" -- ) (c does> ( -- ) ( regp dfa ) 
+: m1- ( regp 8b "name" -- ) (c does> ( -- ) ( regp dfa )
   swap h <> abort" Wrong register. Only `h`, `ix` and `iy` allowed."
   c@ t-c, ;
   \ 1-byte opcode without parameters, with a syntactic-sugar _regp_.
@@ -2440,14 +2440,20 @@ variable unresolved> ( -- a ) unresolved0> unresolved> !
   \ assembler `labels` created by `l:`.
   \
   \ Usage examples (extracted from `ocr`):
+
+  \ ----
+  \ 0 d stp, >amark 0 unresolved !
+  \   \ modify the code to get the screen address later
+  \ \ (...)
+  \ 0 d ldp#, \ restore the screen address
+  \ >amark 0 unresolved @ !
   \
-  \ ---- 0 d stp, >amark 0 unresolved ! \ modify the code to
-  \ get the screen address later \ (...) 0 d ldp#, \ restore
-  \ the screen address >amark 0 unresolved @ !
-  \
-  \ here jr, >rmark 2 unresolved ! \ (...) 2 unresolved @
-  \ >rresolve ----
-  \
+  \ \ (...)
+  \ here jr, >rmark 2 unresolved !
+  \ \ (...)
+  \ 2 unresolved @ >rresolve
+  \ ----
+
   \ }doc
 
 \ ==============================================================
@@ -2663,3 +2669,6 @@ set-current set-order \ restore the entry status
 \
 \ 2020-12-15: Add `m1-` to define a new version of `ldsp,` that
 \ requires a register.
+\
+\ 2020-12-26: Update with `assembler-definitions`. Fix layout of the
+\ usage example of `unresolved`.

@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012251748.
+\ Last modified: 202012270102.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -20,7 +20,7 @@ compiler-definitions
 : step \ Compilation: ( dest -- )
        \ Run-time:    ( R: u -- u' )
 
-  compiler{
+  assembler{
   h pop,         \ pop hl
   h a ld,        \ ld a,h
   l or,          \ or l ; z=already zero?
@@ -66,3 +66,5 @@ set-current set-order
 \
 \ 2020-12-25: Fix typo in header. Remove duplicated documentation.
 \ Improve and update the documentation.
+\
+\ 2020-12-26: Update with `assembler{`.
