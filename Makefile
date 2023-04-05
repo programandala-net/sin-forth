@@ -7,9 +7,9 @@
 # A Forth cross-compiler, written in Forth with Gforth,
 # that compiles Forth programs for the Sinclair ZX Spectrum.
 
-# By Marcos Cruz (programandala.net), 2020.
+# By Marcos Cruz (programandala.net), 2020, 2023.
 
-# Last modified: 202012260130.
+# Last modified: 20230405T1816+0200.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -58,7 +58,7 @@
 all: tests
 
 .PHONY: doc
-doc: manual wwwdoc
+doc: manual
 
 .PHONY: distclean
 distclean: clean cleandoc
@@ -68,7 +68,7 @@ clean:
 	rm -f target/*
 
 .PHONY: cleandoc
-cleandoc: cleanmanual cleanwww
+cleandoc: cleanmanual
 
 # ==============================================================
 # Tests files {{{1
@@ -224,33 +224,6 @@ tmp/doc.README.linked.adoc: README.adoc
 		--out-file=$@ $<
 
 # ----------------------------------------------
-# Online documentation {{{2
-
-# Online documentation displayed on the Fossil repository.
-
-.PHONY: wwwdoc
-wwwdoc: wwwreadme
-
-.PHONY: cleanwww
-cleanwww:
-	rm -f \
-		doc/www/* \
-		tmp/README.*
-
-.PHONY: wwwreadme
-wwwreadme: doc/www/README.html
-
-doc/www/README.html: tmp/README.html
-	echo "<div class='fossil-doc' data-title='README'>" > $@;\
-	cat $< >> $@;\
-	echo "</div>" >> $@
-
-tmp/README.html: README.adoc
-	asciidoctor \
-		--embedded \
-		--out-file=$@ $<
-
-# ----------------------------------------------
 # User manual {{{2
 
 .PHONY: manual
@@ -352,5 +325,7 @@ include Makefile.cover_image
 # 2020-12-25: Add a rule to build a TAP file from a test BASIC loader, in order
 # to build the final TAP file directly.
 #
-# 2020-12-26: Improve thP rule names. Improve `tests` to build also
-# TAP and assembly files.
+# 2020-12-26: Improve thP rule names. Improve `tests` to build also TAP and
+# assembly files.
+#
+# 2023-04-05: Remove online documentation rules, after migrating to Mercurial.
