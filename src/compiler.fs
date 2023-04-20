@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230420T0743+0200.
+\ Last modified: 20230420T0853+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -38,6 +38,7 @@ require string.fs \ dynamic strings
 require galope/minus-suffix.fs \ `-suffix`
 require galope/n-to-str.fs     \ `n>str`
 require galope/replaced.fs     \ `replaced`
+require galope/s-comma.fs      \ `s,`
 require galope/unslurp-file.fs \ `unslurp-file`
 
 warnings on
@@ -738,9 +739,9 @@ no-data-stack value data-stack-bottom
 \ 2015-01-06: More drafts.
 \
 \ 2020-12-06: Resume the development. New draft. Adapt and integrate
-\ the assembler from Solo Forth 0.14.0-rc.124+20201123. Adapt and
+\ the assembler from Solo Forth 0.14.0-rc.124+20230420. Adapt and
 \ integrate the data stack code from Couplement Forth
-\ v0.2.0-dev.30.0+202012062153.
+\ v0.2.0-dev.30.0+20230420T0853CEST.
 \
 \ 2020-12-07: Start the target kernel words. Move the sample
 \ compilable test code to its own file. Move the target definitions to
