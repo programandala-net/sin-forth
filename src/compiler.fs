@@ -7,9 +7,9 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net), 2010, 2015, 2020.
+\ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 202012262224.
+\ Last modified: 20230420T0743+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -136,7 +136,7 @@ compiler-definitions
 \ ==============================================================
 \ Standard words needed during the compilation {{{1
 
-\ Words that are not defined in the target and thus can their names:
+\ Words that are not defined in the target and thus can keep their names:
 
 synonym ( (  \ )
 synonym \ \
@@ -777,5 +777,5 @@ no-data-stack value data-stack-bottom
 \ `z80dasm-char-block`, needed by `cconstant` and `cvariable`. Add
 \ `assembler-wordlist` and related words.
 \
-\ 2020-12-27: Rename `t-here` to `h-here`, because it return the
+\ 2020-12-27: Rename `t-here` to `h-here`, because it returns the
 \ actual address in the host. Add a new `t-here`.
