@@ -23,24 +23,27 @@ s" test_flow" set-filename
 
 begin-program
 
-require sin_forth/lib/after.fs     \ `after`
-require sin_forth/lib/begin.fs     \ `begin`
-require sin_forth/lib/c-r.fs       \ `cr`
-require sin_forth/lib/dup.fs       \ `dup`
-require sin_forth/lib/emit.fs      \ `emit`
-require sin_forth/lib/equals.fs    \ `=`
-require sin_forth/lib/for.fs       \ `for`
-require sin_forth/lib/if.fs        \ `if`
-require sin_forth/lib/literal.fs   \ `literal`
-require sin_forth/lib/one-minus.fs \ `1-`
-require sin_forth/lib/one-plus.fs  \ `1+`
-require sin_forth/lib/plus.fs      \ `plus`
-require sin_forth/lib/r-fetch.fs   \ `r@`
-require sin_forth/lib/repeat.fs    \ `repeat`
-require sin_forth/lib/step.fs      \ `step`
-require sin_forth/lib/then.fs      \ `then`
-require sin_forth/lib/until.fs     \ `until`
-require sin_forth/lib/while.fs     \ `while`
+require sin_forth/lib/after.fs      \ `after`
+require sin_forth/lib/begin.fs      \ `begin`
+require sin_forth/lib/c-r.fs        \ `cr`
+require sin_forth/lib/drop.fs       \ `drop`
+require sin_forth/lib/dup.fs        \ `dup`
+require sin_forth/lib/emit.fs       \ `emit`
+require sin_forth/lib/equals.fs     \ `=`
+require sin_forth/lib/for.fs        \ `for`
+require sin_forth/lib/if.fs         \ `if`
+require sin_forth/lib/less-than.fs  \ `<`
+require sin_forth/lib/literal.fs    \ `literal`
+require sin_forth/lib/one-minus.fs  \ `1-`
+require sin_forth/lib/one-plus.fs   \ `1+`
+require sin_forth/lib/plus.fs       \ `plus`
+require sin_forth/lib/r-fetch.fs    \ `r@`
+require sin_forth/lib/repeat.fs     \ `repeat`
+require sin_forth/lib/step.fs       \ `step`
+require sin_forth/lib/then.fs       \ `then`
+require sin_forth/lib/until.fs      \ `until`
+require sin_forth/lib/while.fs      \ `while`
+require sin_forth/lib/zero-until.fs \ `zero-until`
 
 boot-here
 
@@ -55,15 +58,19 @@ cr
 'a' literal
 begin dup '{' literal = 0 literal =
 while dup emit 1+
-repeat
-\ XXX TODO drop
+repeat drop
 
 \ Type from 'z' to 'a'
 cr
 'z' literal
 begin dup emit 1- dup '`' literal =
-until
-\ XXX TODO drop
+until drop
+
+\ Type from 'z' to 'a'
+cr
+'z' literal
+begin dup emit 1- dup '`' literal <
+0until drop
 
 \ Type from 'z' to 'a'
 cr

@@ -22,23 +22,27 @@ s" test_constant_variable_store-to" set-filename
 begin-program
 
 require sin_forth/lib/constant.fs
+require sin_forth/lib/cvariable.fs
 require sin_forth/lib/emit.fs
 require sin_forth/lib/fetch.fs
 require sin_forth/lib/store.fs
 require sin_forth/lib/store-to.fs
 require sin_forth/lib/variable.fs
 
-65 constant letter-1   \ "A"
-   variable letter-2
-67 constant letter-3   \ "C"
+65 constant  letter-1   \ "A"
+   variable  letter-2
+67 constant  letter-3   \ "C"
+   cvariable letter-4
 
 : run ( -- )
 
-  66 literal  letter-2 ! \ "B"
+  66 literal letter-2  ! \ "B"
+  68 literal letter-4 c! \ "D"
 
-  letter-1   emit       \ "A"
-  letter-2 @ emit       \ "B"
-  letter-3   emit       \ "C"
+  letter-1    emit       \ "A"
+  letter-2  @ emit       \ "B"
+  letter-3    emit       \ "C"
+  letter-4 c@ emit       \ "D"
 
   letter-1 letter-2 !
   letter-2 @ emit       \ "A"
@@ -55,3 +59,5 @@ end-program
 \ Change log {{{1
 
 \ 2020-12-10: Start.
+\
+\ 2020-12-26: Add `cvariable`, `c@`, `c!`.

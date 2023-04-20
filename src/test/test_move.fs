@@ -52,7 +52,7 @@ compiler{ memory> } h-@ h-constant attr-copy
   move-hl-de-bc ;
 
 : wait ( -- )
-  65535 literal for step ;
+  65535 literal for [.s] step ;
 
 : rubbish ( u -- )
   for r@ pop-hl hl-to-attr step ;
