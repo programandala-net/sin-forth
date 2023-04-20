@@ -95,6 +95,7 @@ assembler-definitions
   \ }doc
 
 : ?rel ( n -- )
+  cr ." ?rel " .s \ XXX INFORMER
   $80 + $FF swap u< abort" relative jump too long" ;
 
   \ doc{
@@ -347,7 +348,9 @@ $DD constant ix-op  $FD constant iy-op
 : m8 ( 16b "name" -- ) create , does> ( -- ) ( dfa ) @ t-, ;
   \ 2-byte opcodes.
 
-: (jr, ( a op -- ) t-c, here 1+ - dup ?rel t-c, ;
+: (jr, ( a op -- )
+  cr ." (jr," .s \ XXX INFORMER
+  t-c, compiler{ t-here } 1+ - dup ?rel t-c, ;
 
   \ doc{
   \
@@ -1919,7 +1922,7 @@ $F2 constant p?   $FA constant m?
 
   \ Control-flow structures with relative jumps
 
-: >rmark ( -- orig ) here 1- ;
+: >rmark ( -- orig ) t-here 1- ;
 
   \ doc{
   \
@@ -1931,7 +1934,9 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: rresolve ( orig dest -- ) 1- over - dup ?rel swap c! ;
+: rresolve ( orig dest -- ) 
+  cr ." rresolve" .s \ XXX INFORMER
+  1- over - dup ?rel swap t-c! ;
 
   \ XXX TODO -- improve documentation
 
@@ -1945,7 +1950,9 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: >rresolve ( orig -- ) here rresolve ;
+: >rresolve ( orig -- ) 
+  cr ." >rresolve" .s \ XXX INFORMER
+  t-here rresolve ;
 
   \ doc{
   \
@@ -1958,7 +1965,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: <rresolve ( dest -- ) here 1- swap rresolve ;
+: <rresolve ( dest -- ) t-here 1- swap rresolve ;
 
   \ doc{
   \
@@ -2036,7 +2043,9 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: rthen ( orig cs-id -- ) $0A ?pairs >rresolve ;
+: rthen ( orig cs-id -- ) 
+  cr ." rthen" .s \ XXX INFORMER
+  $0A ?pairs >rresolve ;
 
   \ doc{
   \
@@ -2375,7 +2384,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: >amark ( -- a ) here 2- ;
+: >amark ( -- a ) t-here 2- ;
 
   \ doc{
   \
@@ -2386,7 +2395,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: >aresolve ( a -- ) >amark swap ! ;
+: >aresolve ( a -- ) >amark swap t-! ;
 
   \ doc{
   \
@@ -2441,7 +2450,9 @@ variable unresolved> ( -- a ) unresolved0> unresolved> !
   \ `code` words, as a simpler alternative to the Z80
   \ assembler `labels` created by `l:`.
   \
-  \ Usage examples (extracted from `ocr`):
+  \ Usage examples:
+
+  \ // XXX TODO complete
 
   \ ----
   \ 0 d stp, >amark 0 unresolved !
@@ -2451,9 +2462,9 @@ variable unresolved> ( -- a ) unresolved0> unresolved> !
   \ >amark 0 unresolved @ !
   \
   \ \ (...)
-  \ here jr, >rmark 2 unresolved !
+  \ t-here jr, >rmark 1 unresolved !
   \ \ (...)
-  \ 2 unresolved @ >rresolve
+  \ 1 unresolved @ >rresolve
   \ ----
 
   \ }doc
@@ -2675,3 +2686,6 @@ set-current set-order \ restore the entry status
 \ 2020-12-26: Update with `assembler-definitions`. Fix layout of the
 \ usage example of `unresolved`. Replace non-standard exception codes
 \ with `abort"`.
+\
+\ 2020-12-27: Replace `here`, which was found in the host word list,
+\ wich `t-here`.

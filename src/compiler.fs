@@ -432,6 +432,16 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
 \ ==============================================================
 \ Compiler {{{1
 
+: t-here ( -- a )
+  memory> @ ;
+  \ Return the target data-space pointer address _a_ ($0000..$FFFF).
+
+: h-here ( -- a )
+  t-here memory + ;
+  \ Return the host address _a_ that is the current equivalent
+  \ address of the target data-space pointer in the host `memory`
+  \ buffer.
+
 include assembler.fs
 
 variable latest-call
@@ -680,11 +690,6 @@ no-data-stack value data-stack-bottom
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
 
-: t-here ( -- a )
-  memory> @ memory + ;
-  \ Return the host address _a_ that is the current equivalent
-  \ address of the target data-space pointer.
-
 : t-char+ ( n1 -- n2 )
   1+ ;
   \ Add the size in bytes of a target character to _n1_, giving
@@ -692,7 +697,7 @@ no-data-stack value data-stack-bottom
 
 : t-s, ( ca len -- )
   \ XXX TODO
-  tuck t-here place t-char+ t-allot ;
+  tuck h-here place t-char+ t-allot ;
 
   \ doc{
   \
@@ -771,3 +776,6 @@ no-data-stack value data-stack-bottom
 \ 2020-12-26: Add `t-here`, `t-char+` and `t-s,`. Add
 \ `z80dasm-char-block`, needed by `cconstant` and `cvariable`. Add
 \ `assembler-wordlist` and related words.
+\
+\ 2020-12-27: Rename `t-here` to `h-here`, because it return the
+\ actual address in the host. Add a new `t-here`.
