@@ -22,9 +22,13 @@ target-definitions
   pop-hl       \ call pop_hl
   l a ld,      \ ld a,l
   #10 cp#,     \ cp #10
+  host{ cr .( before rif ) .s }
   nc? rif      \ jr c,end
+  host{ cr .( after rif ) .s }
     7 add#,    \ add a,7
+  host{ cr .( before rthen ) .s }
   rthen        \ end:
+  host{ cr .( after rthen ) .s }
   $30 add#,    \ add a,$30
   a l ld,      \ ld l,a
   push-hl ;    \ jp push_hl
