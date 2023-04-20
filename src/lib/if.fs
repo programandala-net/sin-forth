@@ -6,7 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020.
 
-\ Last modified: 202012120149.
+\ Last modified: 202012262229.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -20,7 +20,7 @@ compiler-definitions
 
 : if \ Compilation: ( -- orig )
      \ Run-time:    ( f -- )
-  0branch compiler{ >mark } ;
+  compiler{ 0branch >mark } ;
 
   \ doc{
   \

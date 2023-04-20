@@ -19,7 +19,7 @@ compiler-definitions
 
 : for \ Compilation: ( -- dest )
       \ Run-time:    ( u -- )
-  >r_dea call, <mark ;
+  compiler{ >r_dea call, <mark } ;
 
   \ doc{
   \
