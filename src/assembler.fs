@@ -5,9 +5,10 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020.
+\ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020,
+\ 2023.
 
-\ Last modified: 202012270116.
+\ Last modified: 20230420T1056+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -2688,4 +2689,4 @@ set-current set-order \ restore the entry status
 \ with `abort"`.
 \
 \ 2020-12-27: Replace `here`, which was found in the host word list,
-\ wich `t-here`.
+\ with `t-here`.
