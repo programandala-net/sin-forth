@@ -7,9 +7,9 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012101935.
+\ Last modified: 20230420T0855+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -22,7 +22,9 @@ s" test_constant_variable_store-to" set-filename
 begin-program
 
 require sin_forth/lib/constant.fs
-require sin_forth/lib/cvariable.fs
+require sin_forth/lib/c-fetch.fs
+require sin_forth/lib/c-store.fs
+require sin_forth/lib/c-variable.fs
 require sin_forth/lib/emit.fs
 require sin_forth/lib/fetch.fs
 require sin_forth/lib/store.fs
@@ -61,3 +63,5 @@ end-program
 \ 2020-12-10: Start.
 \
 \ 2020-12-26: Add `cvariable`, `c@`, `c!`.
+\
+\ 2023-04-20: Update library filename.
