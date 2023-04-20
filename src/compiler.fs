@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230420T0853+0200.
+\ Last modified: 20230420T1152+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -433,6 +433,11 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
 \ ==============================================================
 \ Compiler {{{1
 
+: t-cells ( n1 -- n2 )
+  2 * ;
+  \ Convert _n1_ cells to the equivalent _n2_ address units in the
+  \ target system.
+
 : t-here ( -- a )
   memory> @ ;
   \ Return the target data-space pointer address _a_ ($0000..$FFFF).
@@ -574,40 +579,39 @@ variable latest-call
 \ ==============================================================
 \ Data stack {{{1
 
-64 constant /stack
+64 constant /default-data-stack
 
   \ doc{
   \
-  \ /stack ( -- len )
+  \ /default-data-stack ( -- len )
   \
-  \ Return the size _len_, in in target cells, of the default data
-  \ stack created by `end-program` when `data-stack-here` has not been
+  \ Return the size _len_, in target cells, of the default data
+  \ stack created by `end-program` when `data-stack` has not been
   \ included in the target program.
   \
   \ }doc
 
--1 constant no-data-stack
-no-data-stack value data-stack-bottom
-  \ Store an impossible default value into `data-stack-bottom`, in
+-1 constant fake-data-stack-bottom
+fake-data-stack-bottom value data-stack-bottom
+  \ Set `data-stack-bottom` with a fake default value, in
   \ order to detect whether it has been set or not.
 
-: no-data-stack? ( -- f )
-  data-stack-bottom no-data-stack = ;
-  \ Has `data-stack-bottom` not been set?
-  \ I.e., has `data-stack-here` not been executed before?
+: data-stack? ( -- f )
+  data-stack-bottom fake-data-stack-bottom <> ;
+  \ Has been a data stack defined?
 
-: data-stack-here ( len -- )
-  no-data-stack? 0= abort" second `data-stack-here` not allowed"
-  2 * z80dasm-blocks @ if memory> @ over z80dasm-stack-block then
+: data-stack ( len -- )
+  data-stack? abort" second `data-stack`"
+  t-cells z80dasm-blocks @ if memory> @ over z80dasm-stack-block then
   memory> +!  memory> @ to data-stack-bottom ;
 
   \ doc{
   \
-  \ data-stack-here ( len -- )
+  \ data-stack ( len -- )
   \
   \ Create the data stack, _len_ target cells big, at the current
   \ target memory pointer. The data stack grows from bottom (high
-  \ memory) to top (low memory). If ``data-stack-here`` is not
+  \ memory) to top (low memory). If ``data-stack`` is not
   \ executed during the compilation of the target program, it will be
   \ executed by `end-program` with the default size returned by
   \ `/stack`.
@@ -721,8 +725,8 @@ no-data-stack value data-stack-bottom
   \ Mark the start of the target program.
 
 : end-program ( -- )
-  no-data-stack? if /stack data-stack-here  then
-  no-boot?       if set-default-boot        then
+  data-stack? 0= if /default-data-stack data-stack then
+  no-boot?       if set-default-boot               then
   boot-address @ s" __BOOT_HERE" (z80-symbol)
   filename 2dup create-loader
            2dup create-executable
@@ -741,7 +745,7 @@ no-data-stack value data-stack-bottom
 \ 2020-12-06: Resume the development. New draft. Adapt and integrate
 \ the assembler from Solo Forth 0.14.0-rc.124+20230420. Adapt and
 \ integrate the data stack code from Couplement Forth
-\ v0.2.0-dev.30.0+20230420T0853CEST.
+\ v0.2.0-dev.30.0+20230420T1152CEST.
 \
 \ 2020-12-07: Start the target kernel words. Move the sample
 \ compilable test code to its own file. Move the target definitions to
@@ -780,3 +784,5 @@ no-data-stack value data-stack-bottom
 \
 \ 2020-12-27: Rename `t-here` to `h-here`, because it returns the
 \ actual address in the host. Add a new `t-here`.
+\
+\ 2023-04-20: Improve names of data stack words.

@@ -7,9 +7,9 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012100233.
+\ Last modified: 20230420T1138+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -29,7 +29,7 @@ require sin_forth/lib/emit.fs
 boot-here
 zx emit ret,
 
-4 data-stack-here
+4 data-stack
 
 end-program
 
@@ -46,3 +46,5 @@ end-program
 \
 \ 2020-12-10: Moved into <test> and renamed from <test_00.fs> to
 \ <test_00_constant_emit.fs>.
+\
+\ 2023-04-20: Update with `data-stack`.

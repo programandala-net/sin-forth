@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 20230420T0855+0200.
+\ Last modified: 20230420T1133+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -53,7 +53,7 @@ require sin_forth/lib/variable.fs
 
   ;
 
-4 data-stack-here
+4 data-stack
 
 end-program
 
@@ -64,4 +64,4 @@ end-program
 \
 \ 2020-12-26: Add `cvariable`, `c@`, `c!`.
 \
-\ 2023-04-20: Update library filename.
+\ 2023-04-20: Update library filename. Update with `data-stack`.

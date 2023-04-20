@@ -7,9 +7,9 @@
 \ A Forth cross-compiler, written in Forth with Gforth,
 \ that compiles Forth programs for the Sinclair ZX Spectrum.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012260120.
+\ Last modified: 20230420T1137+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -89,7 +89,7 @@ for after r@ '0' literal + emit then step
 
 ret,
 
-4 data-stack-here
+4 data-stack
 
 end-program
 
@@ -105,3 +105,5 @@ end-program
 \ 2020-12-25: Add `after`.
 \
 \ 2020-12-26: Update with `cr`.
+\
+\ 2023-04-20: Update with `data-stack`.
