@@ -2,6 +2,10 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-05
 
+// Last modified 20230421T1711+0200.
+
+// This file is in AsciiDoc format (https://asciidoctor.org).
+
 // Description {{{1
 == Description
 
@@ -22,13 +26,16 @@ Author's website: <http://programandala.net>.
 // Installation {{{1
 == Installation
 
-In order to use Sin Forth, its sources must be accessible from Gforth.
+In order to use Sin Forth, its sources must be accessible from Gforth
+and its loader must be in the path. 
+
+=== Sources
 
 One method is to add the Sin Forth's <src> directory to Gforth's
-`fpath`. Consult the documentation of Gforth.
+`fpath`. Consult Gforth's documentation.
 
 A second method is to make a symbolic link to Sin Forth's <src>
-directory from Gforth's <site-forth> directory. In a locally compiled
+directory in Gforth's <site-forth> directory. In a locally compiled
 Gforth, the command on a Linux shell would be the following:
 
 ----
@@ -38,14 +45,34 @@ sudo ln -s ~/YOUR-PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
 where "YOUR-PATH" must be replaced with the corresponding path to Sin
 Forth's <src> directory on your system.
 
+=== Loader
+
+The <sin_forth> loader is a shell script. In order to make it
+accessible anywhere, you can copy or link it to any directory in your
+path.
+
+Example:
+
+----
+ln -s ~/YOUR-PATH/src/sin_forth DIR
+----
+
+where "YOUR-PATH" must be replaced with the corresponding path to Sin
+Forth's <src> directory on your system, and "DIR" can be replaced with
+`{tilde}/bin` or `{tilde}/.local/bin`.
+
 // Requirements {{{1
 == Requirements
 
-Sin Forth uses some modules of the
-http://programandala.net/en.program.galope.html[Galope library].
+- Sin Forth uses some modules of the
+  http://programandala.net/en.program.galope.html[Galope library].
 
-Some modules of Galope need modules of the http://irdvo.nl/FFL/[Forth
-Foundation Library].
+- Some modules of Galope need modules of the
+  http://irdvo.nl/FFL/[Forth Foundation Library].
+
+- Sin Forth makes the ZX Spectrum .tap files by Metalbrain's
+  http://metalbrain.speccy.org/link-eng.htm[bin2tap], which must be
+  installed in the system.
 
 // Project directories {{{1
 [#_tree]
@@ -55,7 +82,6 @@ Foundation Library].
 
 [horizontal]
 ``doc``       ::  Manuals in EPUB, HTML and PDF
-``doc/www``   ::  Online documentation for the Fossil repository
 ``src``       ::  Compiler sources
 ``src/doc``   ::  Documentation sources
 ``src/lib``   ::  Library sources
