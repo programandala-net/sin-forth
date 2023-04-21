@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230421T1101+0200.
+\ Last modified: 20230421T1338+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -510,14 +510,13 @@ variable latest-call
   \ ----
 
   \ NOTE: Sin Forth's ``:`` has nothing to do with standard Forth's
-  \ ``:``. In Sin Forth, ``:`` is similar to a assembler label: It
+  \ ``:``. In Sin Forth, ``:`` is similar to an assembler label: It
   \ marks an arbitrary entry point. In fact several ``:`` can be used
   \ in one single definition, as the following example shows:
 
   \ ----
   \ : inc ( n1 -- n2 )
   \   pop-hl
-
   \ : inc-hl ( -- n2 )
   \   h incp,
   \   push-hl ;
@@ -785,7 +784,7 @@ fake-data-stack-bottom value data-stack-bottom
 \ 2020-12-06: Resume the development. New draft. Adapt and integrate
 \ the assembler from Solo Forth 0.14.0-rc.124+20230421. Adapt and
 \ integrate the data stack code from Couplement Forth
-\ v0.2.0-dev.30.0+20230421T1101CEST.
+\ v0.2.0-dev.30.0+202012062153.
 \
 \ 2020-12-07: Start the target kernel words. Move the sample
 \ compilable test code to its own file. Move the target definitions to
