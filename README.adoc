@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-21
 
-// Last modified 20230421T2037+0200.
+// Last modified 20230421T2104+0200.
 
 // This file is in AsciiDoc format (https://asciidoctor.org).
 
@@ -26,12 +26,16 @@ Author's website: <http://programandala.net>.
 // Installation {{{1
 == Installation
 
-In order to use Sin Forth, its sources must be accessible from Gforth
-and the compiler must be in a directory of the system `PATH`.
+The installation of Sin Forth needs two operations:
+
+1. Make its sources accessible from Gforth.
+2. Copy or link the compiler file (<src/sin_forth.fs) in a directory
+   of the system `PATH`.
 
 === Sources
 
-One method is to add the Sin Forth's <src> directory to Gforth's
+In order to make Sin Forth's sources accessible from Gforth,
+one method is to add the Sin Forth's <src> directory to Gforth's
 `fpath`. Consult Gforth's documentation.
 
 A second method is to make a symbolic link to Sin Forth's <src>
@@ -39,7 +43,7 @@ directory in Gforth's <site-forth> directory. In a locally compiled
 Gforth, the command on a Linux shell would be the following:
 
 ----
-sudo ln -s ~/SIN_FORTH_PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
+sudo ln -s SIN_FORTH_PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
 ----
 
 where "SIN_FORTH_PATH" must be replaced with the corresponding path to
@@ -47,13 +51,14 @@ Sin Forth's directory on your system.
 
 === Compiler
 
-In order to make <compiler.fs> accessible anywhere, you may link it to
-any directory in your system `PATH`, and call it "sin_forth".
+In order to make <src/sin_forth.fs> accessible anywhere, you may link
+it to any directory in your system `PATH`, removing its filename
+extension for convenience:
 
 Example:
 
 ----
-ln -s ~/SIN_FORTH_PATH/src/compiler.fs DIR/sin_forth
+ln -s SIN_FORTH_PATH/src/sin_forth.fs DIR/sin_forth
 ----
 
 where "SIN_FORTH_PATH" must be replaced with the corresponding path to

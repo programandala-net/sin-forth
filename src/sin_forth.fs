@@ -1,6 +1,6 @@
 #! /usr/bin/env gforth
 
-\ compiler.fs
+\ sin_forth.fs
 
 \ This file is part of Sin Forth.
 
@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230421T2051+0200.
+\ Last modified: 20230421T2058+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
