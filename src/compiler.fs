@@ -1,5 +1,3 @@
-#! /usr/bin/env gforth
-
 \ compiler.fs
 
 \ This file is part of Sin Forth.
@@ -9,7 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230421T1338+0200.
+\ Last modified: 20230421T1626+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -691,7 +689,7 @@ fake-data-stack-bottom value data-stack-bottom
              name s+ ".tap " s+
              origin n>str s+ " " s+
              boot-address @ n>str s+
-  2dup cr "«" type type "»" type cr
+  \ 2dup cr "«" type type "»" type cr \ XXX INFORMER
   system $? abort" external program bin2tap failed" ;
   \ Convert the .bin file to a .tap file, using the external tool
   \ `bin2tap`.
@@ -775,6 +773,12 @@ fake-data-stack-bottom value data-stack-bottom
   \ Mark the end of the target program.
 
 \ ==============================================================
+\ Boot {{{1
+
+1 arg included
+bye
+
+\ ==============================================================
 \ Change log {{{1
 
 \ 2010-04-21: First draft ideas.
@@ -782,7 +786,7 @@ fake-data-stack-bottom value data-stack-bottom
 \ 2015-01-06: More drafts.
 \
 \ 2020-12-06: Resume the development. New draft. Adapt and integrate
-\ the assembler from Solo Forth 0.14.0-rc.124+20230421. Adapt and
+\ the assembler from Solo Forth 0.14.0-rc.124+20201123. Adapt and
 \ integrate the data stack code from Couplement Forth
 \ v0.2.0-dev.30.0+202012062153.
 \

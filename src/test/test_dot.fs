@@ -1,5 +1,3 @@
-#! /usr/bin/env gforth
-
 \ test_dot.fs
 
 \ This file is part of Sin Forth.
@@ -9,12 +7,10 @@
 
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 20230420T1138+0200.
+\ Last modified: 20230421T1407+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
-
-require sin_forth/compiler.fs
 
 40000 set-origin
 s" test_dot" set-filename

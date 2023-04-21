@@ -2,6 +2,10 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-21
 
+// Last modified 20230421T1638+0200.
+
+// This file is in AsciiDoc format (https://asciidoctor.org).
+
 == 2020-12-06
 
 - Update the documentation of the assembler.
@@ -69,12 +73,8 @@
 
 == 2023-04-21
 
-- Change the way the compiler is used: Instead of loading it from the
-  program, execute it with the program file as an argument, as an
-  ordinary compiler. This seems the simplest way to get the path of
-  the program file, in order to reuse it with the target files.
-  Besides, this makes the configuration of the compiler and the
-  building tools, like GNU Make and apenwarr/redo, simpler.
 - Add `0until`, used by a test.
 - Build tests also with apenwarr/redo.
 - Add license.
+- Homogenize file headers.
+- Add source file path to target files.
