@@ -1,6 +1,6 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2020-12-27
+:revdate: 2023-04-21
 
 == 2020-12-06
 
@@ -15,14 +15,14 @@
   `t-,`, `initial-target` etc., should not be accesible during the
   compilation of the target, just in case.
 - Make the data stack growing direction configurable.
-- Add `2literal`, `cliteral`, `xliteral`, `sliteral`.
+- Add `2literal`, `cliteral`, `xliteral`.
 - Make verbosity configurable.
 
 == 2020-12-08
 
 - Make the configuration directives homogenous and analog, in order to
   prevent name clashes, also with words like `on` and `off`,  when
-  they are used inside the target programa.
+  they are used inside the target program.
 
 == 2020-12-09
 
@@ -66,3 +66,15 @@
 - Make `cr` a deferred word.
 - Add a rule to build any individual test by its basename.
 - Fix the position of parsed arguments in stack comments.
+
+== 2023-04-21
+
+- Change the way the compiler is used: Instead of loading it from the
+  program, execute it with the program file as an argument, as an
+  ordinary compiler. This seems the simplest way to get the path of
+  the program file, in order to reuse it with the target files.
+  Besides, this makes the configuration of the compiler and the
+  building tools, like GNU Make and apenwarr/redo, simpler.
+- Add `0until`, used by a test.
+- Build tests also with apenwarr/redo.
+- Add license.
