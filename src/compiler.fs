@@ -7,7 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230421T1626+0200.
+\ Last modified: 20230421T1930+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -33,11 +33,12 @@ require string.fs \ dynamic strings
 \ Galope
 \ http://programandala.net/en.program.galope.html
 
-require galope/minus-suffix.fs \ `-suffix`
-require galope/n-to-str.fs     \ `n>str`
-require galope/replaced.fs     \ `replaced`
-require galope/s-comma.fs      \ `s,`
-require galope/unslurp-file.fs \ `unslurp-file`
+require galope/file-exists-question.fs \ `file-exists?`
+require galope/minus-suffix.fs         \ `-suffix`
+require galope/n-to-str.fs             \ `n>str`
+require galope/replaced.fs             \ `replaced`
+require galope/s-comma.fs              \ `s,`
+require galope/unslurp-file.fs         \ `unslurp-file`
 
 warnings on
 
@@ -773,10 +774,23 @@ fake-data-stack-bottom value data-stack-bottom
   \ Mark the end of the target program.
 
 \ ==============================================================
-\ Boot {{{1
+\ Command-line arguments {{{1
 
-1 arg included
-bye
+: parse-argument {: D: argument -- :}
+  argument file-exists?
+  if   argument included
+  else ." Error: the input file does not exist:" cr
+       argument type
+       abort
+  then ;
+
+: next-arg? ( -- ca len f )
+  next-arg 2dup 0 0 d<> ;
+
+: parse-arguments ( -- )
+  begin next-arg? while parse-argument repeat 2drop ;
+
+parse-arguments bye
 
 \ ==============================================================
 \ Change log {{{1
@@ -831,4 +845,6 @@ bye
 \ 2023-04-20: Improve names of data stack words. Add code to build a
 \ .tap file with bin2tap.
 \
-\ 2023-04-21: Improve documentation.
+\ 2023-04-21: Improve documentation. Prepare alternatives to build a
+\ .tap. Adapt to be called by a shell loader. Prepare arguments
+\ parser.
