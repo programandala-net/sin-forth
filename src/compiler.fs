@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230420T1152+0200.
+\ Last modified: 20230421T1101+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -42,6 +42,11 @@ require galope/s-comma.fs      \ `s,`
 require galope/unslurp-file.fs \ `unslurp-file`
 
 warnings on
+
+\ External tool:
+\
+\ bin2tap (by Metalbrain)
+\   http://metalbrain.speccy.org/link-eng.htm
 
 \ ==============================================================
 \ Word lists {{{1
@@ -647,6 +652,25 @@ fake-data-stack-bottom value data-stack-bottom
   \ corresponding code file with the ".bin" extension.
 
 \ ----------------------------------------------
+\ Code file addresses {{{2
+
+: create-boot-address ( ca len -- )
+  s" .boot.txt" s+ new-file dup >r
+  [: boot-address @ 0 .r ;] swap outfile-execute
+  r> close-file throw ;
+  \ Create a text file containing the boot code address, with
+  \ base filename _ca len_. The content of this file can be used by
+  \ Makefile as a parameter of bin2tap.
+
+: create-origin-address ( ca len -- )
+  s" .origin.txt" s+ new-file dup >r
+  [: origin 0 .r ;] swap outfile-execute
+  r> close-file throw ;
+  \ Create a text file containing the origin code address, with
+  \ base filename _ca len_. The content of this file can be used by
+  \ Makefile as a parameter of bin2tap.
+
+\ ----------------------------------------------
 \ ZX Spectrum executable file {{{2
 
 : /executable ( -- len )
@@ -659,6 +683,19 @@ fake-data-stack-bottom value data-stack-bottom
   r> close-file throw ;
   \ Create a Z80 code file with filename _ca len_ and the ".bin"
   \ extension.
+
+\ ----------------------------------------------
+\ ZX Spectrum .tap file {{{2
+
+: create-tap {: D: name -- :}
+  "bin2tap " name s+ ".bin " s+
+             name s+ ".tap " s+
+             origin n>str s+ " " s+
+             boot-address @ n>str s+
+  2dup cr "«" type type "»" type cr
+  system $? abort" external program bin2tap failed" ;
+  \ Convert the .bin file to a .tap file, using the external tool
+  \ `bin2tap`.
 
 \ ----------------------------------------------
 \ Z80 assembly symbols file {{{2
@@ -729,10 +766,13 @@ fake-data-stack-bottom value data-stack-bottom
   no-boot?       if set-default-boot               then
   boot-address @ s" __BOOT_HERE" (z80-symbol)
   filename 2dup create-loader
+           2dup create-boot-address
+           2dup create-origin-address
            2dup create-executable
+           2dup create-tap
            2dup create-z80-symbols
                 create-z80dasm-blocks
-  only forth definitions bye ;
+  bye ;
   \ Mark the end of the target program.
 
 \ ==============================================================
@@ -743,9 +783,9 @@ fake-data-stack-bottom value data-stack-bottom
 \ 2015-01-06: More drafts.
 \
 \ 2020-12-06: Resume the development. New draft. Adapt and integrate
-\ the assembler from Solo Forth 0.14.0-rc.124+20230420. Adapt and
+\ the assembler from Solo Forth 0.14.0-rc.124+20230421. Adapt and
 \ integrate the data stack code from Couplement Forth
-\ v0.2.0-dev.30.0+20230420T1152CEST.
+\ v0.2.0-dev.30.0+20230421T1101CEST.
 \
 \ 2020-12-07: Start the target kernel words. Move the sample
 \ compilable test code to its own file. Move the target definitions to
@@ -785,4 +825,7 @@ fake-data-stack-bottom value data-stack-bottom
 \ 2020-12-27: Rename `t-here` to `h-here`, because it returns the
 \ actual address in the host. Add a new `t-here`.
 \
-\ 2023-04-20: Improve names of data stack words.
+\ 2023-04-20: Improve names of data stack words. Add code to build a
+\ .tap file with bin2tap.
+\
+\ 2023-04-21: Improve documentation.

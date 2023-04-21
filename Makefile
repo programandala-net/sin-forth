@@ -9,7 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020, 2023.
 
-# Last modified: 20230405T1816+0200.
+# Last modified: 20230420T1641+0200.
 # See change log at the end of the file.
 
 # ==============================================================
@@ -144,7 +144,7 @@ asms: $(disassembled_tests)
 # Emulator media {{{1
 
 # ----------------------------------------------
-# Convert all BIN into TAP with bin2tap {{{2
+# Convert all BIN files into TAP files {{{2
 
 # This rule is deprecated. bin2tap creates a TAP from an executable, adding a
 # custom BASIC loader first, but the execution address has to be indicated as
@@ -155,22 +155,33 @@ asms: $(disassembled_tests)
 .PHONY: bin2tap
 bin2tap:
 	@for file in $$(ls target/*.bin);do\
-		bin2tap $$file $$file.tap;\
+		base=`basename .bin $$file`;\
+		bin2tap $$file $$base.tap $(shell cat $$base.origin.txt) $(shell cat $$base.boot.txt);\
 	done;
 
 # ----------------------------------------------
-# Convert a BAS and a BIN into a TAP {{{2
+# Convert a .bin into a .tap {{{2
+
+target/%.tap: tmp/%.bin tmp/%.origin.txt tmp/%.boot.txt
+	bin2tap $< target/$(notdir $@) $(shell cat $(word 2, $^)) $(shell cat $(word 3, $^))
+
+# bin2tap $< $@ `cat $${base}.origin.txt` `cat $${base}.boot.txt`
+
+# ----------------------------------------------
+# Convert a .bas loader and a .bin into a .tap {{{2
 
 .PHONY: taps
 taps: $(taped_tests)
 
-%.bas.tap: %.bas
-	zmakebas -n Autoload -a 1 -o $@ $<
+tmp/%.bas.tap: %.bas
+	zmakebas -n Autoload -a 1 -o $@ $<;
+	rm -f $<
 
-%.bin.tap: %.bin
-	bin2code $< $@
+tmp/%.bin.tap: %.bin
+	bin2code $< $@;\
+	rm -f $<
 
-%.tap: %.bas.tap %.bin.tap
+target/%.tap: tmp/%.bas.tap tmp/%.bin.tap
 	cat $^ > $@
 
 # ==============================================================
@@ -325,7 +336,9 @@ include Makefile.cover_image
 # 2020-12-25: Add a rule to build a TAP file from a test BASIC loader, in order
 # to build the final TAP file directly.
 #
-# 2020-12-26: Improve thP rule names. Improve `tests` to build also TAP and
+# 2020-12-26: Improve the rule names. Improve `tests` to build also TAP and
 # assembly files.
 #
 # 2023-04-05: Remove online documentation rules, after migrating to Mercurial.
+#
+# 2023-04-20: Add draft alternatives to build .tap files.
