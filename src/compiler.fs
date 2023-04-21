@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230421T1930+0200.
+\ Last modified: 20230421T2051+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -778,7 +778,11 @@ fake-data-stack-bottom value data-stack-bottom
 \ ==============================================================
 \ Command-line arguments {{{1
 
+: .version ( -- )
+  ." Sin Forth " "VERSION.txt" slurp-file type ;
+
 : parse-argument {: D: argument -- :}
+  argument "version"   str= if .version exit then
   argument file-exists?
   if   argument included
   else ." Error: the input file does not exist:" cr
