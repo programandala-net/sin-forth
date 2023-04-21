@@ -1,3 +1,5 @@
+#! /usr/bin/env gforth
+
 \ compiler.fs
 
 \ This file is part of Sin Forth.
@@ -452,7 +454,7 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
   \ address of the target data-space pointer in the host `memory`
   \ buffer.
 
-include assembler.fs
+include sin_forth/src/assembler.fs
 
 variable latest-call
   \ Target address where the latest Z80 `call` to a target word

@@ -1,8 +1,8 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-05
+:revdate: 2023-04-21
 
-// Last modified 20230421T1711+0200.
+// Last modified 20230421T2037+0200.
 
 // This file is in AsciiDoc format (https://asciidoctor.org).
 
@@ -27,7 +27,7 @@ Author's website: <http://programandala.net>.
 == Installation
 
 In order to use Sin Forth, its sources must be accessible from Gforth
-and its loader must be in the path. 
+and the compiler must be in a directory of the system `PATH`.
 
 === Sources
 
@@ -39,26 +39,25 @@ directory in Gforth's <site-forth> directory. In a locally compiled
 Gforth, the command on a Linux shell would be the following:
 
 ----
-sudo ln -s ~/YOUR-PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
+sudo ln -s ~/SIN_FORTH_PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
 ----
 
-where "YOUR-PATH" must be replaced with the corresponding path to Sin
-Forth's <src> directory on your system.
+where "SIN_FORTH_PATH" must be replaced with the corresponding path to
+Sin Forth's directory on your system.
 
-=== Loader
+=== Compiler
 
-The <sin_forth> loader is a shell script. In order to make it
-accessible anywhere, you can copy or link it to any directory in your
-path.
+In order to make <compiler.fs> accessible anywhere, you may link it to
+any directory in your system `PATH`, and call it "sin_forth".
 
 Example:
 
 ----
-ln -s ~/YOUR-PATH/src/sin_forth DIR
+ln -s ~/SIN_FORTH_PATH/src/compiler.fs DIR/sin_forth
 ----
 
-where "YOUR-PATH" must be replaced with the corresponding path to Sin
-Forth's <src> directory on your system, and "DIR" can be replaced with
+where "SIN_FORTH_PATH" must be replaced with the corresponding path to
+Sin Forth's directory on your system, and "DIR" can be replaced with
 `{tilde}/bin` or `{tilde}/.local/bin`.
 
 // Requirements {{{1
@@ -85,7 +84,7 @@ Forth's <src> directory on your system, and "DIR" can be replaced with
 ``src``       ::  Compiler sources
 ``src/doc``   ::  Documentation sources
 ``src/lib``   ::  Library sources
-``src/tests`` ::  Tests sources
+``src/test``  ::  Tests sources
 ``target``    ::  Compiled and disassembled tests
 ``tmp``       ::  Temporary files created by ``make``
 

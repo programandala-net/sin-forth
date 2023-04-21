@@ -1,8 +1,0 @@
-#!/bin/sh
-src=$1
-if [ "$src" != "" ]; then
-  src=$(realpath -m -q $src)
-fi
-gforth sin_forth/compiler.fs $src
-
-
