@@ -9,7 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230421T2058+0200.
+\ Last modified: 20230422T1606+0200.
 \ See change log at the end of the file.
 
 \ ==============================================================
@@ -637,19 +637,18 @@ fake-data-stack-bottom value data-stack-bottom
   .\" 1 CLEAR VAL\"" origin 1 - 0 .r
   .\" \":LOAD \"\" CODE VAL\"" origin 0 .r
   .\" \":RANDOMIZE USR VAL\"" boot-address @ 0 .r '"' emit ;
-  \ Display a one-line Sinclair BASIC program to load a binary file
-  \ whose basename is _ca len_, with an added ".bin" extension",
-  \ into memory address `origin`, and execute it at that address. The
-  \ execution token of ``.loader`` is used by `loader` in order to
-  \ redirect the standard output produced by ``.loader`` to a file.
+  \ Display a one-line Sinclair BASIC program (in text format) which
+  \ loads the next binary file on the tape into memory address
+  \ `origin`, and execute it at address `boot-address`.
 
 : create-loader ( ca len -- )
   s" .bas" s+ new-file dup >r
   ['] .loader swap outfile-execute
   r> close-file throw ;
-  \ Create a Sinclar BASIC loader (in text format) with
-  \ filename _ca len_ and the ".bas" extension, to load its
-  \ corresponding code file with the ".bin" extension.
+  \ Create a Sinclair BASIC loader (in text format),
+  \ with filename _ca len_ and the ".bas" extension, which
+  \ loads the next binary file on the tape into memory address
+  \ `origin`, and execute it at address `boot-address`.
 
 \ ----------------------------------------------
 \ Code file addresses {{{2
@@ -660,7 +659,7 @@ fake-data-stack-bottom value data-stack-bottom
   r> close-file throw ;
   \ Create a text file containing the boot code address, with
   \ base filename _ca len_. The content of this file can be used by
-  \ Makefile as a parameter of bin2tap.
+  \ the building tool as a parameter of bin2tap.
 
 : create-origin-address ( ca len -- )
   s" .origin.txt" s+ new-file dup >r
@@ -668,7 +667,7 @@ fake-data-stack-bottom value data-stack-bottom
   r> close-file throw ;
   \ Create a text file containing the origin code address, with
   \ base filename _ca len_. The content of this file can be used by
-  \ Makefile as a parameter of bin2tap.
+  \ the building tool as a parameter of bin2tap.
 
 \ ----------------------------------------------
 \ ZX Spectrum executable file {{{2
@@ -780,7 +779,7 @@ fake-data-stack-bottom value data-stack-bottom
 
 : version-command ( -- )
   ." Sin Forth " "VERSION.txt" slurp-file type ;
-  \ Print the version number.
+  \ Display the version number.
 
 : help-command ( -- )
   version-command
