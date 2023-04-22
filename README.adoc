@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-21
 
-// Last modified 20230421T2104+0200.
+// Last modified 20230421T2109+0200.
 
 // This file is in AsciiDoc format (https://asciidoctor.org).
 
@@ -29,7 +29,7 @@ Author's website: <http://programandala.net>.
 The installation of Sin Forth needs two operations:
 
 1. Make its sources accessible from Gforth.
-2. Copy or link the compiler file (<src/sin_forth.fs) in a directory
+2. Copy or link the compiler file (src/sin_forth.fs) in a directory
    of the system `PATH`.
 
 === Sources
