@@ -778,11 +778,24 @@ fake-data-stack-bottom value data-stack-bottom
 \ ==============================================================
 \ Command-line arguments {{{1
 
-: .version ( -- )
+: version-command ( -- )
   ." Sin Forth " "VERSION.txt" slurp-file type ;
+  \ Print the version number.
+
+: help-command ( -- )
+  version-command
+  ." By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023." cr cr
+  ." Usage:" cr
+  ."     " sourcefilename basename type ."  [command] [<path/file>]" cr
+  ." Commands:" cr
+  ."     help         Print this help message." cr
+  ."     version      Print the version number." cr
+  ." File:" cr
+  ."     <path/file>  Compile the given file (absolute path required)." cr ;
 
 : parse-argument {: D: argument -- :}
-  argument "version"   str= if .version exit then
+  argument "help"     str= if help-command    exit then
+  argument "version"  str= if version-command exit then
   argument file-exists?
   if   argument included
   else ." Error: the input file does not exist:" cr
@@ -794,6 +807,7 @@ fake-data-stack-bottom value data-stack-bottom
   next-arg 2dup 0 0 d<> ;
 
 : parse-arguments ( -- )
+  argc @ 1 = if help-command exit then
   begin next-arg? while parse-argument repeat 2drop ;
 
 parse-arguments bye
