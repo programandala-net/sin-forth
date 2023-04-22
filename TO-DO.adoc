@@ -79,3 +79,7 @@
 - Add `0until`, used by a test.
 - Build tests also with apenwarr/redo.
 - Add license.
+
+== 2023-04-22
+
+- Allow compilation of several files.

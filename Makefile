@@ -1,6 +1,6 @@
 # Makefile
 # by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230422T1827+0200.
+# Last modified: 20230422T2054+0200.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
@@ -58,7 +58,7 @@ distclean: clean cleandoc
 
 .PHONY: clean
 clean:
-	rm -f target/*
+	rm -f target/test_*
 
 .PHONY: cleandoc
 cleandoc: cleanmanual
@@ -69,35 +69,17 @@ cleandoc: cleanmanual
 source_tests=$(wildcard src/test/*.fs)
 tests_names=$(notdir $(basename $(source_tests)))
 target_tests=$(addprefix target/, $(tests_names))
-compiled_tests=$(addsuffix .bin, $(target_tests))
 taped_tests=$(addsuffix .tap, $(target_tests))
 disassembled_tests=$(addsuffix .asm, $(target_tests))
 
 # ==============================================================
 # Compile the tests {{{1
 
-# XXX OLD method
-.PHONY: tests_old
-tests_old:
-	cp -f src/test/*.fs target/;\
-	cd target/;\
-	run-parts --regex='.*\.fs' .;\
-	rm -f *.fs
-
-# XXX NEW method
 .PHONY: tests
-tests: bins taps asms
-
-.PHONY: bins
-bins: $(compiled_tests)
-
-target/%.bin: src/test/%.fs
-	./$<;\
-	mv -f test_* target/
-
-target/%.bas: src/test/%.fs
-	./$<;\
-	mv -f test_* target/
+tests:
+	@for file in $$(ls src/test/*.fs);do\
+		src/sin_forth.fs -o $$(realpath target) $$(realpath $$file);\
+	done
 
 # ==============================================================
 # Disassembly the compiled tests {{{1

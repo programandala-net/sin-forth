@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230422T1925+0200.
+\ Last modified: 20230422T2039+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -723,21 +723,32 @@ fake-data-stack-bottom value data-stack-bottom
   target-definitions ;
   \ Mark the start of the target program.
 
-variable target-basename ( -- a )
-  \ Address of a dynamic string containing the path and basename of
-  \ the source file, reused for target files.
+variable target-name ( -- a )
+  \ Address of a dynamic string containing the basename of the source
+  \ file, without extension, reused for target files.
+
+variable target-path ( -- a )
+  \ Address of a dynamic string containing by default the path of the
+  \ source file, reused for target files. This can be configured with
+  \ a command-line option.
+
+target-path $init
+  \ Init `target-path` with an empty string. This will be checked when
+  \ parsing the command line arguments, in order to use the source
+  \ path instead or not.
 
 : end-program ( -- )
   data-stack? 0= if /default-data-stack data-stack then
   no-boot?       if set-default-boot               then
   boot-address @ s" __BOOT_HERE" (z80-symbol)
-  target-basename $@ 2dup create-loader
-                     2dup create-boot-address
-                     2dup create-origin-address
-                     2dup create-executable
-                     2dup create-tap
-                     2dup create-z80-symbols
-                          create-z80dasm-blocks
+  target-path $@ target-name $@ s+
+  2dup create-loader
+  2dup create-boot-address
+  2dup create-origin-address
+  2dup create-executable
+  2dup create-tap
+  2dup create-z80-symbols
+       create-z80dasm-blocks
   bye ;
   \ Mark the end of the target program.
 
@@ -750,29 +761,47 @@ variable target-basename ( -- a )
 
 : help-command ( -- )
   version-command
-  ." By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023." cr cr
+  ." By Marcos Cruz (programandala.net), 2010/2023." cr cr
   ." Usage:" cr
-  ."     " sourcefilename basename type ."  [command] [<path/file>]" cr
+  ."     " sourcefilename basename type ."  [command | [option] file ]" cr
   ." Commands:" cr
-  ."     help         Print this help message." cr
-  ."     version      Print the version number." cr
+  ."     help" cr
+  ."         Display this help message." cr
+  ."     version" cr
+  ."         Display the version number." cr
+  ." Options:" cr
+  ."     --out-dir|-out-dir|-o <path>" cr
+  ."         Set the absolute path of the output files. If this option" cr
+  ."         is not used, the path of the source file is used." cr
   ." File:" cr
-  ."     <path/file>  Compile the given file (absolute path required)." cr ;
+  ."    Absolute path and filename of the source file." cr
+  cr
+  ." NOTE: The paths must be absolute. This requirement may be removed" cr
+  ." in a future version of the compiler." cr ;
+
+: next-arg? ( -- ca len f )
+  next-arg 2dup 0 0 d<> ;
+
+: out-dir-option ( -- )
+  next-arg? if   "/" s+ target-path $!
+            else ." Error: the out directory is missing." abort then ;
+  \ Get the value of the `--out-dir` option.
 
 : parse-argument {: D: argument -- :}
-  ." -->" argument type cr \ XXX INFORMER
-  argument "help"     str= if help-command    exit then
-  argument "version"  str= if version-command exit then
+  \ ." argument = " argument type cr \ XXX INFORMER
+  argument "help"      str= if help-command      exit then
+  argument "version"   str= if version-command   exit then
+  argument "--out-dir" str=
+  argument "-out-dir"  str= or
+  argument "-o"        str= or if out-dir-option exit then
   argument file-exists?
-  if   argument -extension target-basename $!
+  if   argument basename -extension target-name $!
+       target-path $@len 0= if argument dirname target-path $! then
        argument included
   else ." Error: the input file does not exist:" cr
        argument type
        abort
   then ;
-
-: next-arg? ( -- ca len f )
-  next-arg 2dup 0 0 d<> ;
 
 : parse-arguments ( -- )
   argc @ 1 = if help-command exit then
