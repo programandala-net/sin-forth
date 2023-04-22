@@ -2,7 +2,10 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-21
 
-// Last modified 20230421T2109+0200.
+// Last modified: 20230422T1827+0200.
+
+// This file is part of Sin Forth
+// by Marcos Cruz (programandala.net), 2010/2023.
 
 // This file is in AsciiDoc format (https://asciidoctor.org).
 

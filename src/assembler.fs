@@ -1,25 +1,9 @@
 \ assembler.fs
+\ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
+\ Last modified: 20230422T1820+0200.
 
-\ This file is part of Sin Forth.
-
-\ A Forth cross-compiler, written in Forth with Gforth,
-\ that compiles Forth programs for the Sinclair ZX Spectrum.
-
-\ By Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020,
-\ 2023.
-
-\ Last modified: 20230420T1056+0200.
-
-\ ==============================================================
-\ Description {{{1
-
-\ This file is the Z80 assembler used by the compiler and the compiled
-\ programs.
-
-\ ==============================================================
-\ XXX TODO {{{1
-
-\ - Update/adapt the documentation.
+\ This file is part of Sin Forth
+\ by Marcos Cruz (programandala.net), 2010/2023.
 
 \ ==============================================================
 \ Authors {{{1

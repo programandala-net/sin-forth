@@ -1,12 +1,9 @@
 \ lib/variable.fs
+\ by Marcos Cruz (programandala.net), 2020, 2023.
+\ Last modified: 20230422T1820+0200.
 
-\ This file is part of Sin Forth.
-
-\ This file adds `variable` to the compiler.
-
-\ By Marcos Cruz (programandala.net), 2020, 2023.
-
-\ Last modified: 20230422T1751+0200.
+\ This file is part of Sin Forth
+\ by Marcos Cruz (programandala.net), 2010/2023.
 
 \ ==============================================================
 

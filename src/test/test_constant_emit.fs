@@ -1,13 +1,9 @@
 \ test_constant_emit.fs
+\ by Marcos Cruz (programandala.net), 2020, 2023.
+\ Last modified: 20230422T1824+0200.
 
-\ This file is part of Sin Forth.
-
-\ A Forth cross-compiler, written in Forth with Gforth,
-\ that compiles Forth programs for the Sinclair ZX Spectrum.
-
-\ By Marcos Cruz (programandala.net), 2020, 2023.
-
-\ Last modified: 20230421T1407+0200.
+\ This file is part of Sin Forth
+\ by Marcos Cruz (programandala.net), 2010/2023.
 
 \ ==============================================================
 

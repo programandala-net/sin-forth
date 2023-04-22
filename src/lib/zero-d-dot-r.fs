@@ -2,11 +2,9 @@
 
 \ This file is part of Sin Forth.
 
-\ This file adds `0d.r` to the target.
-
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 20230422T1751+0200.
+\ Last modified: 20230422T1820+0200.
 
 \ ==============================================================
 

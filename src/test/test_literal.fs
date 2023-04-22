@@ -1,13 +1,9 @@
 \ test_literal.fs
+\ by Marcos Cruz (programandala.net), 2020, 2023.
+\ Last modified: 20230422T1823+0200.
 
-\ This file is part of Sin Forth.
-
-\ A Forth cross-compiler, written in Forth with Gforth,
-\ that compiles Forth programs for the Sinclair ZX Spectrum.
-
-\ By Marcos Cruz (programandala.net), 2020, 2023.
-
-\ Last modified: 20230422T1746+0200.
+\ This file is part of Sin Forth
+\ by Marcos Cruz (programandala.net), 2010/2023.
 
 \ ==============================================================
 
