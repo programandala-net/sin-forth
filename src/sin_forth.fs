@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230422T1820+0200.
+\ Last modified: 20230422T1925+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -31,6 +31,7 @@ require string.fs \ dynamic strings
 \ http://programandala.net/en.program.galope.html
 
 require galope/file-exists-question.fs \ `file-exists?`
+require galope/minus-extension.fs      \ `-extension`
 require galope/minus-suffix.fs         \ `-suffix`
 require galope/n-to-str.fs             \ `n>str`
 require galope/replaced.fs             \ `replaced`
@@ -219,39 +220,6 @@ variable modified-origin  modified-origin off
   \
   \ ``set-origin`` should be used before any target code is compiled,
   \ including library modules.
-  \
-  \ }doc
-
-\ ----------------------------------------------
-\ set-filename {{{2
-
-variable filename> ( -- a )
-  \ Address of the string stored by `set-filename` as a counted
-  \ string.
-
-: filename ( -- ca len )
-  filename> @ count ;
-  \ Return the string set by `set-filename`.
-
-: set-filename ( ca len -- )
-  here >r s, r> filename> ! ;
-
-s" out" set-filename \ default value
-
-  \ doc{
-  \
-  \ set-filename ( ca len -- )
-  \
-  \ Set the filename of the output files to string _ca len_, not
-  \ including the extension, which will be added automatically.
-  \
-  \ Its default value is "out". Therefore the default names of the
-  \ output files are "out.bas" (the target BASIC loader) and "out.bin"
-  \ (the target executable).
-  \
-  \ WARNING: Since a 4-character filename extension is added to the
-  \ filename, _len_ should be at least 4 characters less than the
-  \ maximun filename length allowed by the target media or DOS.
   \
   \ }doc
 
@@ -755,17 +723,21 @@ fake-data-stack-bottom value data-stack-bottom
   target-definitions ;
   \ Mark the start of the target program.
 
+variable target-basename ( -- a )
+  \ Address of a dynamic string containing the path and basename of
+  \ the source file, reused for target files.
+
 : end-program ( -- )
   data-stack? 0= if /default-data-stack data-stack then
   no-boot?       if set-default-boot               then
   boot-address @ s" __BOOT_HERE" (z80-symbol)
-  filename 2dup create-loader
-           2dup create-boot-address
-           2dup create-origin-address
-           2dup create-executable
-           2dup create-tap
-           2dup create-z80-symbols
-                create-z80dasm-blocks
+  target-basename $@ 2dup create-loader
+                     2dup create-boot-address
+                     2dup create-origin-address
+                     2dup create-executable
+                     2dup create-tap
+                     2dup create-z80-symbols
+                          create-z80dasm-blocks
   bye ;
   \ Mark the end of the target program.
 
@@ -788,10 +760,12 @@ fake-data-stack-bottom value data-stack-bottom
   ."     <path/file>  Compile the given file (absolute path required)." cr ;
 
 : parse-argument {: D: argument -- :}
+  ." -->" argument type cr \ XXX INFORMER
   argument "help"     str= if help-command    exit then
   argument "version"  str= if version-command exit then
   argument file-exists?
-  if   argument included
+  if   argument -extension target-basename $!
+       argument included
   else ." Error: the input file does not exist:" cr
        argument type
        abort

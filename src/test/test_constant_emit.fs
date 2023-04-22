@@ -1,6 +1,6 @@
 \ test_constant_emit.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230422T1824+0200.
+\ Last modified: 20230422T1933+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -8,7 +8,6 @@
 \ ==============================================================
 
 40000 set-origin
-s" test_constant_emit" set-filename
 
 begin-program
 
