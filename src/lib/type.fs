@@ -4,10 +4,9 @@
 
 \ This file adds `type` to the target.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012260105.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -44,12 +43,3 @@ target-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-11: Start.
-\
-\ 2020-12-25: Complete with `after` and `count` after eForth.
-\
-\ 2020-12-26: Fix: require `drop`.

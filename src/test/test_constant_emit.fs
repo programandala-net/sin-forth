@@ -8,7 +8,6 @@
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
 \ Last modified: 20230421T1407+0200.
-\ See change log at the end of the file.
 
 \ ==============================================================
 
@@ -28,19 +27,3 @@ zx emit ret,
 4 data-stack
 
 end-program
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-07: Extract the code from the main source.
-\
-\ 2020-12-08: Update with `begin-program`, `end-program`,
-\ `set-origin`, `set-filename`.
-\
-\ 2020-12-09: Compiled and executed and executed in an emulated ZX
-\ Spectrum 128: it prints an "A" and returns to BASIC.
-\
-\ 2020-12-10: Moved into <test> and renamed from <test_00.fs> to
-\ <test_00_constant_emit.fs>.
-\
-\ 2023-04-20: Update with `data-stack`.

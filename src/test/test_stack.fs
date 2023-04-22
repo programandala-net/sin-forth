@@ -7,8 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 20230421T1407+0200.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1745+0200.
 
 \ ==============================================================
 
@@ -75,15 +74,3 @@ ret,        \ exit to BASIC
 6 data-stack
 
 end-program
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-24: Start. Test `drop`, `dup`, `swap`, `over`, `2over`,
-\ `2swap`, `2drop`, `nip`.
-\
-\ 2020-12-25: Test `2nip`, `tuck`.
-\
-\ 2020-12-26: Update with `cr`.
-\
-\ 2023-04-20: Update with `data-stack`.

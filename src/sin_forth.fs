@@ -9,8 +9,7 @@
 
 \ By Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
 
-\ Last modified: 20230422T1606+0200.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1741+0200.
 
 \ ==============================================================
 \ Description {{{1
@@ -811,59 +810,4 @@ fake-data-stack-bottom value data-stack-bottom
 
 parse-arguments bye
 
-\ ==============================================================
-\ Change log {{{1
-
-\ 2010-04-21: First draft ideas.
-\
-\ 2015-01-06: More drafts.
-\
-\ 2020-12-06: Resume the development. New draft. Adapt and integrate
-\ the assembler from Solo Forth 0.14.0-rc.124+20201123. Adapt and
-\ integrate the data stack code from Couplement Forth
-\ v0.2.0-dev.30.0+202012062153.
-\
-\ 2020-12-07: Start the target kernel words. Move the sample
-\ compilable test code to its own file. Move the target definitions to
-\ a library, and also the compiler definitions `variable` and
-\ `constant`. Factor `header` from `:`.
-\
-\ 2020-12-08: Add code to create the targets files. Document `:` and
-\ `;`. Add `begin-program`, `end-program`, `set-origin`,
-\ `set-filename`, `boot-here`. Create a Z80 assembly symbols file.
-\ Create a z80dasm disassembler blocks definitions file.
-\
-\ 2020-12-09: Make the address and size of the data stack
-\ configurable. Rename this file from <sin_forth.fs> to <compiler.fs>.
-\
-\ 2020-12-10: Deactivate debugging messages. Deactivate `warnings`
-\ while loading the requirements. Add `bye` to `end-program`. Rename
-\ `header` to `creator`. Remove the executable name from the BASIC
-\ loader. Simplify `new-file`.
-\
-\ 2020-12-11: Improve the word lists. Select the host Forth words that
-\ are recognized during the compilation. Add immediate words to modify
-\ the search order during compilation. Improve `>z80-label`. Factor
-\ `do-call` from `:`, to reuse it in `defer`.
-\
-\ 2020-12-12: Improve `>z80-label`. Add `dea-constant` to make
-\ `creator` create a DEA compiler constant for every definition.
-\
-\ 2020-12-13: Add `target-wordlist` at the bottom of the search order
-\ set by `compiler-order`.
-\
-\ 2020-12-25: Add `t-allot`, `h-@` and `h-constant`.
-\
-\ 2020-12-26: Add `t-here`, `t-char+` and `t-s,`. Add
-\ `z80dasm-char-block`, needed by `cconstant` and `cvariable`. Add
-\ `assembler-wordlist` and related words.
-\
-\ 2020-12-27: Rename `t-here` to `h-here`, because it returns the
-\ actual address in the host. Add a new `t-here`.
-\
-\ 2023-04-20: Improve names of data stack words. Add code to build a
-\ .tap file with bin2tap.
-\
-\ 2023-04-21: Improve documentation. Prepare alternatives to build a
-\ .tap. Adapt to be called by a shell loader. Prepare arguments
-\ parser.
+\ vim: filetype=gforth

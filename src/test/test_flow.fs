@@ -7,8 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 20230421T1407+0200.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1745+0200.
 
 \ ==============================================================
 
@@ -88,18 +87,3 @@ ret,
 4 data-stack
 
 end-program
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-11: Start.
-\
-\ 2020-12-13: Add `begin`, `while`, `repeat`, `until`.
-\
-\ 2020-12-18: Add `for`, `step`.
-\
-\ 2020-12-25: Add `after`.
-\
-\ 2020-12-26: Update with `cr`.
-\
-\ 2023-04-20: Update with `data-stack`.

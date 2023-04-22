@@ -4,10 +4,9 @@
 
 \ This file adds `step` to the compiler.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012270102.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -56,15 +55,3 @@ compiler-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-16: Start. Copy the code from Solo Forth 0.14.0-pre.124.
-\
-\ 2020-12-18: Add requirement of `<resolve`. Improve documentation.
-\
-\ 2020-12-25: Fix typo in header. Remove duplicated documentation.
-\ Improve and update the documentation.
-\
-\ 2020-12-26: Update with `assembler{`.

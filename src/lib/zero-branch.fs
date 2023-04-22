@@ -4,10 +4,9 @@
 
 \ This file adds `0branch` to the compiler.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012262340.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -51,16 +50,3 @@ compiler-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-11: Start.
-\
-\ 2020-12-12: Finish and document.
-\
-\ 2020-12-13: Update the search-order selectors, remove `target{`.
-\ Improve documentation.
-\
-\ 2020-12-26: Fix the stack comment. Update the documentation with
-\ `?branch`. Update with `assembler{`.

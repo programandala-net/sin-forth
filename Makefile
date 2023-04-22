@@ -9,8 +9,7 @@
 
 # By Marcos Cruz (programandala.net), 2020, 2023.
 
-# Last modified: 20230420T1641+0200.
-# See change log at the end of the file.
+# Last modified: 20230422T1741+0200.
 
 # ==============================================================
 # Requirements {{{1
@@ -318,27 +317,3 @@ tmp/doc.manual.adoc: \
 # Cover image {{{2
 
 include Makefile.cover_image
-
-# ==============================================================
-# Change log {{{1
-
-# 2020-12-10: Start. Add rules to compile all tests, disassembly them and
-# convert the executables into ZX Spectrum TAP files.
-#
-# 2020-12-11: Prepare the rules to build the documentation, adapted from the
-# <Makefile> of Solo Forth.
-#
-# 2020-12-13: Build an online version of the README file, as part of the
-# embedded documentation.
-#
-# 2020-12-24: Fix the title of the online README.
-#
-# 2020-12-25: Add a rule to build a TAP file from a test BASIC loader, in order
-# to build the final TAP file directly.
-#
-# 2020-12-26: Improve the rule names. Improve `tests` to build also TAP and
-# assembly files.
-#
-# 2023-04-05: Remove online documentation rules, after migrating to Mercurial.
-#
-# 2023-04-20: Add draft alternatives to build .tap files.

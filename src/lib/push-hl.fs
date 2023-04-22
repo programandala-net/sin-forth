@@ -6,8 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2015, 2016, 2020.
 
-\ Last modified: 202012261954.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 \ License {{{1
@@ -59,12 +58,3 @@ target-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-07: Extract the code from <src/data_stack.fs>.
-\
-\ 2020-12-11: Update documentation.
-\
-\ 2020-12-26: Update the documentation with `push-a` and `push-bc`.

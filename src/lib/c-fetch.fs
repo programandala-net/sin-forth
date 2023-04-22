@@ -6,8 +6,7 @@
 
 \ By Marcos Cruz (programandala.net), 2023.
 
-\ Last modified: 20230420T0919+0200.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1749+0200.
 
 \ ==============================================================
 
@@ -37,8 +36,3 @@ target-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2023-04-20: Start.

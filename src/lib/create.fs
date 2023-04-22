@@ -4,10 +4,9 @@
 
 \ This file adds `create` to the compiler.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012260059.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -44,21 +43,3 @@ compiler-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-07: Extract the code from <sin_forth.fs>. Improve it with
-\ `header`.
-\
-\ 2020-12-08: Create a z80dasm block.
-\
-\ 2020-12-10: Add stack notation to `does>` and simplify its code,
-\ removing `evaluate`. Update with `creator`.
-\
-\ 2020-12-11: Update the search-order selection words. Fix the `does>`
-\ code. Document.
-\
-\ 2020-12-13: Update: Remove `target{`.
-\
-\ 2020-12-26: Fix: don't allocate space.

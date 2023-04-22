@@ -4,10 +4,9 @@
 
 \ This file adds `defer` to the compiler.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012110334.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -20,10 +19,3 @@ compiler-definitions
   does> ( dfa ) do-call ;
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-10: Start.
-\
-\ 2020-12-11: Finish.

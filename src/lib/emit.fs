@@ -4,10 +4,9 @@
 
 \ This file adds `emit` to the compiler.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012260124.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -46,14 +45,3 @@ target-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-07: Start.
-\
-\ 2020-12-09: Move `require` to the top.
-\
-\ 2020-12-11: Improve documentation.
-\
-\ 2020-12-26: Update documentation with `cr`.

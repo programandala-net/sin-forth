@@ -4,10 +4,9 @@
 
 \ This file adds `!>` to the compiler.
 
-\ By Marcos Cruz (programandala.net), 2020.
+\ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 202012110236.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1751+0200.
 
 \ ==============================================================
 
@@ -50,13 +49,3 @@ compiler-definitions
   \ }doc
 
 set-current set-order
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-10: Start definition of `to`, to be used with `value`.
-\
-\ 2020-12-11: Update the search-order selection words. Rename from
-\ `to` to `!>`, because the definition of `value` is identical to
-\ `constant`. `!>` is included in Solo Forth, which borrowed the idea
-\ from IsForth. Update documentation.

@@ -7,8 +7,7 @@
 
 \ By Marcos Cruz (programandala.net), 2020, 2023.
 
-\ Last modified: 20230421T1407+0200.
-\ See change log at the end of the file.
+\ Last modified: 20230422T1745+0200.
 
 \ ==============================================================
 
@@ -45,14 +44,3 @@ ret,
 4 data-stack
 
 end-program
-
-\ ==============================================================
-\ Change log {{{1
-
-\ 2020-12-11: Start. Test `+` and `-`.
-\
-\ 2020-12-12: Test also `1+`, `1-`, `2+` and `2-`.
-\
-\ 2020-12-15: Add additional test for the new version of `1+`.
-\
-\ 2023-04-20: Update with `data-stack`.
