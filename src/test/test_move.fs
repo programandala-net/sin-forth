@@ -14,6 +14,8 @@
 
 \ ==============================================================
 
+\ XXX FIXME crash
+
 40000 set-origin
 
 begin-program
@@ -49,12 +51,10 @@ compiler{ memory> } h-@ h-constant attr-copy
   move-hl-de-bc ;
 
 : wait ( -- )
-  65535 literal for [.s] step ;
+  65535 literal for step ;
 
 : rubbish ( u -- )
   for r@ pop-hl hl-to-attr step ;
-
-: run ( -- )
 
 boot-here
 exx, h push,
@@ -65,12 +65,12 @@ exx, h push,
 \ move-hl-de-bc
 
 save-attr
-1024 literal rubbish
+768 literal rubbish
 restore-attr
 
 h pop, exx,
 ret,
 
-4 data-stack
+8 data-stack
 
 end-program

@@ -1,6 +1,6 @@
 \ test_flow.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230423T1238+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -13,8 +13,6 @@
 \ license.  There is no warranty.
 
 \ ==============================================================
-
-\ bye \ XXX TMP
 
 40000 set-origin
 
@@ -40,9 +38,10 @@ require sin_forth/lib/step.fs       \ `step`
 require sin_forth/lib/then.fs       \ `then`
 require sin_forth/lib/until.fs      \ `until`
 require sin_forth/lib/while.fs      \ `while`
-require sin_forth/lib/zero-until.fs \ `zero-until`
+require sin_forth/lib/zero-until.fs \ `0until`
 
 boot-here
+exx, h push,
 
 1 literal if 'A' literal emit then
 0 literal if 'X' literal emit then
@@ -64,28 +63,33 @@ begin dup emit 1- dup '`' literal =
 until drop
 
 \ Type from 'z' to 'a'
-cr
-'z' literal
-begin dup emit 1- dup '`' literal <
-0until drop
+\ XXX FIXME crash
+\ cr
+\ 'z' literal
+\ begin dup emit 1- dup '`' literal <
+\ 0until drop
 
 \ Type from 'z' to 'a'
-cr
-host{ 'z' 'a' - } literal
-for r@ 'a' literal + emit step
+\ XXX FIXME crash
+\ cr
+\ 'z' 'a' host{ - } literal
+\ for r@ 'a' literal + emit step
 
 \ Type from '3' to '0'
-cr
-host{ '3' '0' - } literal
-for r@ '0' literal + emit step
+\ XXX FIXME crash
+\ cr
+\ '3' '0' host{ - } literal
+\ for r@ '0' literal + emit step
 
 \ Type from '2' to '0'
-cr
-host{ '3' '0' - } literal
-for after r@ '0' literal + emit then step
+\ XXX FIXME crash
+\ cr
+\ '3' '0' host{ - } literal
+\ for after r@ '0' literal + emit then step
 
+h pop, exx,
 ret,
 
-4 data-stack
+8 data-stack
 
 end-program

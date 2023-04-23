@@ -1,8 +1,8 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-22
+:revdate: 2023-04-23
 
-// Last modified: 20230422T1938+0200.
+// Last modified: 20230423T1219+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -76,7 +76,6 @@
 
 == 2023-04-21
 
-- Add `0until`, used by a test.
 - Build tests also with apenwarr/redo.
 
 == 2023-04-22
