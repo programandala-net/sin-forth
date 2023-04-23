@@ -1,6 +1,6 @@
 # Makefile
 # by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230423T1446+0200.
+# Last modified: 20230423T1609+0200.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
@@ -78,37 +78,26 @@ tests:
 # ==============================================================
 # Disassemble the compiled tests {{{1
 
-.SECONDARY:
-
 .PHONY: asm
 asm: $(disassembled_tests)
 
-target/%.origin.txt: src/test/%.fs
-	src/sin_forth.fs -addr -out $$(realpath target) build $$(realpath $<)
-
-target/%.boot.txt: src/test/%.fs
-	src/sin_forth.fs -addr -out $$(realpath target) build $$(realpath $<)
-
-target/%.symbols.asm: src/test/%.fs
-	src/sin_forth.fs -sym -out $$(realpath target) build $$(realpath $<)
-
-target/%.bin: src/test/%.fs
-	src/sin_forth.fs -code -out $$(realpath target) build $$(realpath $<)
-
-target/%.z80dasm_blocks.txt: src/test/%.fs
-	src/sin_forth.fs -z80dasm -out $$(realpath target) build $$(realpath $<)
-
-%.asm: \
-	%.bin \
-	%.boot.txt \
-	%.origin.txt \
-	%.symbols.asm \
-	%.z80dasm_blocks.txt
-	z80dasm -a -g $$(cat $(basename $<).origin.txt) -l -t \
-		-S $(basename $<).symbols.asm \
-		-b $(basename $<).z80dasm_blocks.txt \
-		-o $(basename $<).asm \
-		$<
+target/%.asm: src/test/%.fs
+	src/sin_forth.fs \
+		-addr \
+		-code \
+		-sym \
+		-z80dasm \
+		-out $$(realpath target) \
+		build $$(realpath $<);\
+	z80dasm \
+		--address \
+		--labels \
+		--source \
+		--origin=$$(cat $(basename $@).origin.txt) \
+		--sym-input=$(basename $@).symbols.asm \
+		--block-def=$(basename $@).z80dasm_blocks.txt \
+		--output=$@ \
+		$(basename $@).bin
 
 # ==============================================================
 # Documentation {{{1
