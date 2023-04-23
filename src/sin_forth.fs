@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T1014+0200.
+\ Last modified: 20230423T1032+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -805,10 +805,23 @@ false value build-z80dasm-blocks?
 : next-arg? ( -- ca len f )
   next-arg 2dup 0 0 d<> ;
 
+\ ----------------------------------------------
+\ Options {{{2
+
+: addr-option    ( -- ) true to build-addresses? ;
+: bas-option     ( -- ) true to build-loader? ;
+: code-option    ( -- ) true to build-code? ;
+: sym-option     ( -- ) true to build-z80-symbols? ;
+: tap-option     ( -- ) true to build-tap? ;
+: z80dasm-option ( -- ) true to build-z80dasm-blocks? ;
+
 : out-option ( -- )
   next-arg? if   "/" s+ target-path $!
             else ." Error: the out directory is missing." abort then ;
   \ Get the value of the `--out` option.
+
+\ ----------------------------------------------
+\ Commands {{{2
 
 : (build-command) {: D: source-file -- :}
   source-file file-exists?
@@ -872,32 +885,34 @@ false value build-z80dasm-blocks?
   ." NOTE: The paths must be absolute. This requirement may be removed" cr
   ." in a future version of the compiler." cr ;
 
+\ ----------------------------------------------
+\ Parser {{{2
+
 : parse-argument {: D: argument -- :}
-  \ ." argument = " argument type cr \ XXX INFORMER
-  argument "build"     str= if build-command                    exit then
-  argument "help"      str= if help-command                     exit then
-  argument "version"   str= if version-command                  exit then
-  argument "--addr"    str=
-  argument "-addr"     str= or
-  argument "-a"        str= or if true to build-addresses?      exit then
-  argument "--bas"     str=
-  argument "-bas"      str= or
-  argument "-b"        str= or if true to build-loader?         exit then
-  argument "--code"    str=
-  argument "-code"     str= or
-  argument "-c"        str= or if true to build-code?           exit then
-  argument "--out"     str=
-  argument "-out"      str= or
-  argument "-o"        str= or if out-option                    exit then
-  argument "--sym"     str=
-  argument "-sym"      str= or
-  argument "-s"        str= or if true to build-z80-symbols?    exit then
-  argument "--tap"     str=
-  argument "-tap"      str= or
-  argument "-t"        str= or if true to build-tap?            exit then
-  argument "--z80dasm" str=
-  argument "-z80dasm"  str= or
-  argument "-z"        str= or if true to build-z80dasm-blocks? exit then ;
+  argument "build"     str= if build-command   exit then
+  argument "help"      str= if help-command    exit then
+  argument "version"   str= if version-command exit then
+  argument "--addr"    str= if addr-option     exit then
+  argument "-addr"     str= if addr-option     exit then
+  argument "-a"        str= if addr-option     exit then
+  argument "--bas"     str= if bas-option      exit then
+  argument "-bas"      str= if bas-option      exit then
+  argument "-b"        str= if bas-option      exit then
+  argument "--code"    str= if code-option     exit then
+  argument "-code"     str= if code-option     exit then
+  argument "-c"        str= if code-option     exit then
+  argument "--out"     str= if out-option      exit then
+  argument "-out"      str= if out-option      exit then
+  argument "-o"        str= if out-option      exit then
+  argument "--sym"     str= if sym-option      exit then
+  argument "-sym"      str= if sym-option      exit then
+  argument "-s"        str= if sym-option      exit then
+  argument "--tap"     str= if tap-option      exit then
+  argument "-tap"      str= if tap-option      exit then
+  argument "-t"        str= if tap-option      exit then
+  argument "--z80dasm" str= if z80dasm-option  exit then
+  argument "-z80dasm"  str= if z80dasm-option  exit then
+  argument "-z"        str= if z80dasm-option  exit then ;
 
 : parse-arguments ( -- )
   argc @ 1 = if help-command exit then
