@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T1032+0200.
+\ Last modified: 20230423T1116+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -159,7 +159,7 @@ synonym h-@ @
 synonym h-constant constant
 
 \ ==============================================================
-\ Target memory {{{1
+\ Target memory buffer and basic tools {{{1
 
 $10000 constant /memory
   \ Size of the target memory: 64 KiB.
@@ -215,7 +215,7 @@ variable modified-origin  modified-origin off
   \
   \ set-origin ( a -- )
   \
-  \ Set the initial target memory address _a_ from wich the code will
+  \ Set the initial target memory address _a_ from which the code will
   \ be compiled. Its default value is $5E00 (24064).
   \
   \ ``set-origin`` should be used before any target code is compiled,
@@ -250,11 +250,10 @@ no-boot boot-address !
   \
   \ Mark the current address of the target program as the boot
   \ address, i.e. the address that will be executed by the Sinclair
-  \ BASIC loader. ``boot-here`` should be used right after a `:`
-  \ definition.
+  \ BASIC loader.
   \
-  \ When ``boot-here`` is not used, the boot address will be that of
-  \ the latest `:` definition.
+  \ If ``boot-here`` is not used, the boot address will be that of the
+  \ latest `:` definition.
   \
   \ }doc
 
@@ -488,7 +487,7 @@ variable latest-call
 
   \ NOTE: ``:`` is part of the compiler, it's not defined in the
   \ target.
-
+  \
   \ See also: `;`.
   \
   \ }doc
@@ -520,26 +519,14 @@ variable latest-call
   \ was a Z80 call, it is replaced with a jump instead of executing
   \ `ret,`.
   \
-  \ Usage example:
-
-  \ ----
-  \ : inc ( n1 -- n2 )
-  \   pop-hl
-  \   h incp,
-  \   push-hl ;
-  \
-  \ : .pair ( n -- )
-  \   dup . inc . ;
-  \ ----
-
   \ NOTE: Sin Forth's ``;`` has nothing to do with standard Forth's
   \ ``;``. In Sin Forth, ``;`` just compiles the return from a Z80
   \ subrutine. In fact several ``;`` can be used in one single
   \ definition.
-
+  \
   \ NOTE: ``;`` is part of the compiler, it's not defined in the
   \ target.
-
+  \
   \ See also: `:`.
   \
   \ }doc
@@ -577,12 +564,12 @@ fake-data-stack-bottom value data-stack-bottom
   \
   \ data-stack ( len -- )
   \
-  \ Create the data stack, _len_ target cells big, at the current
-  \ target memory pointer. The data stack grows from bottom (high
-  \ memory) to top (low memory). If ``data-stack`` is not
-  \ executed during the compilation of the target program, it will be
-  \ executed by `end-program` with the default size returned by
-  \ `/stack`.
+  \ Create the data stack, with _len_ target cells, at the current
+  \ target memory pointer. The data stack grows towards 
+  \ low memory. If ``data-stack`` is not executed during the
+  \ compilation of the target program, it will be executed by
+  \ `end-program` with the default size returned by
+  \ `/default-data-stack`.
   \
   \ }doc
 
@@ -753,7 +740,7 @@ false value build-z80dasm-blocks?
   \ corresponding command-line options) are not false.
 
 \ ==============================================================
-\ Words to handle the target memory {{{1
+\ Target memory additional tools {{{1
 
 : t-allot \ Compilation: ( +n -- )
   dup 0< abort" Negative number not allowed by `t-allot`"
