@@ -1,6 +1,6 @@
 # Makefile
 # by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230423T1145+0200.
+# Last modified: 20230423T1446+0200.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
@@ -76,34 +76,35 @@ tests:
 	done
 
 # ==============================================================
-# Disassembly the compiled tests {{{1
+# Disassemble the compiled tests {{{1
 
-# ----------------------------------------------
-# Disassembly all executables {{{2
+.SECONDARY:
 
-# XXX OLD method
-.PHONY: asm_old
-asm_old:
-	@for file in $$(ls target/*.bin);do\
-		base=target/$$(basename $${file} .bin);\
-		z80dasm -a -g 40000 -l -t \
-			-S $$base.symbols.asm \
-			-b $$base.z80dasm_blocks.txt \
-			-o $$base.asm \
-			$$file;\
-	done;
+.PHONY: asm
+asm: $(disassembled_tests)
 
-# XXX NEW method
-.PHONY: asms
-asms: $(disassembled_tests)
+target/%.origin.txt: src/test/%.fs
+	src/sin_forth.fs -addr -out $$(realpath target) build $$(realpath $<)
 
-# ----------------------------------------------
-# Disassembly an executable {{{2
+target/%.boot.txt: src/test/%.fs
+	src/sin_forth.fs -addr -out $$(realpath target) build $$(realpath $<)
 
-# XXX TODO Get the origin address from the source.
+target/%.symbols.asm: src/test/%.fs
+	src/sin_forth.fs -sym -out $$(realpath target) build $$(realpath $<)
 
-%.asm: %.bin
-	z80dasm -a -g 40000 -l -t \
+target/%.bin: src/test/%.fs
+	src/sin_forth.fs -code -out $$(realpath target) build $$(realpath $<)
+
+target/%.z80dasm_blocks.txt: src/test/%.fs
+	src/sin_forth.fs -z80dasm -out $$(realpath target) build $$(realpath $<)
+
+%.asm: \
+	%.bin \
+	%.boot.txt \
+	%.origin.txt \
+	%.symbols.asm \
+	%.z80dasm_blocks.txt
+	z80dasm -a -g $$(cat $(basename $<).origin.txt) -l -t \
 		-S $(basename $<).symbols.asm \
 		-b $(basename $<).z80dasm_blocks.txt \
 		-o $(basename $<).asm \
