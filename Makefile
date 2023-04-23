@@ -1,6 +1,6 @@
 # Makefile
 # by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230423T0657+0200.
+# Last modified: 20230423T1004+0200.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
@@ -18,12 +18,6 @@
 # Asciidoctor PDF (by Dan Allen and Sarah White)
 #   http://github.com/asciidoctor/asciidoctor-pdf
 
-# bin2code (by Metalbrain)
-#   http://metalbrain.speccy.org/link-eng.htm
-
-# bin2tap (by Metalbrain)
-#   http://metalbrain.speccy.org/link-eng.htm
-
 # cat (by Torbjorn Granlund and Richard M. Stallman)
 #   Part of GNU Coreutils
 #   http://gnu.org/software/coreutils
@@ -37,12 +31,6 @@
 
 # z80dasm (by Tomaž Šolc)
 #   https://www.tablix.org/~avian/blog/articles/z80dasm/
-
-# zmakebas (by Russell Marks)
-#   Usually included in Linux distros. Also see:
-#   http://sourceforge.net/p/emuscriptoria/code/HEAD/tree/desprot/ZMakeBas.c
-#   https://github.com/catseye/zmakebas
-#   http://zmakebas.sourcearchive.com/documentation/1.2-1/zmakebas_8c-source.html
 
 # ==============================================================
 # Main {{{1
@@ -69,7 +57,6 @@ cleandoc: cleanmanual
 source_tests=$(wildcard src/test/*.fs)
 tests_names=$(notdir $(basename $(source_tests)))
 target_tests=$(addprefix target/, $(tests_names))
-taped_tests=$(addsuffix .tap, $(target_tests))
 disassembled_tests=$(addsuffix .asm, $(target_tests))
 
 # ==============================================================
@@ -78,7 +65,7 @@ disassembled_tests=$(addsuffix .asm, $(target_tests))
 .PHONY: tests
 tests:
 	@for file in $$(ls src/test/*.fs);do\
-		src/sin_forth.fs -o $$(realpath target) build $$(realpath $$file);\
+		src/sin_forth.fs -tap -out $$(realpath target) build $$(realpath $$file);\
 	done
 
 # ==============================================================
@@ -114,50 +101,6 @@ asms: $(disassembled_tests)
 		-b $(basename $<).z80dasm_blocks.txt \
 		-o $(basename $<).asm \
 		$<
-
-# ==============================================================
-# Emulator media {{{1
-
-# ----------------------------------------------
-# Convert all BIN files into TAP files {{{2
-
-# This rule is deprecated. bin2tap creates a TAP from an executable, adding a
-# custom BASIC loader first, but the execution address has to be indicated as
-# an argument, which is not currently possible. By default, the start address
-# of the code is used.
-
-# XXX OLD
-.PHONY: bin2tap
-bin2tap:
-	@for file in $$(ls target/*.bin);do\
-		base=`basename .bin $$file`;\
-		bin2tap $$file $$base.tap $(shell cat $$base.origin.txt) $(shell cat $$base.boot.txt);\
-	done;
-
-# ----------------------------------------------
-# Convert a .bin into a .tap {{{2
-
-target/%.tap: tmp/%.bin tmp/%.origin.txt tmp/%.boot.txt
-	bin2tap $< target/$(notdir $@) $(shell cat $(word 2, $^)) $(shell cat $(word 3, $^))
-
-# bin2tap $< $@ `cat $${base}.origin.txt` `cat $${base}.boot.txt`
-
-# ----------------------------------------------
-# Convert a .bas loader and a .bin into a .tap {{{2
-
-.PHONY: taps
-taps: $(taped_tests)
-
-tmp/%.bas.tap: %.bas
-	zmakebas -n Autoload -a 1 -o $@ $<;
-	rm -f $<
-
-tmp/%.bin.tap: %.bin
-	bin2code $< $@;\
-	rm -f $<
-
-target/%.tap: tmp/%.bas.tap tmp/%.bin.tap
-	cat $^ > $@
 
 # ==============================================================
 # Documentation {{{1

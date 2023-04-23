@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T0712+0200.
+\ Last modified: 20230423T1014+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -593,8 +593,25 @@ fake-data-stack-bottom value data-stack-bottom
   w/o create-file throw ;
   \ Create a new file _ca len_ returning its file identifier _fid_.
 
+variable target-name ( -- a )
+  \ Address of a dynamic string containing the basename of the source
+  \ file, without extension, reused for target files.
+
+variable target-path ( -- a )
+  \ Address of a dynamic string containing by default the path of the
+  \ source file, reused for target files. This can be configured with
+  \ a command-line option.
+
+target-path $init
+  \ Init `target-path` with an empty string. This will be checked when
+  \ parsing the command line arguments, in order to use the source
+  \ path instead or not.
+
 \ ----------------------------------------------
 \ Sinclair BASIC loader file {{{2
+
+false value build-loader?
+  \ Flag, configurable with a command-line option.
 
 : .loader ( -- )
   .\" 1 CLEAR VAL\"" origin 1 - 0 .r
@@ -604,27 +621,31 @@ fake-data-stack-bottom value data-stack-bottom
   \ loads the next binary file on the tape into memory address
   \ `origin`, and execute it at address `boot-address`.
 
-: create-loader ( ca len -- )
+: build-loader ( ca len -- )
   s" .bas" s+ new-file dup >r
   ['] .loader swap outfile-execute
   r> close-file throw ;
-  \ Create a Sinclair BASIC loader (in text format),
-  \ with filename _ca len_ and the ".bas" extension, which
-  \ loads the next binary file on the tape into memory address
-  \ `origin`, and execute it at address `boot-address`.
+  \ Create a Sinclair BASIC loader (in text format), with base
+  \ filename _ca len_ (with path but without extension) and the ".bas"
+  \ extension, which loads the next binary file on the tape into
+  \ memory address `origin`, and execute it at address `boot-address`.
 
 \ ----------------------------------------------
 \ Code file addresses {{{2
 
-: create-boot-address ( ca len -- )
+false value build-addresses?
+  \ Flag, configurable with a command-line option.
+
+: build-boot-address ( ca len -- )
   s" .boot.txt" s+ new-file dup >r
   [: boot-address @ 0 .r ;] swap outfile-execute
   r> close-file throw ;
   \ Create a text file containing the boot code address, with
-  \ base filename _ca len_. The content of this file can be used by
-  \ the building tool as a parameter of bin2tap.
+  \ base filename _ca len_ (with path but without extension). The
+  \ content of this file can be used by the building tool as a
+  \ parameter of bin2tap.
 
-: create-origin-address ( ca len -- )
+: build-origin-address ( ca len -- )
   s" .origin.txt" s+ new-file dup >r
   [: origin 0 .r ;] swap outfile-execute
   r> close-file throw ;
@@ -633,15 +654,18 @@ fake-data-stack-bottom value data-stack-bottom
   \ the building tool as a parameter of bin2tap.
 
 \ ----------------------------------------------
-\ ZX Spectrum executable file {{{2
+\ ZX Spectrum code file {{{2
 
-: /executable ( -- len )
+false value build-code?
+  \ Flag, configurable with a command-line option.
+
+: /code ( -- len )
   memory> @ origin - ;
-  \ Return the size _len_ of the target executable.
+  \ Return the size _len_ of the target code.
 
-: create-executable ( ca len -- )
+: build-code ( ca len -- )
   s" .bin" s+ new-file >r
-  memory origin + /executable r@ write-file throw
+  memory origin + /code r@ write-file throw
   r> close-file throw ;
   \ Create a Z80 code file with filename _ca len_ and the ".bin"
   \ extension.
@@ -649,40 +673,84 @@ fake-data-stack-bottom value data-stack-bottom
 \ ----------------------------------------------
 \ ZX Spectrum .tap file {{{2
 
-: create-tap {: D: name -- :}
+false value build-tap?
+  \ Flag, configurable with a command-line option.
+
+: bin2tap {: D: name -- ca len :}
   "bin2tap " name s+ ".bin " s+
              name s+ ".tap " s+
              origin n>str s+ " " s+
-             boot-address @ n>str s+
-  \ 2dup cr "«" type type "»" type cr \ XXX INFORMER
+             boot-address @ n>str s+ ;
+  \ Convert the given _name_ (a path with a filename without
+  \ extension) into a `bin2tap` command to convert a .bin file into a
+  \ .tap file.
+
+: (build-tap) {: D: name -- :}
+  name bin2tap
   system $? abort" external program bin2tap failed" ;
-  \ Convert the .bin file to a .tap file, using the external tool
-  \ `bin2tap`.
+  \ Create a .tap file using the external tool `bin2tap`. Note: _name_
+  \ is a string containing the path and filename without extension.
+
+: build-tap {: D: name -- :}
+  build-code? 0= if name build-code then
+  name (build-tap)
+  build-code? 0= if name ".bin" s+ delete-file throw then ;
+  \ Create a .tap file using the external tool `bin2tap`. If the
+  \ required code file has not been created, create it first and
+  \ delete it at the end. Note: _name_ is a string containing the path
+  \ and filename without extension.
 
 \ ----------------------------------------------
 \ Z80 assembly symbols file {{{2
 
-: (create-z80-symbols) ( ca len -- )
+false value build-z80-symbols?
+  \ Flag, configurable with a command-line option.
+
+: (build-z80-symbols) ( ca len -- )
   s" .symbols.asm" s+ z80-symbols$ $@ 2swap unslurp-file ;
   \ Create a Z80 symbols file with base filename _ca len_.
 
-: create-z80-symbols ( ca len -- )
-  z80-symbols$ $@len if (create-z80-symbols) else 2drop then ;
+: build-z80-symbols ( ca len -- )
+  z80-symbols$ $@len if (build-z80-symbols) else 2drop then ;
   \ If there are symbols listed during the compilation, create a Z80
-  \ symbols file with base filename _ca len_. Else do nothing.
+  \ symbols file with base filename _ca len_. Otherwise do nothing.
 
 \ ----------------------------------------------
 \ z80dasm disassembler blocks file {{{2
 
-: (create-z80dasm-blocks) ( ca len -- )
+false value build-z80dasm-blocks?
+  \ Flag, configurable with a command-line option.
+
+: (build-z80dasm-blocks) ( ca len -- )
   s" .z80dasm_blocks.txt" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
   \ Create a z80dasm blocks file with base filename _ca len_.
 
-: create-z80dasm-blocks ( ca len -- )
-  z80dasm-blocks$ $@len if (create-z80dasm-blocks) else 2drop then ;
+: build-z80dasm-blocks ( ca len -- )
+  z80dasm-blocks$ $@len if (build-z80dasm-blocks) else 2drop then ;
   \ If there are z80dasm-blocks collected during the compilation,
-  \ create a z80dasm blocks file with base filename _ca len_. Else do
-  \ nothing.
+  \ create a z80dasm blocks file using base filepath without extension
+  \ _ca len_. Otherwise do nothing.
+
+\ ----------------------------------------------
+\ Build files {{{2
+
+: ?build-file ( ca len xt flag -- )
+  if execute else drop 2drop then ;
+  \ If _flag_ is not false, execute _xt_ with the given filename _ca
+  \ len_ (with path and without extension); otherwise just discard the
+  \ arguments.
+
+: build-files ( -- )
+  target-path $@ target-name $@ s+
+  2dup ['] build-loader         build-loader?         ?build-file
+  2dup ['] build-boot-address   build-addresses?      ?build-file
+  2dup ['] build-origin-address build-addresses?      ?build-file
+  2dup ['] build-code           build-code?           ?build-file
+  2dup ['] build-tap            build-tap?            ?build-file
+  2dup ['] build-z80-symbols    build-z80-symbols?    ?build-file
+       ['] build-z80dasm-blocks build-z80dasm-blocks? ?build-file ;
+  \ Build all of the target files whose building flags (set by their
+  \ corresponding command-line options) are not false.
 
 \ ==============================================================
 \ Words to handle the target memory {{{1
@@ -723,32 +791,11 @@ fake-data-stack-bottom value data-stack-bottom
   target-definitions ;
   \ Mark the start of the target program.
 
-variable target-name ( -- a )
-  \ Address of a dynamic string containing the basename of the source
-  \ file, without extension, reused for target files.
-
-variable target-path ( -- a )
-  \ Address of a dynamic string containing by default the path of the
-  \ source file, reused for target files. This can be configured with
-  \ a command-line option.
-
-target-path $init
-  \ Init `target-path` with an empty string. This will be checked when
-  \ parsing the command line arguments, in order to use the source
-  \ path instead or not.
-
 : end-program ( -- )
   data-stack? 0= if /default-data-stack data-stack then
   no-boot?       if set-default-boot               then
   boot-address @ s" __BOOT_HERE" (z80-symbol)
-  target-path $@ target-name $@ s+
-  2dup create-loader
-  2dup create-boot-address
-  2dup create-origin-address
-  2dup create-executable
-  2dup create-tap
-  2dup create-z80-symbols
-       create-z80dasm-blocks
+  build-files
   bye ;
   \ Mark the end of the target program.
 
@@ -757,6 +804,11 @@ target-path $init
 
 : next-arg? ( -- ca len f )
   next-arg 2dup 0 0 d<> ;
+
+: out-option ( -- )
+  next-arg? if   "/" s+ target-path $!
+            else ." Error: the out directory is missing." abort then ;
+  \ Get the value of the `--out` option.
 
 : (build-command) {: D: source-file -- :}
   source-file file-exists?
@@ -788,31 +840,64 @@ target-path $init
   ." Commands:" cr
   ."     build <filepath>" cr
   ."         Compile the given source file (with its absolute path)." cr
+  ."         Note: no file will be built by default. See the build" cr
+  ."         options below." cr
   ."     help" cr
   ."         Display this help message." cr
   ."     version" cr
   ."         Display the version number." cr
   ." Build command options:" cr
+  ."     --addr|-addr|-a" cr
+  ."         Build the text files containing the origin and boot addresses" cr
+  ."         of the compiled code. These may be used by external tools in" cr
+  ."         order to make a custom loader for the target machine." cr
+  ."     --bas|-bas|-b" cr
+  ."         Build a text-format Sinclair BASIC loader for the compiled code." cr
+  ."     --code|-code|-c" cr
+  ."         Build a headerless ZX Spectrum code file." cr
   ."     --out|-out|-o <path>" cr
   ."         Set the absolute path of the output files. If this option" cr
   ."         is not used, the path of the source file is used." cr
+  ."     --sym|-sym|-s" cr
+  ."         Build a Z80 symbols file. This is useful to disassemble" cr
+  ."         the compiled code with a disassembler, for example z80dasm." cr
+  ."     --tap|-tap|-t" cr
+  ."         Build a .tap file ready to be loaded into a ZX Spectrum" cr
+  ."         emulator. Note: bin2tap (https://metalbrain.speccy.org/link-eng.htm)" cr
+  ."         must be installed in the system." cr
+  ."     --z80dasm|-z80dasm|-z" cr
+  ."         Build a z80dasm blocks file. This is useful to disassemble" cr
+  ."         the compiled code with the z80dasm disassembler.' cr
   cr
   ." NOTE: The paths must be absolute. This requirement may be removed" cr
   ." in a future version of the compiler." cr ;
 
-: out-option ( -- )
-  next-arg? if   "/" s+ target-path $!
-            else ." Error: the out directory is missing." abort then ;
-  \ Get the value of the `--out` option.
-
 : parse-argument {: D: argument -- :}
   \ ." argument = " argument type cr \ XXX INFORMER
-  argument "build"   str= if build-command     exit then
-  argument "help"    str= if help-command      exit then
-  argument "version" str= if version-command   exit then
-  argument "--out"   str=
-  argument "-out"    str= or
-  argument "-o"      str= or if out-option exit then ;
+  argument "build"     str= if build-command                    exit then
+  argument "help"      str= if help-command                     exit then
+  argument "version"   str= if version-command                  exit then
+  argument "--addr"    str=
+  argument "-addr"     str= or
+  argument "-a"        str= or if true to build-addresses?      exit then
+  argument "--bas"     str=
+  argument "-bas"      str= or
+  argument "-b"        str= or if true to build-loader?         exit then
+  argument "--code"    str=
+  argument "-code"     str= or
+  argument "-c"        str= or if true to build-code?           exit then
+  argument "--out"     str=
+  argument "-out"      str= or
+  argument "-o"        str= or if out-option                    exit then
+  argument "--sym"     str=
+  argument "-sym"      str= or
+  argument "-s"        str= or if true to build-z80-symbols?    exit then
+  argument "--tap"     str=
+  argument "-tap"      str= or
+  argument "-t"        str= or if true to build-tap?            exit then
+  argument "--z80dasm" str=
+  argument "-z80dasm"  str= or
+  argument "-z"        str= or if true to build-z80dasm-blocks? exit then ;
 
 : parse-arguments ( -- )
   argc @ 1 = if help-command exit then
