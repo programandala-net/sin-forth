@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T0708+0200.
+\ Last modified: 20230423T0712+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -793,26 +793,26 @@ target-path $init
   ."     version" cr
   ."         Display the version number." cr
   ." Build command options:" cr
-  ."     --out-dir|-out-dir|-o <path>" cr
+  ."     --out|-out|-o <path>" cr
   ."         Set the absolute path of the output files. If this option" cr
   ."         is not used, the path of the source file is used." cr
   cr
   ." NOTE: The paths must be absolute. This requirement may be removed" cr
   ." in a future version of the compiler." cr ;
 
-: out-dir-option ( -- )
+: out-option ( -- )
   next-arg? if   "/" s+ target-path $!
             else ." Error: the out directory is missing." abort then ;
-  \ Get the value of the `--out-dir` option.
+  \ Get the value of the `--out` option.
 
 : parse-argument {: D: argument -- :}
   \ ." argument = " argument type cr \ XXX INFORMER
-  argument "build"     str= if build-command     exit then
-  argument "help"      str= if help-command      exit then
-  argument "version"   str= if version-command   exit then
-  argument "--out-dir" str=
-  argument "-out-dir"  str= or
-  argument "-o"        str= or if out-dir-option exit then ;
+  argument "build"   str= if build-command     exit then
+  argument "help"    str= if help-command      exit then
+  argument "version" str= if version-command   exit then
+  argument "--out"   str=
+  argument "-out"    str= or
+  argument "-o"      str= or if out-option exit then ;
 
 : parse-arguments ( -- )
   argc @ 1 = if help-command exit then
