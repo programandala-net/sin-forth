@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T1352+0200.
+\ Last modified: 20230423T1715+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -250,6 +250,7 @@ variable z80-symbols ( -- a ) z80-symbols on
   s" _slash_"        s" /"  replaced
   s" _colon_"        s" :"  replaced
   s" _semicolon_"    s" ;"  replaced
+  s" _not_equals_"   s" <>" replaced
   s" _less_than_"    s" <"  replaced
   s" _equals_"       s" ="  replaced
   s" _greater_than_" s" >"  replaced
@@ -257,7 +258,7 @@ variable z80-symbols ( -- a ) z80-symbols on
   s" _backslash_"    s" \"  replaced
   s" _" -suffix
   s" _" 2swap s+
-  s" _"       s" __" replaced
+  s" _" s" __" replaced
   ;
   \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
 
