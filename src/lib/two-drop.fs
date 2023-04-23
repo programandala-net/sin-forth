@@ -1,6 +1,6 @@
 \ lib/two-drop.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230423T1400+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -21,6 +21,7 @@ target-definitions
 : 2drop ( x1 x2 -- )
   ix incp, \ inc ix
   ix incp, \ inc ix
+: drop ( x -- )
   ix incp, \ inc ix
   ix incp, \ inc ix
   ;        \ ret
@@ -32,6 +33,16 @@ target-definitions
   \ Remove cell pair _x1 x2_ from the stack.
   \
   \ See also: `drop`, `nip`.
+  \
+  \ }doc
+
+  \ doc{
+  \
+  \ drop ( x -- )
+  \
+  \ Remove _x_ from the stack.
+  \
+  \ See also: `2drop`, `nip`.
   \
   \ }doc
 

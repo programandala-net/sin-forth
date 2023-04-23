@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-23
 
-// Last modified: 20230423T1219+0200.
+// Last modified: 20230423T1403+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -59,8 +59,6 @@
 
 == 2020-12-25
 
-- Combine `drop` and `2drop`. `drop` can be a second entry point of
-  `2drop`.
 - Rename `after` to its original name `aft`; rename `step` to its
   usual name `next`.
 - Factor `push-a` from `count`.
