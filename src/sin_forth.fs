@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230422T2039+0200.
+\ Last modified: 20230423T0708+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -755,6 +755,27 @@ target-path $init
 \ ==============================================================
 \ Command-line arguments {{{1
 
+: next-arg? ( -- ca len f )
+  next-arg 2dup 0 0 d<> ;
+
+: (build-command) {: D: source-file -- :}
+  source-file file-exists?
+  if   source-file basename -extension target-name $!
+       target-path $@len 0= if source-file dirname target-path $! then
+       source-file included
+  else ." Error: the source file does not exist:" cr
+       source-file type
+       abort
+  then ;
+  \ If the given source file exists, compile it; otherwise display an
+  \ error and abort.
+
+: build-command ( -- )
+  next-arg? if   (build-command)
+            else ." Error: the source file is missing." abort then ;
+  \ If there's a next argument, use it as source file; otherwise
+  \ display an error and abort.
+
 : version-command ( -- )
   ." Sin Forth " "VERSION.txt" slurp-file type ;
   \ Display the version number.
@@ -763,24 +784,21 @@ target-path $init
   version-command
   ." By Marcos Cruz (programandala.net), 2010/2023." cr cr
   ." Usage:" cr
-  ."     " sourcefilename basename type ."  [command | [option] file ]" cr
+  ."     " sourcefilename basename type ."  [OPTION...] COMMAND" cr
   ." Commands:" cr
+  ."     build <filepath>" cr
+  ."         Compile the given source file (with its absolute path)." cr
   ."     help" cr
   ."         Display this help message." cr
   ."     version" cr
   ."         Display the version number." cr
-  ." Options:" cr
+  ." Build command options:" cr
   ."     --out-dir|-out-dir|-o <path>" cr
   ."         Set the absolute path of the output files. If this option" cr
   ."         is not used, the path of the source file is used." cr
-  ." File:" cr
-  ."    Absolute path and filename of the source file." cr
   cr
   ." NOTE: The paths must be absolute. This requirement may be removed" cr
   ." in a future version of the compiler." cr ;
-
-: next-arg? ( -- ca len f )
-  next-arg 2dup 0 0 d<> ;
 
 : out-dir-option ( -- )
   next-arg? if   "/" s+ target-path $!
@@ -789,19 +807,12 @@ target-path $init
 
 : parse-argument {: D: argument -- :}
   \ ." argument = " argument type cr \ XXX INFORMER
+  argument "build"     str= if build-command     exit then
   argument "help"      str= if help-command      exit then
   argument "version"   str= if version-command   exit then
   argument "--out-dir" str=
   argument "-out-dir"  str= or
-  argument "-o"        str= or if out-dir-option exit then
-  argument file-exists?
-  if   argument basename -extension target-name $!
-       target-path $@len 0= if argument dirname target-path $! then
-       argument included
-  else ." Error: the input file does not exist:" cr
-       argument type
-       abort
-  then ;
+  argument "-o"        str= or if out-dir-option exit then ;
 
 : parse-arguments ( -- )
   argc @ 1 = if help-command exit then
