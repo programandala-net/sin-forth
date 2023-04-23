@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230423T1352+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -135,10 +135,8 @@ synonym target{ target{
 
 compiler-definitions
 
-\ ==============================================================
-\ Standard words needed during the compilation {{{1
-
-\ Words that are not defined in the target and thus can keep their names:
+\ Standard words that are not defined in the target and thus can keep
+\ their names in the compiler word-list:
 
 synonym ( (  \ )
 synonym \ \
@@ -151,8 +149,8 @@ synonym s\" s\"
 synonym set-current set-current
 synonym set-order set-order
 
-\ Words that are defined in the target and thus need a "h-" prefix
-\ (from "host"):
+\ Standard words that are defined in the target and thus need a "h-"
+\ prefix (from "host") in the compiler word-list:
 
 synonym h-@ @
 synonym h-constant constant
@@ -176,6 +174,10 @@ $5E00 value origin  origin memory> !
   \ Initial and lowest target memory address where the target code is
   \ compiled.
 
+variable boot-address ( -- a )
+  \ _a_ contains the target memory address where the target program
+  \ must be executed.
+
 : t-! ( x a -- )
 \  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
   memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
@@ -197,74 +199,32 @@ $5E00 value origin  origin memory> !
   \ pointed by `memory>` and update this pointer accordingly.
 
 \ ==============================================================
-\ Configuration directives {{{1
+\ Debugging tools {{{1
 
 \ ----------------------------------------------
-\ set-origin {{{2
+\ Info {{{2
 
-variable modified-origin  modified-origin off
-  \ A flag to remember if `origin` was modified by `set-origin`.
+: a. ( a -- )
+  dup hex. ." (#" 0 .r ." )" ;
+  \ Display a target address. Used in debugging messages.
 
-: set-origin ( n -- )
-  modified-origin @ abort" second `set-origin` not allowed"
-  dup to origin memory> !
-  modified-origin on ;
+: .m ( a n -- ) swap memory + swap dump ;
+  \ Dump _n_ bytes from target memory address _a_.
 
-  \ doc{
-  \
-  \ set-origin ( a -- )
-  \
-  \ Set the initial target memory address _a_ from which the code will
-  \ be compiled. Its default value is $5E00 (24064).
-  \
-  \ ``set-origin`` should be used before any target code is compiled,
-  \ including library modules.
-  \
-  \ }doc
+: [.o] ( -- ) cr .order ; immediate
+  \ Display the current search order.
 
-\ ----------------------------------------------
-\ boot-here {{{2
+: [.s] ( -- ) cr .s ; immediate
+  \ Display the host data stack.
 
-variable boot-address ( -- a )
-  \ _a_ contains the target memory address where the target program
-  \ must be executed. This address is called by the Sinclair BASIC
-  \ loader.
+: compiler-words ( -- ) postpone compiler{ words previous ;
+  \ Display the words defined in the compiler word list.
 
-$10001 constant no-boot
-no-boot boot-address !
-  \ Store an impossible default value into `boot-address`, in order to
-  \ detect whether it has been set or not.
-
-: no-boot? ( -- f )
-  boot-address @ no-boot = ;
-  \ Has `boot-address` not been set?
-  \ I.e., has `boot-here` not been executed before?
-
-: boot-here ( -- )
-  memory> @ boot-address ! ;
-
-  \ doc{
-  \
-  \ boot-here ( -- )
-  \
-  \ Mark the current address of the target program as the boot
-  \ address, i.e. the address that will be executed by the Sinclair
-  \ BASIC loader.
-  \
-  \ If ``boot-here`` is not used, the boot address will be that of the
-  \ latest `:` definition.
-  \
-  \ }doc
-
-variable latest-colon
-  \ Target address where the latest Z80 `:` definition has been
-  \ compiled.
-
-: set-default-boot ( -- )
-  latest-colon @ boot-address ! ;
+: target-words ( -- ) postpone target{ words previous ;
+  \ Display the words defined in the target word list.
 
 \ ----------------------------------------------
-\ z80-symbols {{{2
+\ Z80 symbols {{{2
 
 $variable z80-symbols$ ( -- a )
   \ A dynamic string variable that holds the Z80 assembly symbols, in
@@ -314,7 +274,7 @@ variable z80-symbols ( -- a ) z80-symbols on
   \ identified by _nt_ and the target code address _a_ as value.
 
 \ ----------------------------------------------
-\ z80dasm-blocks {{{2
+\ z80dasm blocks {{{2
 
 $variable z80dasm-blocks$ ( -- a )
   \ A dynamic string variable that holds the z80dasm disassembler
@@ -376,28 +336,6 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
   \ _len_ bytes.
 
 \ ==============================================================
-\ Debugging tools {{{1
-
-: a. ( a -- )
-  dup hex. ." (#" 0 .r ." )" ;
-  \ Display a target address. Used in debugging messages.
-
-: .m ( a n -- ) swap memory + swap dump ;
-  \ Dump _n_ bytes from target memory address _a_.
-
-: [.o] ( -- ) cr .order ; immediate
-  \ Display the current search order.
-
-: [.s] ( -- ) cr .s ; immediate
-  \ Display the host data stack.
-
-: compiler-words ( -- ) postpone compiler{ words previous ;
-  \ Display the words defined in the compiler word list.
-
-: target-words ( -- ) postpone target{ words previous ;
-  \ Display the words defined in the target word list.
-
-\ ==============================================================
 \ Compiler {{{1
 
 : t-cells ( n1 -- n2 )
@@ -446,6 +384,10 @@ variable latest-call
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  a call to " dup a. \ XXX INFORMER
   assembler{ call, } ;
+
+variable latest-colon
+  \ Target address where the latest Z80 `:` definition has been
+  \ compiled.
 
 : : ( "name" -- )
   creator dup latest-colon ! ,
@@ -773,6 +715,61 @@ false value build-z80dasm-blocks?
 \ ==============================================================
 \ Compiler directives {{{1
 
+\ set-origin {{{2
+
+variable modified-origin  modified-origin off
+  \ A flag to remember if `origin` was modified by `set-origin`.
+
+: set-origin ( n -- )
+  modified-origin @ abort" second `set-origin` not allowed"
+  dup to origin memory> !
+  modified-origin on ;
+
+  \ doc{
+  \
+  \ set-origin ( a -- )
+  \
+  \ Set the initial target memory address _a_ from which the code will
+  \ be compiled. Its default value is $5E00 (24064).
+  \
+  \ ``set-origin`` should be used before any target code is compiled,
+  \ including library modules.
+  \
+  \ }doc
+
+\ ----------------------------------------------
+\ boot-here {{{2
+
+$10001 constant no-boot
+no-boot boot-address !
+  \ Store an impossible default value into `boot-address`, in order to
+  \ detect whether it has been set or not.
+
+: no-boot? ( -- f )
+  boot-address @ no-boot = ;
+  \ Has `boot-address` not been set?
+  \ I.e., has `boot-here` not been executed before?
+
+: boot-here ( -- )
+  memory> @ boot-address ! ;
+
+  \ doc{
+  \
+  \ boot-here ( -- )
+  \
+  \ Mark the current address of the target program as the boot
+  \ address, i.e. the address that will be executed by the Sinclair
+  \ BASIC loader.
+  \
+  \ If ``boot-here`` is not used, the boot address will be that of the
+  \ latest `:` definition.
+  \
+  \ }doc
+
+: set-default-boot ( -- )
+  latest-colon @ boot-address ! ;
+
+\ ==============================================================
 : begin-program ( -- )
   target-definitions ;
   \ Mark the start of the target program.
