@@ -2,18 +2,17 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T1116+0200.
+\ Last modified: 20230423T1138+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
 
 \ ==============================================================
-\ Description {{{1
+\ License {{{1
 
-\ This file is the main source file of Sin Forth, a Forth
-\ cross-compiler, written in Forth with Gforth, that compiles Forth
-\ programs for any model of Sinclair ZX Spectrum computer, from the ZX
-\ Spectrum 16 K to the ZX Spectrum Next.
+\ You may do whatever you want with this work, so long as you
+\ retain every copyright, credit and authorship notice, and this
+\ license.  There is no warranty.
 
 \ ==============================================================
 \ Requirements {{{1

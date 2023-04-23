@@ -1,9 +1,16 @@
 \ lib/push-hl-de.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2020.
-\ Last modified: 20230422T1820+0200.
+\ Last modified: 20230423T1138+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
+
+\ ==============================================================
+\ License
+
+\ You may do whatever you want with this work, so long as you
+\ retain every copyright, credit and authorship notice, and this
+\ license.  There is no warranty.
 
 \ ==============================================================
 \ push-hl-de {{{1
