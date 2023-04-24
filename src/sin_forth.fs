@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230424T0955+0200.
+\ Last modified: 20230424T0957+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -905,7 +905,8 @@ no-boot boot-address !
   argument "-t"        str= if tap-option      exit then
   argument "--z80dasm" str= if z80dasm-option  exit then
   argument "-z80dasm"  str= if z80dasm-option  exit then
-  argument "-z"        str= if z80dasm-option  exit then ;
+  argument "-z"        str= if z80dasm-option  exit then
+  ." Error: invalid argument:" cr argument type abort ;
   \ Dispatch the given argument string.
 
 : parse-arguments ( -- )
