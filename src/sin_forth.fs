@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230424T0957+0200.
+\ Last modified: 20230424T1019+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -57,6 +57,9 @@ wordlist constant assembler-wordlist
 
 wordlist constant target-wordlist
   \ The target word list.
+
+wordlist constant arguments-wordlist
+  \ The arguments word list.
 
 : host{ ( -- )
   forth-wordlist >order ; immediate
@@ -800,17 +803,41 @@ no-boot boot-address !
 \ ----------------------------------------------
 \ Options {{{2
 
-: addr-option    ( -- ) true to build-addresses? ;
-: bas-option     ( -- ) true to build-loader? ;
-: code-option    ( -- ) true to build-code? ;
-: sym-option     ( -- ) true to build-z80-symbols? ;
-: tap-option     ( -- ) true to build-tap? ;
-: z80dasm-option ( -- ) true to build-z80dasm-blocks? ;
+get-current
+arguments-wordlist set-current
 
-: out-option ( -- )
+: --addr    ( -- ) true to build-addresses? ;
+: --bas     ( -- ) true to build-loader? ;
+: --code    ( -- ) true to build-code? ;
+: --sym     ( -- ) true to build-z80-symbols? ;
+: --tap     ( -- ) true to build-tap? ;
+: --z80dasm ( -- ) true to build-z80dasm-blocks? ;
+
+: --out ( -- )
   next-arg? if   "/" s+ target-path $!
             else ." Error: the out directory is missing." abort then ;
   \ Get the value of the `--out` option.
+
+arguments-wordlist >order
+
+synonym -a       --addr
+synonym -addr    --addr
+synonym -b       --bas
+synonym -bas     --bas
+synonym -c       --code
+synonym -code    --code
+synonym -o       --out
+synonym -out     --out
+synonym -s       --sym
+synonym -sym     --sym
+synonym -t       --tap
+synonym -tap     --tap
+synonym -z       --z80dasm
+synonym -z80dasm --z80dasm
+
+previous
+
+set-current
 
 \ ----------------------------------------------
 \ Commands {{{2
@@ -827,18 +854,21 @@ no-boot boot-address !
   \ If the given source file exists, compile it; otherwise display an
   \ error and abort.
 
-: build-command ( -- )
+get-current
+arguments-wordlist set-current
+
+: build ( -- )
   next-arg? if   (build-command)
             else ." Error: the source file is missing." abort then ;
   \ If there's a next argument, use it as source file; otherwise
   \ display an error and abort.
 
-: version-command ( -- )
+: version ( -- )
   ." Sin Forth " "VERSION.txt" slurp-file type ;
   \ Display the version number.
 
-: help-command ( -- )
-  version-command
+: help ( -- )
+  [ arguments-wordlist >order ] version [ previous ]
   ." By Marcos Cruz (programandala.net), 2010/2023." cr cr
   ." Usage:" cr
   ."     " sourcefilename basename type ."  [OPTION...] COMMAND" cr
@@ -878,40 +908,20 @@ no-boot boot-address !
   ." in a future version of the compiler." cr ;
   \ Display the help text.
 
+set-current
+
 \ ----------------------------------------------
 \ Parser {{{2
 
-: parse-argument {: D: argument -- :}
-  argument "build"     str= if build-command   exit then
-  argument "help"      str= if help-command    exit then
-  argument "version"   str= if version-command exit then
-  argument "--addr"    str= if addr-option     exit then
-  argument "-addr"     str= if addr-option     exit then
-  argument "-a"        str= if addr-option     exit then
-  argument "--bas"     str= if bas-option      exit then
-  argument "-bas"      str= if bas-option      exit then
-  argument "-b"        str= if bas-option      exit then
-  argument "--code"    str= if code-option     exit then
-  argument "-code"     str= if code-option     exit then
-  argument "-c"        str= if code-option     exit then
-  argument "--out"     str= if out-option      exit then
-  argument "-out"      str= if out-option      exit then
-  argument "-o"        str= if out-option      exit then
-  argument "--sym"     str= if sym-option      exit then
-  argument "-sym"      str= if sym-option      exit then
-  argument "-s"        str= if sym-option      exit then
-  argument "--tap"     str= if tap-option      exit then
-  argument "-tap"      str= if tap-option      exit then
-  argument "-t"        str= if tap-option      exit then
-  argument "--z80dasm" str= if z80dasm-option  exit then
-  argument "-z80dasm"  str= if z80dasm-option  exit then
-  argument "-z"        str= if z80dasm-option  exit then
-  ." Error: invalid argument:" cr argument type abort ;
+: parse-argument ( ca len  -- )
+  2dup arguments-wordlist search-wordlist
+  if   execute 2drop
+  else ." Error: invalid argument: " type abort then ;
   \ Dispatch the given argument string.
 
 : parse-arguments ( -- )
-  argc @ 1 = if help-command exit then
-  begin next-arg? while parse-argument repeat 2drop ;
+  argc @ 1 = if [ arguments-wordlist >order ] help [ previous ] exit then
+  begin next-arg? while parse-argument repeat 2drop  ;
   \ If there's no argument, execute the help command;
   \ otherwise parse the arguments.
 
