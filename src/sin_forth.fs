@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230423T1715+0200.
+\ Last modified: 20230424T0955+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -164,7 +164,7 @@ $10000 constant /memory
 /memory buffer: memory  memory /memory erase
   \ Reserve a 64-KiB space for the target memory.
 
-variable memory>
+variable memory> ( -- a )
   \ Z80 address ($0000..$FFFF) where the target code is being compiled
   \ in the ZX Spectrum memory. Therefore it's also a pointer to the
   \ first free address in `memory`. Its initial value is
@@ -237,6 +237,8 @@ variable z80-symbols ( -- a ) z80-symbols on
 
 : n>0xstr ( n -- ca len )
   base @ >r s" 0x" rot hex n>str s+ r> base ! ;
+  \ Convert number _n_ into its hex representation in string _ca len_,
+  \ with prefix "0x".
 
 : >z80-label ( ca1 len1 -- ca2 len2 )
   2dup s" -"  str= if 2drop s" _minus"   exit then
@@ -356,7 +358,7 @@ variable z80dasm-blocks ( -- a ) z80dasm-blocks on
 
 include sin_forth/src/assembler.fs
 
-variable latest-call
+variable latest-call ( -- a )
   \ Target address where the latest Z80 `call` to a target word
   \ definition was compiled. This is used by `;` in order to optimize
   \ the last call compiled in the current word.
@@ -386,7 +388,7 @@ variable latest-call
 \     ."  a call to " dup a. \ XXX INFORMER
   assembler{ call, } ;
 
-variable latest-colon
+variable latest-colon ( -- a )
   \ Target address where the latest Z80 `:` definition has been
   \ compiled.
 
@@ -718,7 +720,7 @@ false value build-z80dasm-blocks?
 
 \ set-origin {{{2
 
-variable modified-origin  modified-origin off
+variable modified-origin ( -- a ) modified-origin off
   \ A flag to remember if `origin` was modified by `set-origin`.
 
 : set-origin ( n -- )
@@ -769,6 +771,9 @@ no-boot boot-address !
 
 : set-default-boot ( -- )
   latest-colon @ boot-address ! ;
+  \ Set `boot-address` with its default value, the contents of
+  \ `latest-colon`, i.e. the address of the latest colon definition in
+  \ the target.
 
 \ ==============================================================
 : begin-program ( -- )
@@ -788,6 +793,9 @@ no-boot boot-address !
 
 : next-arg? ( -- ca len f )
   next-arg 2dup 0 0 d<> ;
+  \ Return the next command-line argument _ca len_ and a flag _f_,
+  \ which is _false_ when there was no argument left (in that case,
+  \ the argument string is a pair of zeroes).
 
 \ ----------------------------------------------
 \ Options {{{2
@@ -868,6 +876,7 @@ no-boot boot-address !
   cr
   ." NOTE: The paths must be absolute. This requirement may be removed" cr
   ." in a future version of the compiler." cr ;
+  \ Display the help text.
 
 \ ----------------------------------------------
 \ Parser {{{2
@@ -897,10 +906,13 @@ no-boot boot-address !
   argument "--z80dasm" str= if z80dasm-option  exit then
   argument "-z80dasm"  str= if z80dasm-option  exit then
   argument "-z"        str= if z80dasm-option  exit then ;
+  \ Dispatch the given argument string.
 
 : parse-arguments ( -- )
   argc @ 1 = if help-command exit then
   begin next-arg? while parse-argument repeat 2drop ;
+  \ If there's no argument, execute the help command;
+  \ otherwise parse the arguments.
 
 parse-arguments bye
 
