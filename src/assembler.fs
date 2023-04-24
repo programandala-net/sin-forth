@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20230422T1820+0200.
+\ Last modified: 20230424T1035+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -22,6 +22,11 @@
 \ improved the Spectrum Forth-83 version for Solo Forth
 \ (http://programandala.net/en.program.solo_forth.html),
 \ 2015, 2016, 2017, 2018, 2019, 2020.
+\
+\ Marcos Cruz (programandala.net) adapted
+\ the Solo Forth version for Sin Forth
+\ (http://programandala.net/en.program.sin_forth.html),
+\ 2020, 2023.
 
 \ ==============================================================
 \ License {{{1
@@ -1157,9 +1162,6 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-\ ==============================================================
-\ Opcodes {{{1
-
 : jpix, ( -- ) ix-op t-c, jphl, ;
 
   \ XXX TODO -- Study changes needed to use a common syntax,
@@ -1918,7 +1920,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: rresolve ( orig dest -- ) 
+: rresolve ( orig dest -- )
   cr ." rresolve" .s \ XXX INFORMER
   1- over - dup ?rel swap t-c! ;
 
@@ -1934,7 +1936,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: >rresolve ( orig -- ) 
+: >rresolve ( orig -- )
   cr ." >rresolve" .s \ XXX INFORMER
   t-here rresolve ;
 
@@ -1989,7 +1991,7 @@ $F2 constant p?   $FA constant m?
   \ rahead ( -- orig ) "r-ahead"
   \
   \ Compile a Z80 forward relative jump. Leave its
-  \ unresolved address _orig,_ to be resolved by `>rresolve`.
+  \ unresolved address _orig_ to be resolved by `>rresolve`.
   \
   \ }doc
 
@@ -2027,7 +2029,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: rthen ( orig cs-id -- ) 
+: rthen ( orig cs-id -- )
   cr ." rthen" .s \ XXX INFORMER
   $0A ?pairs >rresolve ;
 
