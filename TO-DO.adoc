@@ -1,8 +1,8 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-23
+:revdate: 2023-04-24
 
-// Last modified: 20230423T1403+0200.
+// Last modified: 20230424T1104+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -39,15 +39,13 @@
 
 == 2020-12-10
 
-- Use the _dea_ notation, taken from the lina Forth system.
+- Use the _dea_ notation, borrowed from the lina Forth system.
 - Mark the stack comments of compiler words, to make it clear it's the
   Gforth's stack, not the target stack.
 - Rename `'`?
 
 == 2020-12-11
 
-- Extract the code start addresses from the source and pass it to
-  `z80dasm` in <Makefile>.
 - Use shorter names for `literal`, `2literal`, `cliteral`, `xliteral`,
   `sliteral`.
 
@@ -61,21 +59,21 @@
 
 - Rename `after` to its original name `aft`; rename `step` to its
   usual name `next`.
-- Factor `push-a` from `count`.
+- Factor `push-a` from `count`?
 - Document the standard words used by the compiler.
-- Document the "h-" and "t-" words.
 - Uniform the notation of the compilation data stack, e.g. "C:".
 
 == 2020-12-26
 
 - Make `cr` a deferred word.
-- Add a rule to build any individual test by its basename.
-- Fix the position of parsed arguments in stack comments.
 
 == 2023-04-21
 
 - Build tests also with apenwarr/redo.
 
-== 2023-04-22
+== 2023-04-24
 
-- Allow compilation of several files.
+- Fix compilation of <src/test/test_dot.fs>.
+- Fix compilation of <src/test/test_flow.fs>.
+- Fix execution of <src/test/test_move.fs>.
+- Fix execution of <src/test/test_type.fs>.
