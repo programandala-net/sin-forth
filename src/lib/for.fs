@@ -1,6 +1,6 @@
 \ lib/for.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230424T1314+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -22,7 +22,7 @@ compiler-definitions
 
 : for \ Compilation: ( -- dest )
       \ Run-time:    ( u -- )
-  compiler{ >r_dea call, <mark } ;
+    target{ >r } <mark ;
 
   \ doc{
   \
