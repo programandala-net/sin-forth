@@ -1,6 +1,6 @@
 \ lib/step.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230424T1519+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -24,15 +24,20 @@ compiler-definitions
        \ Run-time:    ( R: u -- u' )
 
   assembler{
+
   h pop,         \ pop hl
   h a ld,        \ ld a,h
   l or,          \ or l ; z=already zero?
   h decp,        \ dec hl
   h push,        \ push hl
   $0000 nz? ?jp, \ jp nz, dest ; jump to loop
+  compiler{
   <resolve       \ resolve _dest_ in the previous `?jp,`
-  h pop,         \ pop hl ; discard loop index
   }
+  h pop,         \ pop hl ; discard loop index
+
+  }
+
   ;
 
   \ doc{

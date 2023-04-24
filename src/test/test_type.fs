@@ -1,6 +1,6 @@
 \ test_type.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1240+0200.
+\ Last modified: 20230424T1602+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,8 +14,6 @@
 
 \ ==============================================================
 
-\ XXX FIXME crash
-
 40000 set-origin
 
 begin-program
@@ -24,7 +22,6 @@ require sin_forth/lib/b-l.fs       \ `bl`
 require sin_forth/lib/c-r.fs       \ `cr`
 require sin_forth/lib/count.fs     \ `count`
 require sin_forth/lib/create.fs    \ `create`
-require sin_forth/lib/drop.fs      \ `drop`
 require sin_forth/lib/emit.fs      \ `emit`
 require sin_forth/lib/emits.fs     \ `emits`
 require sin_forth/lib/literal.fs   \ `literal`
