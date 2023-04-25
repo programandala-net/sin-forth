@@ -1,6 +1,6 @@
 # Makefile
 # by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230423T1609+0200.
+# Last modified: 20230425T1339+0200.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
@@ -72,8 +72,12 @@ disassembled_tests=$(addsuffix .asm, $(target_tests))
 .PHONY: tests
 tests:
 	@for file in $$(ls src/test/*.fs);do\
+		echo "$$file";\
 		src/sin_forth.fs -tap -out $$(realpath target) build $$(realpath $$file);\
 	done
+
+target/%.tap: src/test/%.fs
+	src/sin_forth.fs -tap -out $$(realpath target) build $$(realpath $<)
 
 # ==============================================================
 # Disassemble the compiled tests {{{1
