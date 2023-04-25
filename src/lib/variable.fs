@@ -1,6 +1,6 @@
 \ lib/variable.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0752+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -22,7 +22,7 @@ compiler-definitions
 
 : variable ( "name" -- )
   creator
-  z80dasm-blocks @ if dup s" _variable_data" z80dasm-cell-block then
+  build-z80dasm-blocks? if dup s" _variable_data" z80dasm-cell-block then
   , 2 memory> +!
   does> ( dfa ) @ h ldp#, push-hl ;
 

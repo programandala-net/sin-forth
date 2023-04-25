@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230424T1019+0200.
+\ Last modified: 20230424T1634+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -287,9 +287,8 @@ $variable z80dasm-blocks$ ( -- a )
   \ block definitions. `end-program` saves it into an output file, if
   \ it's not empty.
 
-variable z80dasm-blocks ( -- a ) z80dasm-blocks on
-  \ A flag. When the flag is zero, the z80dasm disassembler blocks
-  \ definitions are not saved during the compilation.
+false value build-z80dasm-blocks?
+  \ Flag, configurable with a command-line option.
 
 : z80dasm-block {: start end
                    D: block-type D: block-name
@@ -504,7 +503,7 @@ fake-data-stack-bottom value data-stack-bottom
 
 : data-stack ( len -- )
   data-stack? abort" second `data-stack`"
-  t-cells z80dasm-blocks @ if memory> @ over z80dasm-stack-block then
+  t-cells build-z80dasm-blocks? if memory> @ over z80dasm-stack-block then
   memory> +!  memory> @ to data-stack-bottom ;
 
   \ doc{
@@ -652,9 +651,6 @@ false value build-z80-symbols?
 \ ----------------------------------------------
 \ z80dasm disassembler blocks file {{{2
 
-false value build-z80dasm-blocks?
-  \ Flag, configurable with a command-line option.
-
 : (build-z80dasm-blocks) ( ca len -- )
   s" .z80dasm_blocks.txt" s+ z80dasm-blocks$ $@ 2swap unslurp-file ;
   \ Create a z80dasm blocks file with base filename _ca len_.
@@ -691,7 +687,7 @@ false value build-z80dasm-blocks?
 
 : t-allot \ Compilation: ( +n -- )
   dup 0< abort" Negative number not allowed by `t-allot`"
-  z80dasm-blocks @ if dup z80dasm-allot-block then
+  build-z80dasm-blocks? if dup z80dasm-allot-block then
   memory> +! ;
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
