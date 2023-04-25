@@ -1,6 +1,6 @@
 \ lib/greater-than.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T1600+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,15 +14,11 @@
 
 \ ==============================================================
 
-require pop-hl-de.fs \ `pop-hl-de`
-require less-than.fs \ `<`, `hl<de?`
-
-get-order get-current
-
-target-definitions
+require swap.fs      \ `swap`
+require less-than.fs \ `<`
 
 : > ( n1 n2 -- f )
-  pop-hl-de hl<de? ;
+  swap < ;
 
   \ doc{
   \
@@ -33,5 +29,3 @@ target-definitions
   \ See also: `<`, `u>`, `0>`, `max`.
   \
   \ }doc
-
-set-current set-order
