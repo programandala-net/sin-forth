@@ -1,6 +1,6 @@
 \ lib/b-l.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,10 +15,6 @@
 \ ==============================================================
 
 require c-constant.fs \ `cconstant`
-
-get-order get-current
-
-target-definitions
 
 32 cconstant bl
 
@@ -35,5 +31,3 @@ target-definitions
   \ See also: `space`, `emit`.
   \
   \ }doc
-
-set-current set-order

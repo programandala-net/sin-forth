@@ -1,6 +1,6 @@
 \ lib/negate.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,10 +17,6 @@
 require negate-hl.fs \ `negate-hl`
 require pop-hl.fs    \ `pop-hl`
 require push-hl.fs   \ `push-hl`
-
-get-order get-current
-
-target-definitions
 
 : negate ( n1 -- n2 )
 
@@ -41,5 +37,3 @@ target-definitions
   \ See also: `negate-hl`, `?negate`, `0=`, `inverse`, `dnegate`.
   \
   \ }doc
-
-set-current set-order

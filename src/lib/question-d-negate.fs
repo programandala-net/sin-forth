@@ -1,6 +1,6 @@
 \ lib/question-d-negate.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,10 +16,6 @@
 
 require pop-hl.fs   \ `pop-hl`
 require d-negate.fs \ `dnegate`
-
-get-order get-current
-
-target-definitions
 
 : ?dnegate ( d1 n -- d1|d2 )
   pop-hl               \ call pop_hl
@@ -58,5 +54,3 @@ target-definitions
   \ See also: `?dnegate`, `dnegate`, `?negate`.
   \
   \ }doc
-
-set-current set-order

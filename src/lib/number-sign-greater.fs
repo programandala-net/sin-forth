@@ -1,6 +1,6 @@
 \ lib/number-sign-greater.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0829+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -21,10 +21,6 @@ require over.fs     \ `over`
 require pad.fs      \ `pad`
 require two-drop.fs \ `2drop`
 
-get-order get-current
-
-compiler-definitions
-
 : #> ( xd -- ca len )
   2drop hld @ pad over - ;
 
@@ -39,5 +35,3 @@ compiler-definitions
   \ See also: `#`, `#s`, `hold`, `hld`, `sign`, `pad`.
   \
   \ }doc
-
-set-current set-order

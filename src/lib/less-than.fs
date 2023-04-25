@@ -1,6 +1,6 @@
 \ lib/less-than.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1723+0200.
+\ Last modified: 20230425T1020+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,11 +14,9 @@
 
 \ ==============================================================
 
+require false.fs     \ `false`
 require pop-de-hl.fs \ `pop-de-hl`
-
-get-order get-current
-
-target-definitions
+require true.fs      \ `true`
 
 : < ( n1 n2 -- f )
 
@@ -70,5 +68,3 @@ target-definitions
   \ See also: `<`, `>`, `u<`, `0<`, `min`.
   \
   \ }doc
-
-set-current set-order

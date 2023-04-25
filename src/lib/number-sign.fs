@@ -1,6 +1,6 @@
 \ lib/number-sign.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -21,10 +21,6 @@ require rot.fs           \ `rot`
 require to-digit.fs      \ `>digit`
 require u-d-slash-mod.fs \ `ud/mod`
 
-get-order get-current
-
-target-definitions
-
 : # ( ud1 -- ud2 )
   base @ ud/mod rot >digit hold ;
 
@@ -43,5 +39,3 @@ target-definitions
   \ See also: `hold`, `ud/mod`, `>digit`.
   \
   \ }doc
-
-set-current set-order

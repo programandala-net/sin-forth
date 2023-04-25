@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230425T1652+0200.
+\ Last modified: 20230425T1720+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -55,9 +55,6 @@ wordlist constant compiler-wordlist
 wordlist constant assembler-wordlist
   \ The assembler-specific compiler word list.
 
-wordlist constant target-wordlist
-  \ The target word list.
-
 wordlist constant arguments-wordlist
   \ The arguments word list.
 
@@ -70,12 +67,8 @@ wordlist constant arguments-wordlist
 : assembler{ ( -- )
   assembler-wordlist >order ; immediate
 
-: target{ ( -- )
-  target-wordlist >order ; immediate
-
 : compiler-order ( -- )
   only
-  postpone target{
   postpone compiler{
   postpone assembler{
   postpone host{ ;
@@ -87,19 +80,17 @@ wordlist constant arguments-wordlist
 : target-order ( -- )
   only
   postpone compiler{
-  postpone assembler{
-  postpone target{ ;
+  postpone assembler{ ;
 
 : target-definitions ( -- )
   target-order
-  target-wordlist set-current ;
+  compiler-wordlist set-current ;
 
 : assembler-order ( -- )
   only
-  postpone target{
+  postpone host{
   postpone compiler{
-  postpone assembler{
-  postpone host{ ;
+  postpone assembler{ ;
 
 : assembler-definitions ( -- )
   assembler-order
@@ -108,49 +99,34 @@ wordlist constant arguments-wordlist
 : } ( -- )
   previous ; immediate
 
-compiler-wordlist set-current
-
-synonym assembler-definitions assembler-definitions
-synonym compiler-definitions compiler-definitions
-synonym compiler-order compiler-order
-synonym target-definitions target-definitions
-synonym target-order target-order
-
-synonym } }
-synonym assembler{ assembler{
-synonym compiler{ compiler{
-synonym host{ host{
-synonym target{ target{
-
-target-wordlist set-current
-
-synonym assembler-definitions assembler-definitions
-synonym compiler-definitions compiler-definitions
-synonym compiler-order compiler-order
-synonym target-definitions target-definitions
-synonym target-order target-order
-
-synonym } }
-synonym assembler{ assembler{
-synonym compiler{ compiler{
-synonym host{ host{
-synonym target{ target{
-
 compiler-definitions
+
+synonym assembler-definitions assembler-definitions
+synonym compiler-definitions compiler-definitions
+synonym compiler-order compiler-order
+synonym target-definitions target-definitions
+synonym target-order target-order
+
+synonym } }
+synonym assembler{ assembler{
+synonym compiler{ compiler{
+synonym host{ host{
 
 \ Standard words that are not defined in the target and thus can keep
 \ their names in the compiler word-list:
 
-synonym ( (  \ )
+synonym ( (      \ )
+synonym : :
 synonym \ \
 synonym get-current get-current
 synonym get-order get-order
 synonym include include
 synonym require require
-synonym s" s"
-synonym s\" s\"
+synonym s" s"    \ "
+synonym s\" s\"  \ "
 synonym set-current set-current
 synonym set-order set-order
+synonym synonym synonym
 
 \ Standard words that are defined in the target and thus need a "h-"
 \ prefix (from "host") in the compiler word-list:
@@ -515,7 +491,7 @@ fake-data-stack-bottom value data-stack-bottom
   \ data-stack ( len -- )
   \
   \ Create the data stack, with _len_ target cells, at the current
-  \ target memory pointer. The data stack grows towards 
+  \ target memory pointer. The data stack grows towards
   \ low memory. If ``data-stack`` is not executed during the
   \ compilation of the target program, it will be executed by
   \ `end-program` with the default size returned by

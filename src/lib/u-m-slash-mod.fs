@@ -19,13 +19,7 @@ require pop-bc.fs    \ `pop-bc`
 require pop-hl-de.fs \ `pop-hl-de`
 require push-bc.fs   \ `push-bc`
 
-get-order get-current
-
-target-definitions
-
 : um/mod ( ud u1 -- u2 u3 )
-
-  assembler{
 
   exx,       \ exx
   pop-bc     \ call pop_bc            ; BC = divisor
@@ -66,9 +60,7 @@ target-definitions
   push-hl    \ call push_hl           ; remainder
   push-bc    \ call push_bc           ; quotient
   exx,       \ exx
-
-  }
-  ;         \ ret
+  ;          \ ret
 
   \ Credit: Code adapted from Solo Forth, previously adapted from Z88
   \ CamelForth (Gary Lancaster, 2001).
@@ -83,5 +75,3 @@ target-definitions
   \ See also: `/mod`, `du/mod`, `mod`, `*/mod`.
   \
   \ }doc
-
-set-current set-order

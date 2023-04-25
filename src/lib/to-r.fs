@@ -1,6 +1,6 @@
 \ lib/to-r.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,10 +15,6 @@
 \ ==============================================================
 
 require pop-de.fs \ `pop-de`
-
-get-order get-current
-
-target-definitions
 
 : >r ( x -- ) ( R: -- x )
   pop-de  \ call pop_de ; x
@@ -35,5 +31,3 @@ target-definitions
   \ See also: `r>`, `r@`, 2>r`, `dup>r`.
   \
   \ }doc
-
-set-current set-order

@@ -1,6 +1,6 @@
 \ lib/compare-de-hl.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,10 +15,6 @@
 \ ==============================================================
 
 require compare-de-hl-unsigned.fs \ `compare-de-hl-unsigned`
-
-get-order get-current
-
-target-definitions
 
 : compare-de-hl ( -- )
   h a ld,                            \ ld a,h
@@ -47,5 +43,3 @@ target-definitions
   \ See also: `compare-de-hl-unsigned`.
   \
   \ }doc
-
-set-current set-order

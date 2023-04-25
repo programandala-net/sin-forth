@@ -1,6 +1,6 @@
 \ lib/pad.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,10 +17,6 @@
 require here.fs       \ `here`
 require plus.fs       \ `+`
 require slash-hold.fs \ `/hold`
-
-get-order get-current
-
-target-definitions
 
 : pad ( -- ca )
   here /hold + ;
@@ -39,5 +35,3 @@ target-definitions
   \ See also: `/pad`.
   \
   \ }doc
-
-set-current set-order

@@ -14,10 +14,6 @@
 
 \ ==============================================================
 
-get-order get-current
-
-target-definitions
-
 : 2+ ( n1 -- n2 )
 
   \ XXX slow variant:
@@ -31,5 +27,3 @@ target-definitions
   l 0 ix stx, \ ld (ix+0),l
   h 1 ix stx, \ ld (ix+1),h
   ;           \ ret
-
-set-current set-order

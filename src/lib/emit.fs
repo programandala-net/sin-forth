@@ -1,6 +1,6 @@
 \ lib/emit.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0908+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,10 +15,6 @@
 \ ==============================================================
 
 require pop-hl.fs \ `pop-hl`
-
-get-order get-current
-
-target-definitions
 
 : emit ( c -- )
   pop-hl
@@ -47,5 +43,3 @@ target-definitions
   \ See also: `emit`, `cr`.
   \
   \ }doc
-
-set-current set-order

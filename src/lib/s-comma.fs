@@ -1,6 +1,6 @@
 \ lib/s-comma.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -20,10 +20,6 @@ require here.fs      \ `here`
 require place.fs     \ `place`
 require tuck.fs      \ `tuck`
 
-get-order get-current
-
-target-definitions
-
 : s, ( ca len -- )
   tuck here place char+ allot ;
 
@@ -36,5 +32,3 @@ target-definitions
   \ See also: `c,`, `here`, `cmove`, `allot`, `count`.
   \
   \ }doc
-
-set-current set-order

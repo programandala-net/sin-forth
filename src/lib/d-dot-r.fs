@@ -1,6 +1,6 @@
 \ lib/d-dot-r.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T1533+0200.
+\ Last modified: 20230425T1535+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -22,10 +22,6 @@ require spaces.fs     \ `spaces`
 require to-r.fs       \ `>r`
 require type.fs       \ `type`
 
-get-order get-current
-
-target-definitions
-
 : d.r ( d n -- )
   >r d>str r> over - spaces type ;
 
@@ -41,5 +37,3 @@ target-definitions
   \ See also: `d>str`, `ud.r`, `.r`, `0d.r`, `<#`.
   \
   \ }doc
-
-set-current set-order

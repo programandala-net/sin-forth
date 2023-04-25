@@ -1,6 +1,6 @@
 \ lib/abs.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0810+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,10 +17,6 @@
 require dup.fs             \ `dup`
 require question-negate.fs \ `?negate`
 
-get-order get-current
-
-target-definitions
-
 : abs ( n -- u )
   dup ?negate ;
 
@@ -33,5 +29,3 @@ target-definitions
   \ See also: `abs`, `?dnegate`.
   \
   \ }doc
-
-set-current set-order

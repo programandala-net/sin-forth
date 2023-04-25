@@ -1,6 +1,6 @@
 \ lib/char-minus.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,10 +16,6 @@
 
 require one-minus.fs \ `1-`
 
-get-order get-current
-
-target-definitions
-
 synonym char- 1+
 
   \ doc{
@@ -34,5 +30,3 @@ synonym char- 1+
   \ See also: `char+`, `chars`.
   \
   \ }doc
-
-set-current set-order

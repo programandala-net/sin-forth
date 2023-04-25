@@ -1,6 +1,6 @@
 \ lib/dup.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,10 +15,6 @@
 \ ==============================================================
 
 require push-hl.fs  \ `push-hl`
-
-get-order get-current
-
-target-definitions
 
 : dup ( x -- x x )
   0 ix l ftx, \ ld l,(ix+0)
@@ -39,5 +35,3 @@ target-definitions
   \ See also: `over`.
   \
   \ }doc
-
-set-current set-order

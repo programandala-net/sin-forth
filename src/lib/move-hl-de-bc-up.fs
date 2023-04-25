@@ -1,6 +1,6 @@
 \ lib/move-hl-de-bc-up.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,10 +15,6 @@
 \ ==============================================================
 
 \ require x.fs \ `x`
-
-get-order get-current
-
-target-definitions
 
 : move-hl-de-bc> ( -- )
   c a ld,  \ ld a,c
@@ -48,5 +44,3 @@ target-definitions
   \ See also: `move-hl-de-bc<`, `move-hl-de-bc`.
   \
   \ }doc
-
-set-current set-order

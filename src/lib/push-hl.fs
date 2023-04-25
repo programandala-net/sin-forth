@@ -1,6 +1,6 @@
 \ lib/push-hl.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2020.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -11,16 +11,6 @@
 \ You may do whatever you want with this work, so long as you
 \ retain every copyright, credit and authorship notice, and this
 \ license.  There is no warranty.
-
-\ ==============================================================
-\ License {{{1
-
-\ Copyright (C) 2015,2016,2020 Marcos Cruz (programandala.net)
-
-\ You may do whatever you want with this work, so long as you
-\ retain all copyright notices, all credit notices, and this
-\ license in all files of all redistributed copies and derived
-\ works. There is no warranty.
 
 \ ==============================================================
 \ Credits {{{1
@@ -36,10 +26,6 @@
 
 \ ==============================================================
 \ push-hl {{{1
-
-get-order get-current
-
-target-definitions
 
 : push-hl ( -- x )
                       \             ; T Cycles
@@ -60,5 +46,3 @@ target-definitions
   \ `push-hl-de`, `push-a`.
   \
   \ }doc
-
-set-current set-order

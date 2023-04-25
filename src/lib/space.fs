@@ -17,10 +17,6 @@
 require b-l.fs  \ `bl`
 require emit.fs \ `emit`
 
-get-order get-current
-
-target-definitions
-
 : space ( -- )
   bl emit ;
 
@@ -33,5 +29,3 @@ target-definitions
   \ See also: `bl`, `spaces`, `emit`.
   \
   \ }doc
-
-set-current set-order

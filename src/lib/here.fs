@@ -1,6 +1,6 @@
 \ lib/here.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,10 +17,6 @@
 require d-p.fs   \ `dp`
 require fetch.fs \ `@`
 
-get-order get-current
-
-target-definitions
-
 : here ( -- a ) dp @ ;
 
   \ doc{
@@ -34,5 +30,3 @@ target-definitions
   \ See also: `dp`.
   \
   \ }doc
-
-set-current set-order

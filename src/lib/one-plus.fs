@@ -1,6 +1,6 @@
 \ lib/one-plus.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -13,10 +13,6 @@
 \ license.  There is no warranty.
 
 \ ==============================================================
-
-get-order get-current
-
-target-definitions
 
 : 1+ ( n1 -- n2 )
 
@@ -50,5 +46,3 @@ target-definitions
   \ See also: `1-`, `2+`, `char+`.
   \
   \ }doc
-
-set-current set-order

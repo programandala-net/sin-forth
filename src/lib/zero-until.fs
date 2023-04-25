@@ -1,6 +1,6 @@
 \ lib/zero-until.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T1252+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -23,7 +23,7 @@ compiler-definitions
 
 : 0until \ Compilation: ( C: dest -- )
          \ Run-time:    ( f -- )
-  ?branch compiler{ <resolve } ;
+  compiler{ ?branch <resolve } ;
 
   \ doc{
   \

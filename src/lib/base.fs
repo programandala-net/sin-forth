@@ -1,6 +1,6 @@
 \ lib/base.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,10 +16,6 @@
 
 require variable.fs \ `variable`
 
-get-order get-current
-
-target-definitions
-
 variable base
 10 literal base !
 
@@ -33,5 +29,3 @@ variable base
   \ See also: `>number`, `number?`, `abase`.
   \
   \ }doc
-
-set-current set-order

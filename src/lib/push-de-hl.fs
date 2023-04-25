@@ -1,6 +1,6 @@
 \ lib/push-de-hl.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2020.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -37,10 +37,6 @@
 \ ==============================================================
 \ push-de-hl {{{1
 
-get-order get-current
-
-target-definitions
-
 : push-de-hl ( -- x1 x2 | d )
                       \             ; T Cycles
   ix decp,            \ dec ix      ;  10
@@ -68,5 +64,3 @@ target-definitions
   \ `push-hl`, `push-a`.
   \
   \ }doc
-
-set-current set-order

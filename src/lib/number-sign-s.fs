@@ -1,6 +1,6 @@
 \ lib/number-sign-s.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T1508+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -20,10 +20,6 @@ require or.fs          \ `or`
 require two-dup.fs     \ `2dup`
 require zero-until.fs  \ `0until`
 
-get-order get-current
-
-target-definitions
-
 : #s ( ud1 -- ud2 )
   begin # 2dup or 0until ;
 
@@ -36,5 +32,3 @@ target-definitions
   \ Used between `<#` and `#>`.
   \
   \ }doc
-
-set-current set-order

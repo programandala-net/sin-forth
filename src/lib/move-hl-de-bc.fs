@@ -1,6 +1,6 @@
 \ lib/move-hl-de-bc.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,10 +17,6 @@
 require compare-de-hl-unsigned.fs \ `compare-de-hl-unsigned`
 require move-hl-de-bc-down.fs     \ `move-hl-de-bc<`
 require move-hl-de-bc-up.fs       \ `move-hl-de-bc>`
-
-get-order get-current
-
-target-definitions
 
 : move-hl-de-bc ( -- )
   compare-de-hl-unsigned     \ call compare-de-hl-unsigned
@@ -47,5 +43,3 @@ target-definitions
   \ See also: `move-hl-de-bc>`, `move-hl-de-bc<`.
   \
   \ }doc
-
-set-current set-order

@@ -1,6 +1,6 @@
 \ lib/WORD.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -21,10 +21,6 @@ require rot.fs           \ `rot`
 require to-r.fs          \ `>r`
 require u-m-slash-mod.fs \ `um/mod`
 
-get-order get-current
-
-target-definitions
-
 : ud/mod ( ud1 u1 -- urem udquot )
   >r 0 r@ um/mod -rot r> um/mod rot ;
 
@@ -44,5 +40,3 @@ target-definitions
   \ See also: `um/mod`.
   \
   \ }doc
-
-set-current set-order

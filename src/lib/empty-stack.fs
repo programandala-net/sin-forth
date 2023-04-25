@@ -1,6 +1,6 @@
 \ lib/empty-stack.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,10 +16,6 @@
 
 require s-p-0.fs \ `sp0`
 
-get-order get-current
-
-target-definitions
-
 : empty-stack ( -- )
   sp0 ix ldp#, ;
 
@@ -32,5 +28,3 @@ target-definitions
   \ returned by `sp0`.
   \
   \ }doc
-
-set-current set-order

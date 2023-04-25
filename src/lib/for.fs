@@ -1,6 +1,6 @@
 \ lib/for.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230424T1314+0200.
+\ Last modified: 20230425T1006+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,7 +14,8 @@
 
 \ ==============================================================
 
-require to-r.fs \ `>r`
+require backward-mark.fs \ `<mark`
+require to-r.fs          \ `>r`
 
 get-order get-current
 
@@ -22,7 +23,7 @@ compiler-definitions
 
 : for \ Compilation: ( -- dest )
       \ Run-time:    ( u -- )
-    target{ >r } <mark ;
+    compiler{ >r } <mark ;
 
   \ doc{
   \

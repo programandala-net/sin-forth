@@ -17,10 +17,4 @@
 require d-p.fs        \ `dp`
 require plus-store.fs \ `+!`
 
-get-order get-current
-
-target-definitions
-
 : allot ( n -- ) dp +! ;
-
-set-current set-order

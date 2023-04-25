@@ -14,10 +14,6 @@
 
 \ ==============================================================
 
-get-order get-current
-
-target-definitions
-
 data-stack-bottom constant sp0
 
   \ doc{
@@ -30,5 +26,3 @@ data-stack-bottom constant sp0
   \ See also: `init-data-stack`.
   \
   \ }doc
-
-set-current set-order

@@ -1,6 +1,6 @@
 \ lib/zero-less.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,10 +17,6 @@
 require false.fs  \ `false`
 require pop-hl.fs \ `pop-hl`
 require true.fs   \ `true`
-
-get-order get-current
-
-target-definitions
 
 : 0< ( n -- f )
   pop-hl           \ call pop_hl
@@ -40,5 +36,3 @@ target-definitions
   \ See also: `0>`, `0<=`, `0=`, `0<>`.
   \
   \ }doc
-
-set-current set-order

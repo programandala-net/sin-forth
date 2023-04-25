@@ -17,10 +17,6 @@
 require dup.fs       \ `dup`
 require zero-less.fs \ `0<`
 
-get-order get-current
-
-target-definitions
-
 : s>d ( n -- d )
   dup 0< ;
 
@@ -33,5 +29,3 @@ target-definitions
   \ See also: `d>s`, `u>ud`.
   \
   \ }doc
-
-set-current set-order
