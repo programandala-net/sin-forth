@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230424T1634+0200.
+\ Last modified: 20230425T1031+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -234,9 +234,8 @@ $variable z80-symbols$ ( -- a )
   \ assembly. `end-program` saves it into an output file, if it's not
   \ empty.
 
-variable z80-symbols ( -- a ) z80-symbols on
-  \ A flag. When the flag is zero, the Z80 assembly symbols are not
-  \ saved during the compilation.
+false value build-z80-symbols? ( -- f )
+  \ Flag, configurable with a command-line option.
 
 : n>0xstr ( n -- ca len )
   base @ >r s" 0x" rot hex n>str s+ r> base ! ;
@@ -287,7 +286,7 @@ $variable z80dasm-blocks$ ( -- a )
   \ block definitions. `end-program` saves it into an output file, if
   \ it's not empty.
 
-false value build-z80dasm-blocks?
+false value build-z80dasm-blocks? ( -- f )
   \ Flag, configurable with a command-line option.
 
 : z80dasm-block {: start end
@@ -380,7 +379,7 @@ variable latest-call ( -- a )
                   nextname create memory> @
 \  cr ." Compiling at " memory> @ a. \ XXX INFORMER
 \     ."  the word `" latest .name ." `" \ XXX INFORMER
-  z80-symbols @ if memory> @ latest z80-symbol then ;
+  build-z80-symbols? if memory> @ latest z80-symbol then ;
   \ Create a host header for word _name_ and return the current target
   \ address _a_ associated to it.
 
@@ -635,9 +634,6 @@ false value build-tap?
 
 \ ----------------------------------------------
 \ Z80 assembly symbols file {{{2
-
-false value build-z80-symbols?
-  \ Flag, configurable with a command-line option.
 
 : (build-z80-symbols) ( ca len -- )
   s" .symbols.asm" s+ z80-symbols$ $@ 2swap unslurp-file ;
