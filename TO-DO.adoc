@@ -1,8 +1,8 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-24
+:revdate: 2023-04-25
 
-// Last modified: 20230424T1615+0200.
+// Last modified: 20230425T1008+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -76,3 +76,22 @@
 - Fix compilation of <src/test/test_dot.fs>.
 - Fix compilation of <src/test/test_flow.fs>.
 - Fix execution of <src/test/test_move.fs>.
+
+== 2023-04-25
+
+Remove consecutive `push` and `pop`, like in this case:
+
+----
+ld hl,00001h
+call _push_hl
+call _pop_hl
+ld a,l
+or h
+jp z,l9d39h
+----
+
+The source of that example is the following:
+
+----
+1 literal if
+----
