@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20230424T1035+0200.
+\ Last modified: 20230425T1331+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -84,7 +84,7 @@ assembler-definitions
   \ }doc
 
 : ?rel ( n -- )
-  cr ." ?rel " .s \ XXX INFORMER
+  \ cr ." ?rel " .s \ XXX INFORMER
   $80 + $FF swap u< abort" relative jump too long" ;
 
   \ doc{
@@ -338,7 +338,7 @@ $DD constant ix-op  $FD constant iy-op
   \ 2-byte opcodes.
 
 : (jr, ( a op -- )
-  cr ." (jr," .s \ XXX INFORMER
+  \ cr ." (jr," .s \ XXX INFORMER
   t-c, compiler{ t-here } 1+ - dup ?rel t-c, ;
 
   \ doc{
@@ -1921,7 +1921,7 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : rresolve ( orig dest -- )
-  cr ." rresolve" .s \ XXX INFORMER
+  \ cr ." rresolve" .s \ XXX INFORMER
   1- over - dup ?rel swap t-c! ;
 
   \ XXX TODO -- improve documentation
@@ -1937,7 +1937,7 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : >rresolve ( orig -- )
-  cr ." >rresolve" .s \ XXX INFORMER
+  \ cr ." >rresolve" .s \ XXX INFORMER
   t-here rresolve ;
 
   \ doc{
@@ -2030,7 +2030,7 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : rthen ( orig cs-id -- )
-  cr ." rthen" .s \ XXX INFORMER
+  \ cr ." rthen" .s \ XXX INFORMER
   $0A ?pairs >rresolve ;
 
   \ doc{
