@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230425T1031+0200.
+\ Last modified: 20230425T1319+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -393,9 +393,13 @@ variable latest-colon ( -- a )
   \ Target address where the latest Z80 `:` definition has been
   \ compiled.
 
+warnings @  warnings off
+
 : : ( "name" -- )
   creator dup latest-colon ! ,
   does> ( dfa ) do-call ;
+
+warnings !
 
   \ doc{
   \
