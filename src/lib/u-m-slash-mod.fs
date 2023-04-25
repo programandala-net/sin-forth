@@ -1,6 +1,6 @@
 \ lib/u-m-slash-mod.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230425T0812+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -40,8 +40,7 @@ target-definitions
     a or,    \ or a                   ; we know we can subtract
     b sbcp,  \ sbc hl,bc
     a or,    \ or a                   ; clear Fc to indicate sub ok
-    \ compiler{ memory> } host{ @ } jr, >rmark 0 unresolved host{ @ ! }
-    compiler{ t-here } jr, >rmark 0 unresolved host{ [.o] [.s] @ [.s] ! }
+    t-here jr, >rmark 0 unresolved host{ ! }
              \ jr u_m_slash_mod.4
              \ ; case 2: 16 bit, Fc:HL = $xxx
   rthen      \ u_m_slash_mod.3:
