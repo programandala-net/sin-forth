@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230425T1633+0200.
+\ Last modified: 20230425T1652+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -220,29 +220,33 @@ false value build-z80-symbols? ( -- f )
   \ Convert number _n_ into its hex representation in string _ca len_,
   \ with prefix "0x".
 
-: >z80-label ( ca1 len1 -- ca2 len2 )
-  2dup s" -"  str= if 2drop s" _minus"   exit then
-  2dup s" 1-" str= if 2drop s" _1_minus" exit then
-  s" _store_"        s" !"  replaced
-  s" _star_"         s" *"  replaced
-  s" _plus_"         s" +"  replaced
-  s" _comma_"        s" ,"  replaced
-  s" _"              s" -"  replaced
-  s" _dot_"          s" ."  replaced
-  s" _slash_"        s" /"  replaced
-  s" _colon_"        s" :"  replaced
-  s" _semicolon_"    s" ;"  replaced
-  s" _not_equals_"   s" <>" replaced
-  s" _less_than_"    s" <"  replaced
-  s" _equals_"       s" ="  replaced
-  s" _greater_than_" s" >"  replaced
-  s" _fetch_"        s" @"  replaced
-  s" _backslash_"    s" \"  replaced
-  s" _" -suffix
-  s" _" 2swap s+
-  s" _" s" __" replaced
+: >z80-label {: D: name -- ca len :}
+  name "-"  str= if "_minus"   exit then
+  name "1-" str= if "_1_minus" exit then
+  name ">r" str= if "_to_r"    exit then
+  name "r>" str= if "_r_from"  exit then
+  name
+  "_store_"        "!"  replaced
+  "_star_"         "*"  replaced
+  "_plus_"         "+"  replaced
+  "_comma_"        ","  replaced
+  "_"              "-"  replaced
+  "_dot_"          "."  replaced
+  "_slash_"        "/"  replaced
+  "_colon_"        ":"  replaced
+  "_semicolon_"    ";"  replaced
+  "_not_equals_"   "<>" replaced
+  "_less_than_"    "<"  replaced
+  "_equals_"       "="  replaced
+  "_greater_than_" ">"  replaced
+  "_fetch_"        "@"  replaced
+  "_backslash_"    "\"  replaced
+  "_" -suffix
+  "_" 2swap s+
+  "_" "__" replaced
   ;
-  \ Convert Forth name _ca1 len1_ to Z80 assembly valid label _ca2 len2_.
+  \ Convert a Forth word name string into a Z80 assembly valid label
+  \ in string _ca len_.
 
 : (z80-symbol) ( a ca len -- )
   s" : equ " s+ rot dup >r n>0xstr s+
