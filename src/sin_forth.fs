@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230425T1319+0200.
+\ Last modified: 20230425T1633+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -202,29 +202,7 @@ variable boot-address ( -- a )
   \ pointed by `memory>` and update this pointer accordingly.
 
 \ ==============================================================
-\ Debugging tools {{{1
-
-\ ----------------------------------------------
-\ Info {{{2
-
-: a. ( a -- )
-  dup hex. ." (#" 0 .r ." )" ;
-  \ Display a target address. Used in debugging messages.
-
-: .m ( a n -- ) swap memory + swap dump ;
-  \ Dump _n_ bytes from target memory address _a_.
-
-: [.o] ( -- ) cr .order ; immediate
-  \ Display the current search order.
-
-: [.s] ( -- ) cr .s ; immediate
-  \ Display the host data stack.
-
-: compiler-words ( -- ) postpone compiler{ words previous ;
-  \ Display the words defined in the compiler word list.
-
-: target-words ( -- ) postpone target{ words previous ;
-  \ Display the words defined in the target word list.
+\ Disassembler files {{{1
 
 \ ----------------------------------------------
 \ Z80 symbols {{{2
@@ -479,6 +457,25 @@ warnings !
   \ See also: `:`.
   \
   \ }doc
+
+\ ==============================================================
+\ Debugging tools {{{1
+
+: a. ( a -- )
+  dup hex. ." (#" 0 .r ." )" ;
+  \ Display a target address.
+
+: [dump] ( a n -- ) swap memory + swap dump ; immediate
+  \ Dump _n_ bytes from target memory address _a_.
+
+: [.here] ( -- ) cr t-here a. cr ; immediate
+  \ Display the target data-space pointer address.
+
+: [.order] ( -- ) cr .order cr ; immediate
+  \ Display the current search order.
+
+: [.s] ( -- ) cr .s cr ; immediate
+  \ Display the host data stack.
 
 \ ==============================================================
 \ Data stack {{{1
