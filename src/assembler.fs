@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20230425T1331+0200.
+\ Last modified: 20230426T1229+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -49,6 +49,12 @@ require galope/three-dup.fs      \ `3dup`
 : 2- ( x1 -- x2 ) 2 - ;
 : 2+ ( x1 -- x2 ) 2 + ;
 
+compiler-definitions
+
+require sin_forth/lib/backward-resolve.fs   \ `<resolve`
+require sin_forth/lib/forward-mark-comma.fs \ `>mark,`
+require sin_forth/lib/forward-resolve.fs    \ `>resolve`
+
 assembler-definitions
 
 \ ==============================================================
@@ -84,7 +90,6 @@ assembler-definitions
   \ }doc
 
 : ?rel ( n -- )
-  \ cr ." ?rel " .s \ XXX INFORMER
   $80 + $FF swap u< abort" relative jump too long" ;
 
   \ doc{
@@ -338,7 +343,6 @@ $DD constant ix-op  $FD constant iy-op
   \ 2-byte opcodes.
 
 : (jr, ( a op -- )
-  \ cr ." (jr," .s \ XXX INFORMER
   t-c, compiler{ t-here } 1+ - dup ?rel t-c, ;
 
   \ doc{
@@ -1921,7 +1925,6 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : rresolve ( orig dest -- )
-  \ cr ." rresolve" .s \ XXX INFORMER
   1- over - dup ?rel swap t-c! ;
 
   \ XXX TODO -- improve documentation
@@ -1937,7 +1940,6 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : >rresolve ( orig -- )
-  \ cr ." >rresolve" .s \ XXX INFORMER
   t-here rresolve ;
 
   \ doc{
@@ -1977,9 +1979,7 @@ $F2 constant p?   $FA constant m?
   \ destination of a backward branch.  _dest_ is typically only
   \ used by `<resolve` to compile a branch address.
   \
-  \ ``<mark`` is an `alias` of `memory>`.
-  \
-  \ See also: `>mark`, `begin`.
+  \ See also: `>mark`, `>mark,`, `begin`.
   \
   \ }doc
 
@@ -2030,7 +2030,6 @@ $F2 constant p?   $FA constant m?
   \ }doc
 
 : rthen ( orig cs-id -- )
-  \ cr ." rthen" .s \ XXX INFORMER
   $0A ?pairs >rresolve ;
 
   \ doc{
@@ -2192,7 +2191,7 @@ $F2 constant p?   $FA constant m?
 \ ==============================================================
 \ Control-flow structures with absolute jumps {{{1
 
-: (aif ( op -- orig cs-id ) t-c, >mark $08 ;
+: (aif ( op -- orig cs-id ) t-c, >mark, $08 ;
 
   \ doc{
   \
@@ -2210,7 +2209,7 @@ $F2 constant p?   $FA constant m?
   \
   \ ``(aif`` is a factor of `aif` and `aelse`.
   \
-  \ See also: `>mark`.
+  \ See also: `>mark,`.
   \
   \ }doc
 
@@ -2237,7 +2236,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: athen ( orig cs-id -- ) $08 ?pairs >resolve ;
+: athen ( orig cs-id -- ) $08 ?pairs compiler{ >resolve } ;
 
   \ doc{
   \
@@ -2316,7 +2315,7 @@ $F2 constant p?   $FA constant m?
   \
   \ }doc
 
-: (auntil ( dest cs-id op ) t-c, $09 ?pairs <resolve ;
+: (auntil ( dest cs-id op ) t-c, $09 ?pairs compiler{ <resolve } ;
 
   \ doc{
   \

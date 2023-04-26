@@ -1,6 +1,6 @@
-\ lib/forward-resolve.fs
-\ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1234+0200.
+\ lib/forward-mark-comma.fs
+\ by Marcos Cruz (programandala.net), 2023.
+\ Last modified: 20230426T1152+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -18,17 +18,19 @@ get-order get-current
 
 compiler-definitions
 
-: >resolve ( orig -- )
-  memory> @ swap t-! ;
+: >mark, ( -- orig )
+  t-here 0 t-, ;
 
   \ doc{
   \
-  \ >resolve  Compilation: ( orig -- ) "forward-resolve"
+  \ >mark, ( C: -- orig ) "forward-mark-comma"
   \
-  \ Resolve a forward branch by placing the address of the current
-  \ data-space pointer into the address _orig_ left by `>mark`.
+  \ Compile a fake destination address of a Z80 jump opcode just
+  \ compiled, and return the address _orig_ of that destination
+  \ address, which must be later resolved by `>resolve`.
   \
-  \ See also: `here`, `<resolve`, `>mark,`.
+  \ This variant of `>mark` is used by the assembler control-flow
+  \ instruction `aif`.
   \
   \ }doc
 

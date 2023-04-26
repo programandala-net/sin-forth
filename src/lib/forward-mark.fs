@@ -1,6 +1,6 @@
 \ lib/forward-mark.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230426T1233+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -32,7 +32,7 @@ compiler-definitions
   \ Used at the source of a forward branch.  Typically used after
   \ either `branch`, `0branch` or `?branch`.
   \
-  \ See also: `<mark`.
+  \ See also: `<mark`, `>mark,`.
   \
   \ }doc
 
