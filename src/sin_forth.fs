@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230425T1720+0200.
+\ Last modified: 20230426T0715+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -216,7 +216,7 @@ false value build-z80-symbols? ( -- f )
   "_equals_"       "="  replaced
   "_greater_than_" ">"  replaced
   "_fetch_"        "@"  replaced
-  "_backslash_"    "\"  replaced
+  "_backslash_"    "\\"  replaced
   "_" -suffix
   "_" 2swap s+
   "_" "__" replaced
