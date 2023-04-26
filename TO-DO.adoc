@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-26
 
-// Last modified: 20230426T1224+0200.
+// Last modified: 20230426T1257+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -70,10 +70,6 @@
 == 2023-04-21
 
 - Build tests also with apenwarr/redo.
-
-== 2023-04-24
-
-- Fix compilation of <src/test/test_flow.fs>.
 
 == 2023-04-25
 
