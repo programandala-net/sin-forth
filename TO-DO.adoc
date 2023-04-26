@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-26
 
-// Last modified: 20230426T1736+0200.
+// Last modified: 20230426T1750+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -116,5 +116,3 @@ The source of that example is the following:
 - Add `cell` and use it instead of `2` (for example in `>mark`.
 - Find a solution to compile numbers and strings without `literal`,
   `sliteral`, etc. For example, a custom outer interpreter.
-- Remove `begin-program` and `end-program`: do their tasks in the
-  compiler.

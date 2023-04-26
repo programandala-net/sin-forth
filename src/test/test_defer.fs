@@ -1,6 +1,6 @@
 \ test_defer.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230426T1748+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,8 +15,6 @@
 \ ==============================================================
 
 40000 set-origin
-
-begin-program
 
 require sin_forth/lib/defer.fs
 require sin_forth/lib/defer-store.fs
@@ -41,5 +39,3 @@ defer any
   ' numbers literal ' any literal defer! any ;
 
 4 data-stack
-
-end-program

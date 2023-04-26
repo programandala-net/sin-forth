@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230426T1342+0200.
+\ Last modified: 20230426T1746+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -758,19 +758,6 @@ no-boot boot-address !
   \ the target.
 
 \ ==============================================================
-: begin-program ( -- )
-  target-definitions ;
-  \ Mark the start of the target program.
-
-: end-program ( -- )
-  data-stack? 0= if /default-data-stack data-stack then
-  no-boot?       if set-default-boot               then
-  boot-address @ s" __BOOT_HERE" (z80-symbol)
-  build-files
-  bye ;
-  \ Mark the end of the target program.
-
-\ ==============================================================
 \ Command-line arguments {{{1
 
 : next-arg? ( -- ca len f )
@@ -821,11 +808,25 @@ set-current
 \ ----------------------------------------------
 \ Commands {{{2
 
+: prepare-compilation ( -- )
+  target-definitions ;
+  \ Do tasks required before interpreting the program.
+
+: end-compilation ( -- )
+  data-stack? 0= if /default-data-stack data-stack then \ default data stack
+  no-boot?       if set-default-boot               then \ default boot address
+  boot-address @ s" __BOOT_HERE" (z80-symbol)
+  build-files
+  bye ;
+  \ Do tasks required after interpreting the program.
+
 : (build-command) {: D: source-file -- :}
   source-file file-exists?
   if   source-file basename -extension target-name $!
        target-path $@len 0= if source-file dirname target-path $! then
+       prepare-compilation
        source-file included
+       end-compilation
   else ." Error: the source file does not exist:" cr
        source-file type
        abort
