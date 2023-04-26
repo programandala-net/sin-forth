@@ -1,6 +1,6 @@
 \ lib/forward-resolve.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1234+0200.
+\ Last modified: 20230426T1303+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -19,7 +19,7 @@ get-order get-current
 compiler-definitions
 
 : >resolve ( orig -- )
-  memory> @ swap t-! ;
+  t-here swap t-! ;
 
   \ doc{
   \
@@ -28,7 +28,7 @@ compiler-definitions
   \ Resolve a forward branch by placing the address of the current
   \ data-space pointer into the address _orig_ left by `>mark`.
   \
-  \ See also: `here`, `<resolve`, `>mark,`.
+  \ See also: `t-here`, `<resolve`, `>mark,`.
   \
   \ }doc
 

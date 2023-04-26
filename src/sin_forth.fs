@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230426T1010+0200.
+\ Last modified: 20230426T1303+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -167,13 +167,17 @@ variable boot-address ( -- a )
   memory + c! ;
   \ Store the 8-bit value _c_ into target memory address _ca_.
 
+: t-here ( -- a )
+  memory> @ ;
+  \ Return the target data-space pointer address _a_ ($0000..$FFFF).
+
 : t-c, ( c -- )
-  memory> @ t-c! 1 memory> +! ;
+  t-here t-c! 1 memory> +! ;
   \ Compile the 8-bit value _c_ in the current target memory address
   \ pointed by `memory>` and increase this pointer accordingly.
 
 : t-, ( x -- )
-  memory> @ t-! 2 memory> +! ;
+  t-here t-! 2 memory> +! ;
   \ Compile the 16-bit value _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
@@ -291,8 +295,8 @@ false value build-z80dasm-blocks? ( -- f )
   \ _a_ and its length is _len_ bytes.
 
 : z80dasm-allot-block ( len -- )
-  memory> @ tuck + s" bytedata"
-  base @ >r hex  s" alloted_at_" memory> @ n>str s+
+  t-here tuck + s" bytedata"
+  base @ >r hex  s" alloted_at_" t-here n>str s+
          r> base !
   false false z80dasm-block ;
   \ Create a z80dasm block definition for allocated data space of
@@ -305,10 +309,6 @@ false value build-z80dasm-blocks? ( -- f )
   2 * ;
   \ Convert _n1_ cells to the equivalent _n2_ address units in the
   \ target system.
-
-: t-here ( -- a )
-  memory> @ ;
-  \ Return the target data-space pointer address _a_ ($0000..$FFFF).
 
 : h-here ( -- a )
   t-here memory + ;
@@ -334,17 +334,17 @@ variable latest-call ( -- a )
   \ without using the compiler `'` during the compilation.
 
 : creator ( "name" -- a )
-  parse-name 2dup memory> @ dea-constant
-                  nextname create memory> @
-\  cr ." Compiling at " memory> @ a. \ XXX INFORMER
+  parse-name 2dup t-here dea-constant
+                  nextname create t-here
+\  cr ." Compiling at " t-here a. \ XXX INFORMER
 \     ."  the word `" latest .name ." `" \ XXX INFORMER
-  build-z80-symbols? if memory> @ latest z80-symbol then ;
+  build-z80-symbols? if t-here latest z80-symbol then ;
   \ Create a host header for word _name_ and return the current target
   \ address _a_ associated to it.
 
 : do-call ( dfa -- )
-  @  memory> @ latest-call !
-\  cr ." Compiling at " memory> @ a. \ XXX INFORMER
+  @  t-here latest-call !
+\  cr ." Compiling at " t-here a. \ XXX INFORMER
 \     ."  a call to " dup a. \ XXX INFORMER
   assembler{ call, } ;
 
@@ -401,7 +401,7 @@ warnings !
   \ }doc
 
 : tail-call? ( -- f )
-  latest-call @ memory> @ 3 - = ;
+  latest-call @ t-here 3 - = ;
   \ Was the latest Z80 call compiled 3 bytes before the current target
   \ memory pointer?
 
@@ -410,7 +410,7 @@ warnings !
   \ Replace the latest Z80 call with a jump (opcode $C3).
 
 : ; ( -- )
-\  cr ." Compiling at " memory> @ a. ."  a `;`" \ XXX INFORMER
+\  cr ." Compiling at " t-here a. ."  a `;`" \ XXX INFORMER
   tail-call? if optimize-ret else ret, then ;
 
   \ XXX TODO Improve the documentation. Add an example where several
@@ -484,8 +484,8 @@ fake-data-stack-bottom value data-stack-bottom
 
 : data-stack ( len -- )
   data-stack? abort" second `data-stack`"
-  t-cells build-z80dasm-blocks? if memory> @ over z80dasm-stack-block then
-  memory> +!  memory> @ to data-stack-bottom ;
+  t-cells build-z80dasm-blocks? if t-here over z80dasm-stack-block then
+  memory> +!  t-here to data-stack-bottom ;
 
   \ doc{
   \
@@ -574,7 +574,7 @@ false value build-code?
   \ Flag, configurable with a command-line option.
 
 : /code ( -- len )
-  memory> @ origin - ;
+  t-here origin - ;
   \ Return the size _len_ of the target code.
 
 : build-code ( ca len -- )
@@ -731,7 +731,7 @@ no-boot boot-address !
   \ I.e., has `boot-here` not been executed before?
 
 : boot-here ( -- )
-  memory> @ boot-address ! ;
+  t-here boot-address ! ;
 
   \ doc{
   \

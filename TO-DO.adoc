@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-26
 
-// Last modified: 20230426T1257+0200.
+// Last modified: 20230426T1308+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -91,7 +91,3 @@ The source of that example is the following:
 ----
 
 - Fix execution of <src/test/test_dot.fs>.
-
-== 2023-04-26
-
-- Replace `memory> @` with `t-here`.

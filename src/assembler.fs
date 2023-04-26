@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20230426T1229+0200.
+\ Last modified: 20230426T1303+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -1969,7 +1969,7 @@ $F2 constant p?   $FA constant m?
 \ ==============================================================
 \ Control-flow structures with relative jumps {{{1
 
-: <mark ( C: -- dest ) memory> @ ;
+: <mark ( C: -- dest ) t-here ;
 
   \ doc{
   \
