@@ -1,6 +1,6 @@
 \ lib/begin.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230426T1318+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -20,11 +20,7 @@ get-order get-current
 
 compiler-definitions
 
-compiler{
-
-synonym begin <mark
-
-}
+compiler{ synonym begin <mark }
 
   \ doc{
   \
@@ -34,7 +30,7 @@ synonym begin <mark
   \ _dest_ to be resolved by the corresponding `until`, `again` or
   \ `repeat`.
   \
-  \ ``begin`` is a synonym of `<mark`.
+  \ NOTE: ``begin`` is implemented as a synonym of `<mark`.
   \
   \ See also: `while`, `do`.
   \

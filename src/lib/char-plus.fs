@@ -1,6 +1,6 @@
 \ lib/char-plus.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230426T1313+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -25,7 +25,7 @@ synonym char+ 1+
   \ Add the size in bytes of a character to _n1_, giving
   \ _n2_.
   \
-  \ ``char+`` is an `alias` of `1+`.
+  \ NOTE: ``char+`` is implemented as a synonym of `1+`.
   \
   \ See also: `char-`, `chars`.
   \

@@ -1,6 +1,6 @@
 \ lib/backward-mark.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1306+0200.
+\ Last modified: 20230426T1333+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -18,11 +18,7 @@ get-order get-current
 
 compiler-definitions
 
-compiler{
-
-synonym <mark t-here
-
-}
+compiler{ synonym <mark t-here }
 
   \ doc{
   \
@@ -33,7 +29,9 @@ synonym <mark t-here
   \ _dest_ is typically only used by `<resolve` to compile a branch
   \ address.
   \
-  \ See also: `>mark`, `begin`, `t-here`.
+  \ NOTE: `<mark` is implemented as a synonym of `t-here`.
+  \
+  \ See also: `>mark`, `begin`.
   \
   \ }doc
 

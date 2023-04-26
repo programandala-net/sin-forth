@@ -1,6 +1,6 @@
 \ lib/then.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230426T1335+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -20,11 +20,7 @@ get-order get-current
 
 compiler-definitions
 
-compiler{
-
-synonym then >resolve
-
-}
+compiler{ synonym then >resolve }
 
   \ doc{
   \
@@ -36,7 +32,7 @@ synonym then >resolve
   \ Resolve the forward reference _orig_, usually left by `if`,
   \ `while` or `after`.
   \
-  \ ``then`` is a synonym of `>resolve`.
+  \ NOTE: ``then`` is implemented as a synonym of `>resolve`.
   \
   \ // XXX TODO See also: `else`, `ahead`.
   \

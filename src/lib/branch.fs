@@ -1,6 +1,6 @@
 \ lib/branch.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230426T1334+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -18,7 +18,7 @@ get-order get-current
 
 compiler-definitions
 
-synonym branch jp,
+compiler{ synonym branch jp, }
 
   \ doc{
   \
@@ -30,6 +30,8 @@ synonym branch jp,
   \ unconditionally to _dest_.
   \
   \ Run-time: branch unconditionally to _dest_.
+  \
+  \ NOTE: ``branch`` is implemented as an alias of `jp,`.
   \
   \ // XXX TODO
   \ // See also: `?branch`, `0branch`, `-branch`, `+branch`.

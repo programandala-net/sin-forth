@@ -1,6 +1,6 @@
 \ lib/again.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0829+0200.
+\ Last modified: 20230426T1319+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,7 +16,7 @@
 
 require branch.fs \ `branch`
 
-compiler{ synonym again branch }
+synonym again branch
 
   \ doc{
   \
@@ -25,11 +25,12 @@ compiler{ synonym again branch }
   \   Run-time:    ( -- )
 
   \
-  \ Compilation: Compile an unconditional `branch`
-  \ to the backward reference _dest_, usually left by `begin`.
+  \ Compilation: Compile an unconditional `branch` to the backward
+  \ reference _dest_, usually left by `begin`.
   \
-  \ Run-time: Continue execution at the location specified by
-  \ _dest_.
+  \ Run-time: Continue execution at the location specified by _dest_.
+  \
+  \ NOTE: `again` is implemented as a synonym of `branch`.
   \
   \ See also: `until`, `repeat`.
   \
