@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230426T1303+0200.
+\ Last modified: 20230426T1342+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -171,13 +171,17 @@ variable boot-address ( -- a )
   memory> @ ;
   \ Return the target data-space pointer address _a_ ($0000..$FFFF).
 
+defer t-allot \ Compilation: ( +n -- )
+  \ A compiler version of `allot` that handles the data-space
+  \ pointer of the target.
+
 : t-c, ( c -- )
-  t-here t-c! 1 memory> +! ;
+  t-here t-c! 1 t-allot ;
   \ Compile the 8-bit value _c_ in the current target memory address
   \ pointed by `memory>` and increase this pointer accordingly.
 
 : t-, ( x -- )
-  t-here t-! 2 memory> +! ;
+  t-here t-! 2 t-allot ;
   \ Compile the 16-bit value _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
@@ -485,7 +489,7 @@ fake-data-stack-bottom value data-stack-bottom
 : data-stack ( len -- )
   data-stack? abort" second `data-stack`"
   t-cells build-z80dasm-blocks? if t-here over z80dasm-stack-block then
-  memory> +!  t-here to data-stack-bottom ;
+  t-allot  t-here to data-stack-bottom ;
 
   \ doc{
   \
@@ -663,10 +667,11 @@ false value build-tap?
 \ ==============================================================
 \ Target memory additional tools {{{1
 
-: t-allot \ Compilation: ( +n -- )
+:noname \ Compilation: ( +n -- )
   dup 0< abort" Negative number not allowed by `t-allot`"
   build-z80dasm-blocks? if dup z80dasm-allot-block then
   memory> +! ;
+  is t-allot
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
 

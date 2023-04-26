@@ -1,6 +1,6 @@
 \ lib/variable.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0752+0200.
+\ Last modified: 20230426T1343+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -23,7 +23,7 @@ compiler-definitions
 : variable ( "name" -- )
   creator
   build-z80dasm-blocks? if dup s" _variable_data" z80dasm-cell-block then
-  , 2 memory> +!
+  , 2 t-allot
   does> ( dfa ) @ h ldp#, push-hl ;
 
   \ doc{
@@ -50,7 +50,7 @@ compiler-definitions
 
   \ // XXX TODO
   \ // See also: `2variable`
-  \ See also: `@`, `!`, `cvariable`, `constant`, `create`.
+  \ See also: `@`, `!`, `cvariable`, `constant`, `create`, `t-allot`.
   \
   \ }doc
 

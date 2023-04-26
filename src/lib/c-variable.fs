@@ -1,6 +1,6 @@
 \ lib/c-variable.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0753+0200.
+\ Last modified: 20230426T1343+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -23,7 +23,7 @@ compiler-definitions
 : cvariable ( "name" -- )
   creator
   build-z80dasm-blocks? if dup s" _cvariable_data" z80dasm-char-block then
-  , 1 memory> +!
+  , 1 t-allot
   does> ( dfa ) @ h ldp#, push-hl ;
 
   \ doc{
@@ -48,7 +48,7 @@ compiler-definitions
   \
   \ Place on the stack the data field address _ca_ of _name_.
 
-  \ See also: `c!`, `c@`, `variable`, `cconstant`.
+  \ See also: `c!`, `c@`, `variable`, `cconstant`, `t-allot`.
   \
   \ }doc
 
