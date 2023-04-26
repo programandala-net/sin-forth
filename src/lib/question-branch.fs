@@ -1,6 +1,6 @@
 \ lib/question-branch.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230423T1138+0200.
+\ Last modified: 20230426T1242+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -20,38 +20,30 @@ get-order get-current
 
 compiler-definitions
 
-: ?branch \ Compilation: ( dest -- )
+: ?branch \ Compilation: ( -- )
           \ Run-time:    ( f -- )
   assembler{
   pop-hl         \ pop hl
   l a ld,        \ ld a,l
   h or,          \ or h    ; HL = zero?
-  $0000 nz? ?jp, \ jp nz,0 ; jump if zero, to an address which
+  $0000 nz? ?jp, \ jp nz,0 ; jump if zero, to an address whose address
                  \         ; will be left by `>mark` and resolved
                  \         ; by `>resolve` or `<resolve`.
   } ;
 
   \ doc{
   \
-  \ ?branch  Compilation: ( dest -- )
+  \ ?branch  Compilation: ( -- )
   \          Run-time:    ( f -- )
   \ "question-branch"
 
   \
   \ Compilation: Compile Z80 code to perform the run-time semantics
-  \ below. The destination address _dest_ must be resolved by
-  \ `>resolve` during the compilation.
+  \ below. The destination address must be resolved by
+  \ `>resolve` or `<resolve` during the compilation.
   \
   \ Run-time: If  _f_ is not false (zero), a Z80 ``jp`` is executed to
   \ an address that was resolved by `>resolve` during the compilation.
-
-  \
-  \ NOTE: This ``?branch`` is not Forth-83's ``?branch``, which is
-  \ equivalent to fig-Forth's ``0branch``, which is a more logical
-  \ name for the "branch if zero" action. Sin Forth borrows
-  \ `0branch` from fig-Forth, and completes the branches after a
-  \ logical naming convention shared with optional control flow
-  \ words, e.g. `?exit`, `0exit`, `-exit`...
 
   \
   \ // XXX TODO
