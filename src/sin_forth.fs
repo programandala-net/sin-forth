@@ -228,9 +228,9 @@ false value build-z80-symbols? ( -- f )
   "_colon_"        ":"  replaced
   "_semicolon_"    ";"  replaced
   "_not_equals_"   "<>" replaced
-  "_less_than_"    "<"  replaced
+  "_less_"         "<"  replaced
   "_equals_"       "="  replaced
-  "_greater_than_" ">"  replaced
+  "_greater_"      ">"  replaced
   "_question_"     "?"  replaced
   "_fetch_"        "@"  replaced
   "_backslash_"    "\\"  replaced
