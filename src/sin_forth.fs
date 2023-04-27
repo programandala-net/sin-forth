@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230426T1746+0200.
+\ Last modified: 20230427T1319+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -150,8 +150,7 @@ variable memory> ( -- a )
   \ the default value of `origin`.
 
 $5E00 value origin  origin memory> !
-  \ Initial and lowest target memory address where the target code is
-  \ compiled.
+  \ Default target memory address where the target code is compiled.
 
 variable boot-address ( -- a )
   \ _a_ contains the target memory address where the target program
@@ -171,18 +170,26 @@ variable boot-address ( -- a )
   memory> @ ;
   \ Return the target data-space pointer address _a_ ($0000..$FFFF).
 
+2 constant t-cell
+  \ Size of a target cell in address units.
+
+: t-cells ( n1 -- n2 )
+  t-cell * ;
+  \ Convert _n1_ cells to the equivalent _n2_ address units in the
+  \ target system.
+
 defer t-allot \ Compilation: ( +n -- )
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
 
 : t-c, ( c -- )
   t-here t-c! 1 t-allot ;
-  \ Compile the 8-bit value _c_ in the current target memory address
+  \ Compile the target char _c_ in the current target memory address
   \ pointed by `memory>` and increase this pointer accordingly.
 
 : t-, ( x -- )
-  t-here t-! 2 t-allot ;
-  \ Compile the 16-bit value _x_ in the current target memory address
+  t-here t-! t-cell t-allot ;
+  \ Compile the target cell _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
 \ ==============================================================
@@ -276,7 +283,7 @@ false value build-z80dasm-blocks? ( -- f )
   \ unlabeled-end   = flag
 
 : z80dasm-cell-block ( a ca len -- )
-  2>r dup 2 + s" worddata" latest name>string 2r> s+
+  2>r dup t-cell + s" worddata" latest name>string 2r> s+
   false true z80dasm-block ;
   \ Create a z80dasm block definition for 1-cell data space created by
   \ the latest target word definition, e.g. a variable or a constant,
@@ -308,11 +315,6 @@ false value build-z80dasm-blocks? ( -- f )
 
 \ ==============================================================
 \ Compiler {{{1
-
-: t-cells ( n1 -- n2 )
-  2 * ;
-  \ Convert _n1_ cells to the equivalent _n2_ address units in the
-  \ target system.
 
 : h-here ( -- a )
   t-here memory + ;
