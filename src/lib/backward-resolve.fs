@@ -19,7 +19,7 @@ get-order get-current
 compiler-definitions
 
 : <resolve \ Compilation: ( dest -- )
-  t-here 2 - t-! ;
+  t-here t-cell - t-! ;
 
   \ doc{
   \

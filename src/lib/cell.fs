@@ -1,6 +1,6 @@
 \ lib/cell.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230427T1412+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,7 +16,7 @@
 
 require constant.fs
 
-2 constant cell
+t-cell constant cell
 
   \ doc{
   \
