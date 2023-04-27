@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230427T1359+0200.
+\ Last modified: 20230427T1416+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -218,6 +218,7 @@ false value build-z80-symbols? ( -- f )
   name "r>" str= if "_r_from"  exit then
   name
   "_store_"        "!"  replaced
+  "_number_sign_"  "#"  replaced
   "_star_"         "*"  replaced
   "_plus_"         "+"  replaced
   "_comma_"        ","  replaced
@@ -671,7 +672,6 @@ false value build-tap?
 
 :noname \ Compilation: ( +n -- )
   dup 0< abort" Negative number not allowed by `t-allot`"
-  build-z80dasm-blocks? if dup z80dasm-allot-block then
   memory> +! ;
   is t-allot
   \ A compiler version of `allot` that handles the data-space
