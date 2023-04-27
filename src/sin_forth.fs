@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230427T1340+0200.
+\ Last modified: 20230427T1359+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -309,7 +309,7 @@ false value build-z80dasm-blocks? ( -- f )
   t-here tuck + s" bytedata"
   base @ >r hex  s" alloted_at_" t-here n>str s+
          r> base !
-  false false z80dasm-block ;
+  false true z80dasm-block ;
   \ Create a z80dasm block definition for allocated data space of
   \ _len_ bytes.
 

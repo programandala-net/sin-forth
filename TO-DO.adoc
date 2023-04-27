@@ -1,8 +1,8 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-26
+:revdate: 2023-04-27
 
-// Last modified: 20230426T1750+0200.
+// Last modified: 20230427T1401+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -103,9 +103,6 @@ The source of that example is the following:
 - Add alternative to `literal` to pass values in registers instead of
   the stack, e.g. `'A' >a emit-a`, or just add the additional entry
   points and use assembly: `'A' a ld#, emit-a`.
-- Remove the end label from dz80asm data blocks, which, in the
-  disassembled cod, happens to replace a following label with the same
-  value.
 - Move `compiler-wordlist` before `assembler-wordlist` in
   `compiler-order` and `target-order`?
 - Add pronounciation to word definitions.
