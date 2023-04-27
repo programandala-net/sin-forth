@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230427T1319+0200.
+\ Last modified: 20230427T1340+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -183,12 +183,12 @@ defer t-allot \ Compilation: ( +n -- )
   \ pointer of the target.
 
 : t-c, ( c -- )
-  t-here t-c! 1 t-allot ;
+  t-here t-c! 1 memory> +! ;
   \ Compile the target char _c_ in the current target memory address
   \ pointed by `memory>` and increase this pointer accordingly.
 
 : t-, ( x -- )
-  t-here t-! t-cell t-allot ;
+  t-here t-! t-cell memory> +! ;
   \ Compile the target cell _x_ in the current target memory address
   \ pointed by `memory>` and update this pointer accordingly.
 
