@@ -1,6 +1,6 @@
 \ lib/zero-less.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230427T1323+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -21,8 +21,8 @@ require true.fs   \ `true`
 : 0< ( n -- f )
   pop-hl           \ call pop_hl
   h rl,            \ rl h
-  true_dea c? ?jp, \ jp c,false_dea
-  false_dea jp,    \ jp true_dea
+  true_dea c? ?jp, \ jp c,true_dea
+  false_dea jp,    \ jp false_dea
 
   \ Credit: Code adapted from Solo Forth. The idea to use `rl h` was
   \ copied from Ace Forth to Solo Forth.

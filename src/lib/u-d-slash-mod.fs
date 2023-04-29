@@ -1,6 +1,6 @@
-\ lib/WORD.fs
+\ lib/u-d-slash-mod.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230429T1042+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
