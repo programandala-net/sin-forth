@@ -111,3 +111,9 @@ The source of that example is the following:
 
 - Confirm no module is included twice because of the way `require`
   checks the paths.
+
+== 2023-04-29
+
+- Document the target effect of `;` in library modules: `ret`.
+- Add `s"` to parse and compile strings.
+- Add words to parse and compile numbers, e.g. `h#`, `d#`, `b#`, `o#`.
