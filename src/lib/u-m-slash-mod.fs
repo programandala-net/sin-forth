@@ -1,6 +1,6 @@
 \ lib/u-m-slash-mod.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230429T1023+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -24,7 +24,7 @@ require push-bc.fs   \ `push-bc`
   exx,       \ exx
   pop-bc     \ call pop_bc            ; BC = divisor
   pop-hl-de  \ call pop_hl_de         ; HLDE = dividend
-  #16 ld#,   \ ld a,16                ; loop counter
+  #16 a ld#, \ ld a,16                ; loop counter
   e sla,     \ sla e
   d rl,      \ rl d                   ; hi bit DE -> Fc
              \ u_m_slash_mod.do:
