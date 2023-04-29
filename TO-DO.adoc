@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-27
 
-// Last modified: 20230427T1413+0200.
+// Last modified: 20230427T1559+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -112,3 +112,8 @@ The source of that example is the following:
 - Remove unnecesary `compiler{` and `assembler{` in library modules.
 - Find a solution to compile numbers and strings without `literal`,
   `sliteral`, etc. For example, a custom outer interpreter.
+
+== 2023-04-27
+
+- Confirm no module is included twice because of the way `require`
+  checks the paths.
