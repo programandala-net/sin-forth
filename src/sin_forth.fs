@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230427T1416+0200.
+\ Last modified: 20230429T1032+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -212,10 +212,11 @@ false value build-z80-symbols? ( -- f )
   \ with prefix "0x".
 
 : >z80-label {: D: name -- ca len :}
-  name "-"  str= if "_minus"   exit then
-  name "1-" str= if "_1_minus" exit then
-  name ">r" str= if "_to_r"    exit then
-  name "r>" str= if "_r_from"  exit then
+  name "-"    str= if "_minus"     exit then
+  name "-rot" str= if "_minus_rot" exit then
+  name "1-"   str= if "_1_minus"   exit then
+  name ">r"   str= if "_to_r"      exit then
+  name "r>"   str= if "_r_from"    exit then
   name
   "_store_"        "!"  replaced
   "_number_sign_"  "#"  replaced
@@ -906,6 +907,9 @@ set-current
   begin next-arg? while parse-argument repeat 2drop  ;
   \ If there's no argument, execute the help command;
   \ otherwise parse the arguments.
+
+\ XXX INFORMER
+\ : require ." requiring in " sourcefilename type cr require ;
 
 parse-arguments bye
 
