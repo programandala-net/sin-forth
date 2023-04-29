@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230429T1032+0200.
+\ Last modified: 20230429T1448+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -143,35 +143,60 @@ $10000 constant /memory
 /memory buffer: memory  memory /memory erase
   \ Reserve a 64-KiB space for the target memory.
 
-variable memory> ( -- a )
-  \ Z80 address ($0000..$FFFF) where the target code is being compiled
-  \ in the ZX Spectrum memory. Therefore it's also a pointer to the
-  \ first free address in `memory`. Its initial value is
-  \ the default value of `origin`.
+: @z80 ( a -- x )
+  dup c@ swap 1+ c@ 256 * + ;
+  \ Fetch a big-endian 16-bit value _x_ from address _a_.
 
-$5E00 value origin  origin memory> !
-  \ Default target memory address where the target code is compiled.
+: t-@ ( a -- x )
+  memory + @z80 ;
+  \ Fetch a big-endian 16-bit value _x_ from target address _a_.
+
+: !z80 ( x a -- )
+  swap 2dup  256 mod swap c!  256 / swap 1+ c! ;
+  \ Store a big-endian 16-bit value _x_ into address _a_.
+
+: t-! ( x a -- )
+  memory + !z80 ;
+  \ Store a big-endian 16-bit value _x_ into target address _a_.
+
+: t-c! ( c ca -- )
+  memory + c! ;
+  \ Store the 8-bit value _c_ into target memory address _ca_.
 
 variable boot-address ( -- a )
   \ _a_ contains the target memory address where the target program
   \ must be executed.
 
-: t-! ( x a -- )
-\  cr 2dup swap . . ." t-! (latest: " latest .name ." )" \ XXX INFORMER
-  memory + swap 2dup 256 mod swap c! 256 / swap 1+ c! ;
-  \ Store the 16-bit value _x_ into target memory address _a_.
-
-: t-c! ( c ca -- )
-\  cr 2dup swap . . ." t-!  (latest: " latest .name ." )" \ XXX INFORMER
-  memory + c! ;
-  \ Store the 8-bit value _c_ into target memory address _ca_.
-
-: t-here ( -- a )
-  memory> @ ;
-  \ Return the target data-space pointer address _a_ ($0000..$FFFF).
-
 2 constant t-cell
   \ Size of a target cell in address units.
+
+create (t-dp) t-cell allot
+  \ Temporary store for `t-dp`.
+
+(t-dp) value t-dp ( -- a )
+  \ An address _a_ to store the target address where the target
+  \ code is being compiled in the ZX Spectrum memory.
+  \
+  \ _a_ is an address of the host system until `dp` is required by the
+  \ target program: Then the content of _a_ is moved to the target
+  \ memory and the address returned by `t-dp` is updated to point to
+  \ the target `dp` data address. This operation is required in order
+  \ to make the compiler and the target code use the same memory
+  \ pointer.
+
+$5E00 value origin
+  \ Default target memory address where the target code is compiled.
+
+origin t-dp !z80
+  \ Init `t-dp`.
+
+\ XXX INFORMER
+\ t-dp .( original t-dp = ) hex. cr
+\ t-dp @z80 .( original content of t-dp = ) hex. cr
+
+: t-here ( -- a )
+  t-dp @z80 ;
+  \ Return the target data-space pointer address _a_.
 
 : t-cells ( n1 -- n2 )
   t-cell * ;
@@ -182,15 +207,18 @@ defer t-allot \ Compilation: ( +n -- )
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
 
+: +!z80 ( n a -- )
+  tuck @z80 + swap !z80 ;
+
 : t-c, ( c -- )
-  t-here t-c! 1 memory> +! ;
+  t-here t-c! 1 t-dp +!z80 ;
   \ Compile the target char _c_ in the current target memory address
-  \ pointed by `memory>` and increase this pointer accordingly.
+  \ pointed by `t-dp` and increase this pointer accordingly.
 
 : t-, ( x -- )
-  t-here t-! t-cell memory> +! ;
+  t-here t-! t-cell t-dp +!z80 ;
   \ Compile the target cell _x_ in the current target memory address
-  \ pointed by `memory>` and update this pointer accordingly.
+  \ pointed by `t-dp` and update this pointer accordingly.
 
 \ ==============================================================
 \ Disassembler files {{{1
@@ -673,7 +701,7 @@ false value build-tap?
 
 :noname \ Compilation: ( +n -- )
   dup 0< abort" Negative number not allowed by `t-allot`"
-  memory> +! ;
+  t-dp +!z80 ;
   is t-allot
   \ A compiler version of `allot` that handles the data-space
   \ pointer of the target.
@@ -710,7 +738,7 @@ variable modified-origin ( -- a ) modified-origin off
 
 : set-origin ( n -- )
   modified-origin @ abort" second `set-origin` not allowed"
-  dup to origin memory> !
+  dup to origin t-dp !z80
   modified-origin on ;
 
   \ doc{

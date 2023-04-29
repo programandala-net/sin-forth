@@ -1,6 +1,6 @@
 \ lib/d-p.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230429T1454+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,7 +17,13 @@
 require variable.fs
 
 variable dp
-  \ XXX TODO Make `memory>` use this target variable.
+
+host{
+  \ Move the content of host `t-dp` to target `dp`:
+  t-dp @z80 dp_dea t-!
+  \ Update host `t-dp` with the address of target `dp`:
+  dp_dea memory + to t-dp
+}
 
   \ doc{
   \

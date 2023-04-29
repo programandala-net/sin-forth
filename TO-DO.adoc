@@ -1,8 +1,8 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-27
+:revdate: 2023-04-29
 
-// Last modified: 20230427T1559+0200.
+// Last modified: 20230429T1450+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -93,12 +93,6 @@ The source of that example is the following:
 
 == 2023-04-26
 
-- Replace library `here` and `dp` (currently useless both of them) and
-  compiler `memory>` with a shared value, usable by the program during
-  the compilation, therefore stored in target `memory`.
-  `begin-program` or `end-program` must reserve space for the value,
-  which must be relocatable, or similar to Forth `user` variables.
-  Then write proper target versions of `here` and `allot`.
 - Create the target word names in a specific word list?
 - Add alternative to `literal` to pass values in registers instead of
   the stack, e.g. `'A' >a emit-a`, or just add the additional entry
