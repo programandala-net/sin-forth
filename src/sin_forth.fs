@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230430T1427+0200.
+\ Last modified: 20230430T1431+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -228,8 +228,8 @@ defer t-allot \ Compilation: ( +n -- )
 
 $variable z80-symbols$ ( -- a )
   \ A dynamic string variable that holds the Z80 assembly symbols, in
-  \ assembly. `end-program` saves it into an output file, if it's not
-  \ empty.
+  \ assembly. `end-compilation` saves it into an output file, if it's
+  \ not empty.
 
 false value build-z80-symbols? ( -- f )
   \ Flag, configurable with a command-line option.
@@ -287,8 +287,8 @@ false value build-z80-symbols? ( -- f )
 
 $variable z80dasm-blocks$ ( -- a )
   \ A dynamic string variable that holds the z80dasm disassembler
-  \ block definitions. `end-program` saves it into an output file, if
-  \ it's not empty.
+  \ block definitions. `end-compilation` saves it into an output file,
+  \ if it's not empty.
 
 false value build-z80dasm-blocks? ( -- f )
   \ Flag, configurable with a command-line option.
@@ -503,9 +503,9 @@ warnings !
   \
   \ /default-data-stack ( -- len )
   \
-  \ Return the size _len_, in target cells, of the default data
-  \ stack created by `end-program` when `data-stack` has not been
-  \ included in the target program.
+  \ Return the size _len_, in target cells, of the default data stack
+  \ created by the compiler when `data-stack` has not been included in
+  \ the target program.
   \
   \ }doc
 
@@ -536,11 +536,10 @@ false value data-stack? ( -- f )
   \ data-stack ( len -- )
   \
   \ Create the data stack, with _len_ target cells, at the current
-  \ target memory pointer. The data stack grows towards
-  \ low memory. If ``data-stack`` is not executed during the
-  \ compilation of the target program, it will be executed by
-  \ `end-program` with the default size returned by
-  \ `/default-data-stack`.
+  \ target memory pointer. The data stack grows towards low memory. If
+  \ ``data-stack`` is not executed during the compilation of the
+  \ target program, it will be executed by the compiler with the
+  \ default size returned by `/default-data-stack`.
   \
   \ }doc
 
