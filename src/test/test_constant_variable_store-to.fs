@@ -1,6 +1,6 @@
 \ test_constant_variable_store-to.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1748+0200.
+\ Last modified: 20230430T1149+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -30,6 +30,8 @@ require sin_forth/lib/variable.fs
    variable  letter-2
 67 constant  letter-3   \ "C"
    cvariable letter-4
+
+boot-here
 
 : run ( -- )
 

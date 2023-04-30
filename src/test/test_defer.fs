@@ -34,6 +34,8 @@ defer any
   '2' literal emit
   '3' literal emit ;
 
+boot-here
+
 : run ( -- )
   ' letters literal ' any literal defer! any
   ' numbers literal ' any literal defer! any ;

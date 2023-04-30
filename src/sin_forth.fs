@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230430T0804+0200.
+\ Last modified: 20230430T0848+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -770,18 +770,13 @@ variable modified-origin ( -- a ) modified-origin off
 \ ----------------------------------------------
 \ boot-here {{{2
 
-$10001 constant no-boot
-no-boot boot-address !
-  \ Store an impossible default value into `boot-address`, in order to
-  \ detect whether it has been set or not.
-
-: no-boot? ( -- f )
-  boot-address @ no-boot = ;
-  \ Has `boot-address` not been set?
-  \ I.e., has `boot-here` not been executed before?
+true value no-boot? ( -- f )
+  \ A flag: Has `boot-address` not been set?
+  \ I.e., has `boot-here` not been executed yet?
 
 : boot-here ( -- )
-  t-here boot-address ! ;
+  t-here boot-address !
+  false to no-boot? ;
 
   \ doc{
   \
@@ -790,9 +785,6 @@ no-boot boot-address !
   \ Mark the current address of the target program as the boot
   \ address, i.e. the address that will be executed by the Sinclair
   \ BASIC loader.
-  \
-  \ If ``boot-here`` is not used, the boot address will be that of the
-  \ latest `:` definition.
   \
   \ }doc
 
@@ -858,8 +850,8 @@ set-current
   \ Do tasks required before interpreting the program.
 
 : end-compilation ( -- )
+  no-boot? abort" `boot-here` is missing"
   data-stack? 0= if /default-data-stack data-stack then \ default data stack
-  no-boot?       if set-default-boot               then \ default boot address
   boot-address @ s" __BOOT_HERE" (z80-symbol)
   build-files
   bye ;
