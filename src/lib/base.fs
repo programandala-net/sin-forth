@@ -1,6 +1,6 @@
 \ lib/base.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230430T0925+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -17,7 +17,8 @@
 require variable.fs \ `variable`
 
 variable base
-10 literal base !
+
+compiler{ #10 base_dea t-! }
 
   \ doc{
   \
@@ -26,6 +27,7 @@ variable base
   \ A `variable`. _a_ is the address of a cell containing the current
   \ number-conversion radix. Its default value is #10.
   \
-  \ See also: `>number`, `number?`, `abase`.
+  \ // XXX TODO
+  \ // See also: `>number`, `number?`, `abase`.
   \
   \ }doc
