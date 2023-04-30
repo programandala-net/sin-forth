@@ -1,6 +1,6 @@
 \ lib/pad.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230430T0730+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,24 +14,18 @@
 
 \ ==============================================================
 
-require here.fs       \ `here`
-require plus.fs       \ `+`
-require slash-hold.fs \ `/hold`
+require buffer-colon.fs \ `buffer:`
 
-: pad ( -- ca )
-  here /hold + ;
+compiler{ /pad } buffer: pad ( -- ca )
 
   \ doc{
   \
   \ pad ( -- ca )
   \
-  \ _ca_ is the address of a transient region that can be used to
-  \ hold data for intermediate processing. It's a fixed offset
-  \ (`/hold` bytes) above `here`.
+  \ _ca_ is the address of a region that can be used to hold data for
+  \ intermediate processing. Its size is `/pad`.
   \
-  \ ``pad`` is  specifically intended as  a programmer
-  \ convenience. No standard words use it.
-  \
-  \ See also: `/pad`.
+  \ ``pad`` is  specifically intended as  a programmer convenience. No
+  \ other words use it.
   \
   \ }doc

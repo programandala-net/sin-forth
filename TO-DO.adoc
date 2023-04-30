@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-30
 
-// Last modified: 20230430T0749+0200.
+// Last modified: 20230430T0801+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -127,4 +127,5 @@ The source of that example is the following:
   definition" -> "create a compiler definition"; "when _name_ is
   subsequently executed, [it compiles]". See `create`, `buffer:`,
   `variable`, etc.
-
+- Make the `/pad` compiler constant configurable with a command line
+  option.
