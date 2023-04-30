@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230429T1448+0200.
+\ Last modified: 20230430T0648+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -924,10 +924,10 @@ set-current
 \ ----------------------------------------------
 \ Parser {{{2
 
-: parse-argument ( ca len  -- )
-  2dup arguments-wordlist search-wordlist
-  if   execute 2drop
-  else ." Error: invalid argument: " type abort then ;
+: parse-argument {: D: argument  -- :}
+  argument arguments-wordlist search-wordlist
+  if   execute
+  else ." Error: invalid argument: " argument type abort then ;
   \ Dispatch the given argument string.
 
 : parse-arguments ( -- )
