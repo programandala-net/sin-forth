@@ -2,7 +2,7 @@
 :author: Marcos Cruz (programandala.net)
 :revdate: 2023-04-30
 
-// Last modified: 20230430T0801+0200.
+// Last modified: 20230430T1153+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -129,3 +129,5 @@ The source of that example is the following:
   `variable`, etc.
 - Make the `/pad` compiler constant configurable with a command line
   option.
+- Make `boot-here` optional again: add the data stack init code and a
+  jump to the latest definition.

@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230430T0848+0200.
+\ Last modified: 20230430T1427+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -509,19 +509,27 @@ warnings !
   \
   \ }doc
 
--1 constant fake-data-stack-bottom
-fake-data-stack-bottom value data-stack-bottom
-  \ Set `data-stack-bottom` with a fake default value, in
-  \ order to detect whether it has been set or not.
+0 value data-stack-bottom
+  \ Target address of the data stack bottom.
 
-: data-stack? ( -- f )
-  data-stack-bottom fake-data-stack-bottom <> ;
-  \ Has been a data stack defined?
+false value data-stack? ( -- f )
+  \ Has been a data stack defined?, i.e., has been `data-stack`
+  \ executed?
+
+0 value data-stack-bottom-init ( -- a )
+  \ Target address _a_ of the data stack init code (compiled by
+  \ `boot-here`) which must contain the target address of the data
+  \ stack bottom. `boot-here` and `data-stack` use this value to make
+  \ sure the data stack init code is completed at the end of the
+  \ compilation, no matter the order in which `boot-here` and
+  \ `data-stack` appear in the code.
 
 : data-stack ( len -- )
-  data-stack? abort" second `data-stack`"
+  data-stack? abort" `data-stack` executed already"
   t-cells build-z80dasm-blocks? if t-here over z80dasm-stack-block then
-  t-allot  t-here to data-stack-bottom ;
+  t-allot  t-here dup to data-stack-bottom
+                      data-stack-bottom-init t-!
+  true to data-stack? ;
 
   \ doc{
   \
@@ -776,7 +784,9 @@ true value no-boot? ( -- f )
 
 : boot-here ( -- )
   t-here boot-address !
-  false to no-boot? ;
+  false to no-boot?
+  data-stack-bottom ix ldp#,
+  t-here t-cell - to data-stack-bottom-init ;
 
   \ doc{
   \
@@ -785,6 +795,10 @@ true value no-boot? ( -- f )
   \ Mark the current address of the target program as the boot
   \ address, i.e. the address that will be executed by the Sinclair
   \ BASIC loader.
+  \
+  \ ``boot-here`` also compiles a Z80 instruction to init the data
+  \ stack pointer. If the address of the data stack is still unknown,
+  \ it will be added by `data-stack`.
   \
   \ }doc
 
