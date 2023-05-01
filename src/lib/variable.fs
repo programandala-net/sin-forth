@@ -1,6 +1,6 @@
 \ lib/variable.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230427T1408+0200.
+\ Last modified: 20230501T1310+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -50,7 +50,7 @@ compiler-definitions
 
   \ // XXX TODO
   \ // See also: `2variable`
-  \ See also: `@`, `!`, `cvariable`, `constant`, `create`, `t-allot`.
+  \ See also: `@`, `!`, `cvariable`, `constant`, `value`, `create`, `allot`.
   \
   \ }doc
 

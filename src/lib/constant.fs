@@ -1,6 +1,6 @@
 \ lib/constant.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230427T1408+0200.
+\ Last modified: 20230501T1112+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -40,10 +40,14 @@ compiler-definitions
   \
   \ Place _x_ on the stack.
   \
+  \ NOTE: In Sin Forth, `constant` and `value` are equivalent.
+  \ This means that also the value of a constant can be changed by
+  \ `to`.
+  \
   \ // XXX TODO
   \ // See also: `2constant`, `fconstant`, `const`,
   \ // `[const]`, `variable`.
-  \ See also: `variable`, `cconstant`, `!>`, `t-allot`.
+  \ See also: `variable`, `cconstant`.
   \
   \ }doc
 
