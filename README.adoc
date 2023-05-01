@@ -1,8 +1,8 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-21
+:revdate: 2023-05-01
 
-// Last modified: 20230422T1827+0200.
+// Last modified: 20230501T0850+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -18,9 +18,9 @@ Sin Forth is a Forth cross compiler under development, written in
 http://forth-standard.org[Forth] with
 http://gnu.org/software/gforth[Gforth].
 
-Sin Forth creates machine code programs for any model of the ZX
-Spectrum, ZX Spectrum 128 and compatible computers, including the ZX
-Spectrum Next.
+Sin Forth creates machine code programs for any model of
+https://en.wikipedia.org/wiki/ZX_Spectrum[ZX Spectrum] or compatible
+computer, including the https://specnext.com[ZX Spectrum Next].
 
 // end::description[]
 
@@ -37,18 +37,19 @@ The installation of Sin Forth needs two operations:
 
 === Sources
 
-In order to make Sin Forth's sources accessible from Gforth,
-one method is to add the Sin Forth's <src> directory to Gforth's
-`fpath`. Consult Gforth's documentation.
+There are two methods to make Sin Forth's sources accessible from Gforth:
 
-A second method is to make a symbolic link to Sin Forth's <src>
-directory in Gforth's <site-forth> directory. In a locally compiled
-Gforth, the command on a Linux shell would be the following:
+1. Add the Sin Forth's <src> directory to Gforth's `fpath`. Consult
+   Gforth's documentation.
 
+2. Make a symbolic link to Sin Forth's <src> directory in Gforth's
+   <site-forth> directory. In a locally compiled Gforth, the command
+   on a Linux shell would be the following:
++
 ----
 sudo ln -s SIN_FORTH_PATH/src/ /usr/local/share/gforth/site-forth/sin_forth
 ----
-
++
 where "SIN_FORTH_PATH" must be replaced with the corresponding path to
 Sin Forth's directory on your system.
 
@@ -97,6 +98,25 @@ Sin Forth's directory on your system, and "DIR" can be replaced with
 ``tmp``       ::  Temporary files created by ``make``
 
 // end::tree[]
+
+// The name {{{1
+== The name
+
+Sin Forth is a "sin", because the programs it creates are not _actual_
+Forth:
+
+- No dictionary.
+- No outer interpreter.
+- No inner interpreter: the "compiled" code is a collection of machine
+  code subroutines, like in a STC (Subroutine-Threaded Code) Forth.
+- No distinction between interpretation and compilation modes in the
+  source code of the programs: during the "compilation", parsing and
+  "immediate" operations are done by host words, i.e. Gforth words.
+
+Besides, "sin Forth" is the Spanish for "without Forth", which is
+another way to describe Sin Forth.
+
+Last, "Sin" is borrowed from "Sinclair".
 
 // History of the repository {{{1
 == History of the repository
