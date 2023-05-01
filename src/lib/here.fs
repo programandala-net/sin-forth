@@ -1,6 +1,6 @@
 \ lib/here.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230501T1150+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -23,10 +23,10 @@ require fetch.fs \ `@`
   \
   \ here ( -- a )
   \
-  \ Return the data-space pointer _a_.
+  \ Return the content _a_ of the data-space pointer `dp`.
   \
   \ // XXX TODO
-  \ // See also: `dp`, `limit`, `unused`, `there`.
-  \ See also: `dp`.
+  \ // See also: `limit`, `unused`, `there`.
+  \ See also: `allot`.
   \
   \ }doc
