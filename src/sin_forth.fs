@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230430T1431+0200.
+\ Last modified: 20230501T1323+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -742,7 +742,7 @@ false value build-tap?
   \ /pad ( -- len ) "slash-pad"
   \
   \ A compiler constant. _len_ is the value used to define the target
-  \ `/pad`.
+  \ `/pad`. Its value is 84.
   \
   \ NOTE: This constant can be used during compilation with
   \ ``compiler{ /pad }``.
