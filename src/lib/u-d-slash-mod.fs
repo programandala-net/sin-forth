@@ -1,6 +1,6 @@
 \ lib/u-d-slash-mod.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230429T1042+0200.
+\ Last modified: 20230501T1438+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -34,8 +34,6 @@ require u-m-slash-mod.fs \ `um/mod`
   \ An unsigned mixed magnitude math operation which leaves a
   \ double quotient _ud4_ and remainder _u3_, from a double
   \ dividend _ud1_ and single divisor _u2_.
-  \
-  \ Origin: fig-Forth's ``m/mod``, Gforth, Z88 CamelForth.
   \
   \ See also: `um/mod`.
   \

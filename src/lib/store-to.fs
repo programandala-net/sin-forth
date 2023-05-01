@@ -1,6 +1,6 @@
 \ lib/store-to.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T1315+0200.
+\ Last modified: 20230501T1443+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -42,8 +42,6 @@ compiler-definitions
   \ Run-time: ( x -- )
   \
   \ Make _x_ the current value of constant _name_.
-  \
-  \ // Origin: IsForth.
   \
   \ // XXX TODO
   \ // See also: `c!>`, `2!>`.
