@@ -1,6 +1,6 @@
 \ lib/bracket-tick.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1334+0200.
+\ Last modified: 20230501T1454+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -28,7 +28,7 @@ compiler{ synonym ['] ' }
   \
   \ Parse _name_ and return its _dea_ (dictionary entry address). The
   \ actual meaning of _dea_ depends on the definer word used to create
-  \ _name_.
+  \ _name_. See `'` for details.
   \
   \ NOTE: `[']` is implemented as a synonym of `'`, just to
   \ facilitate the conversion of standard Forth programs.

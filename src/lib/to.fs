@@ -1,6 +1,6 @@
 \ lib/to.fs
 \ by Marcos Cruz (programandala.net), 2023.
-\ Last modified: 20230501T1033+0200.
+\ Last modified: 20230501T1820+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -15,15 +15,16 @@
 \ ==============================================================
 
 require pop-hl.fs \ `pop-hl`
+require tick.fs   \ `'`
 
 get-order get-current
 
 compiler-definitions
 
 : to ( x "name" -- )
-  pop-hl \ compile `call pop_hl` to pop _x_ from the stack
-  parse-name "_dea" s+ evaluate ( a ) \ get the data field address of _name_
-  sthl, ; \ compile `ld (a),hl`
+  pop-hl \ compile `call pop_hl` to move _x_ from the target data stack to HL
+  compiler{ ' } \ get the address of _name_ on the host data stack
+  sthl, ; \ compile `ld (a),hl` and `ret`
 
   \ doc{
   \
