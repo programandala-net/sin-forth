@@ -1,6 +1,6 @@
 \ lib/hold.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230430T0913+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -31,6 +31,6 @@ require plus-store.fs \ `+!`
   \
   \ // XXX TODO
   \ // See also: `holds`.
-  \ See also: `sign`.
+  \ See also: `sign`, `hold-buffer`.
   \
   \ }doc

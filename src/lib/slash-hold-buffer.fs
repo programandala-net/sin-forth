@@ -1,6 +1,6 @@
-\ lib/slash-hold.fs
+\ lib/slash-hold-buffer.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230430T0906+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,19 +14,20 @@
 
 \ ==============================================================
 
-require c-constant.fs \ `cconstant`
+require c-constant.fs \ `c-constant`
 
-80 cconstant /hold
+compiler{ /hold-buffer } cconstant /hold-buffer
 
   \ doc{
   \
-  \ /hold ( -- len ) "slash-hold"
+  \ /hold-buffer ( -- len ) "slash-hold-buffer"
   \
-  \ A `cconstant`. _len_ is the length of the pictured
-  \ output string buffer, which is located right below `pad`.
+  \ A `cconstant`. _len_ is the length of the pictured output string
+  \ buffer: `hold-buffer`.
   \
-  \ The default value of ``/hold`` is 80. It may be changed by
-  \ `c!>`.
+  \ NOTE: There's also a homonymous compiler constant, whose value is
+  \ used to define this target ``/hold-buffer`` and which can be used
+  \ during compilation with ``compiler{ /hold-buffer }``.
   \
   \ See also: `hld`, `<#`, `/pad`.
   \

@@ -1,6 +1,6 @@
 \ lib/less-number-sign.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230425T0812+0200.
+\ Last modified: 20230430T0915+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -14,20 +14,21 @@
 
 \ ==============================================================
 
-require h-l-d.fs \ `hld`
-require pad.fs   \ `pad`
-require store.fs \ `!`
+require h-l-d.fs    \ `hld`
+require store.fs    \ `!`
+require hold-end.fs \ `hold-end`.
 
 : <# ( -- )
-  pad hld ! ;
+  hold-end hld ! ;
 
   \ doc{
   \
   \ <# ( -- ) "less-number-sign"
   \
-  \ Initialize the pictured numeric output process:
-  \ Set `hld` to its initial value, right below `pad`.
+  \ Initialize the pictured numeric output process: Set `hld` to its
+  \ initial value `hold-end`.
   \
-  \ See also: `/hold`, `#>`, `#`, `#s`, `hold`, `holds`, `sign`.
+  \ See also: `hold-buffer`, `#>`, `#`, `#s`, `hold`, `holds`,
+  \ `sign`.
   \
   \ }doc

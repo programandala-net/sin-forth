@@ -1,8 +1,8 @@
 = Sin Forth to-do list
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-04-30
+:revdate: 2023-05-01
 
-// Last modified: 20230430T1153+0200.
+// Last modified: 20230501T1326+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -120,7 +120,6 @@ The source of that example is the following:
 
 == 2023-04-30
 
-- Add a pictured numeric output buffer.
 - Factor `does> (dfa) @ h ldp#, push-hl` from words created by
   `creator`.
 - Homogenize the documentation of compiler library words: "create a
@@ -129,5 +128,7 @@ The source of that example is the following:
   `variable`, etc.
 - Make the `/pad` compiler constant configurable with a command line
   option.
+- Make the `/hold-buffer` compiler constant configurable with a
+  command line option.
 - Make `boot-here` optional again: add the data stack init code and a
   jump to the latest definition.

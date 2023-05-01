@@ -735,6 +735,20 @@ false value build-tap?
   \
   \ }doc
 
+80 constant /hold-buffer
+
+  \ doc{
+  \
+  \ /hold-buffer ( -- len ) "slash-hold-buffer"
+  \
+  \ A compiler constant. _len_ is the value used to define the target
+  \ `/hold-buffer`. Its value is 80.
+  \
+  \ NOTE: This constant can be used during compilation with
+  \ ``compiler{ /hold-buffer }``.
+  \
+  \ }doc
+
 84 constant /pad
 
   \ doc{
