@@ -1,6 +1,6 @@
 # Makefile
 # by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230425T1339+0200.
+# Last modified: 20230501T1330+0200.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
@@ -77,7 +77,7 @@ tests:
 	done
 
 target/%.tap: src/test/%.fs
-	src/sin_forth.fs -tap -out $$(realpath target) build $$(realpath $<)
+	@src/sin_forth.fs -tap -out $$(realpath target) build $$(realpath $<)
 
 # ==============================================================
 # Disassemble the compiled tests {{{1
@@ -86,7 +86,7 @@ target/%.tap: src/test/%.fs
 asm: $(disassembled_tests)
 
 target/%.asm: src/test/%.fs
-	src/sin_forth.fs \
+	@src/sin_forth.fs \
 		-addr \
 		-code \
 		-sym \
@@ -101,7 +101,7 @@ target/%.asm: src/test/%.fs
 		--sym-input=$(basename $@).symbols.asm \
 		--block-def=$(basename $@).z80dasm_blocks.txt \
 		--output=$@ \
-		$(basename $@).bin
+		$(basename $@).bin 2> /dev/null
 
 # ==============================================================
 # Documentation {{{1
