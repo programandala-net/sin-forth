@@ -2,7 +2,7 @@
 
 \ sin_forth.fs
 \ by Marcos Cruz (programandala.net), 2010, 2015, 2020, 2023.
-\ Last modified: 20230501T1323+0200.
+\ Last modified: 20230504T1507+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -314,7 +314,7 @@ false value build-z80dasm-blocks? ( -- f )
 
 : z80dasm-cell-block ( a ca len -- )
   2>r dup t-cell + s" worddata" latest name>string 2r> s+
-  false true z80dasm-block ;
+  true true z80dasm-block ;
   \ Create a z80dasm block definition for 1-cell data space created by
   \ the latest target word definition, e.g. a variable or a constant,
   \ being _a_ its address in the target memory and _ca len_ a suffix
@@ -322,7 +322,7 @@ false value build-z80dasm-blocks? ( -- f )
 
 : z80dasm-char-block ( ca1 ca2 len2 -- )
   2>r dup 1+ s" bytedata" latest name>string 2r> s+
-  false true z80dasm-block ;
+  true true z80dasm-block ;
   \ Create a z80dasm block definition for 1-character data space created by
   \ the latest target word definition, e.g. a character variable or a
   \ character constant, being _ca1_ its address in the target memory
