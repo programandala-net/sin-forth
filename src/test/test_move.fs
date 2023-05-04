@@ -1,6 +1,6 @@
 \ test_move.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1748+0200.
+\ Last modified: 20230504T1510+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -16,16 +16,14 @@
 
 40000 set-origin
 
-require sin_forth/lib/allot.fs
-require sin_forth/lib/constant.fs
-require sin_forth/lib/create.fs
-require sin_forth/lib/for.fs
-require sin_forth/lib/literal.fs
-require sin_forth/lib/move-hl-de-bc.fs
-require sin_forth/lib/pop-de.fs
-require sin_forth/lib/pop-hl.fs
-require sin_forth/lib/r-fetch.fs
-require sin_forth/lib/step.fs
+require sin_forth/lib/allot.fs         \ `allot`
+require sin_forth/lib/constant.fs      \ `constant`
+require sin_forth/lib/for.fs           \ `for`
+require sin_forth/lib/literal.fs       \ `literal`
+require sin_forth/lib/move-hl-de-bc.fs \ `move-hl-de-bc`
+require sin_forth/lib/pop-hl.fs        \ `pop-hl`
+require sin_forth/lib/r-fetch.fs       \ `r@`
+require sin_forth/lib/step.fs          \ `step`
 
 22528 h-constant attr   \ display attributes address
   768 h-constant /attr  \ display attributes size in bytes
