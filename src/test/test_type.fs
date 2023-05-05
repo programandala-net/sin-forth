@@ -1,6 +1,6 @@
 \ test_type.fs
 \ by Marcos Cruz (programandala.net), 2020, 2023.
-\ Last modified: 20230426T1748+0200.
+\ Last modified: 20230505T1117+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -23,12 +23,12 @@ require sin_forth/lib/create.fs    \ `create`
 require sin_forth/lib/emit.fs      \ `emit`
 require sin_forth/lib/emits.fs     \ `emits`
 require sin_forth/lib/literal.fs   \ `literal`
-require sin_forth/lib/s-literal.fs \ `sliteral`
+require sin_forth/lib/s-quote.fs   \ `s"`
 require sin_forth/lib/space.fs     \ `space`
 require sin_forth/lib/spaces.fs    \ `spaces`
 require sin_forth/lib/type.fs      \ `type`
 
-: the-end ( -- ) "The End" sliteral type ;
+: the-end ( -- ) s" The End" type ;
 
 create zx
 "Sinclair ZX Spectrum" t-s,
@@ -36,7 +36,7 @@ create zx
 boot-here
 exx, h push,
 
-"a c1 3 with BL and 6 EMITs :" sliteral type cr
+s" a c1 3 with BL and 6 EMITs :" type cr
 'a' literal emit
 bl          emit
 'c' literal emit
@@ -44,7 +44,7 @@ bl          emit
 bl          emit
 '3' literal emit cr
 
-"abc123 with 6 EMITs :" sliteral type cr
+s" abc123 with 6 EMITs :" type cr
 'a' literal emit
 'b' literal emit
 'c' literal emit
@@ -52,28 +52,28 @@ bl          emit
 '2' literal emit
 '3' literal emit cr
 
-"abc123 with 2 TYPEs :" sliteral type cr
-s" abc" sliteral type
-s" 123" sliteral type cr
+s" abc123 with 2 TYPEs :" type cr
+s" abc" type
+s" 123" type cr
 
-"again, separated by SPACE :" sliteral type cr
-s" abc" sliteral type space
-s" 123" sliteral type cr
+s" again, separated by SPACE :" type cr
+s" abc" type space
+s" 123" type cr
 
-"TYPE a string compiled by" sliteral type cr
-"CREATE and T-S, " sliteral type cr
+s" TYPE a string compiled by" type cr
+s" CREATE and T-S, " type cr
 zx count type cr
 
-"8 SPACES between parens:" sliteral type cr
+s" 8 SPACES between parens:" type cr
 '(' literal emit
 8 literal spaces
 ')' literal emit cr
 
-"16 hyphens with EMITS :" sliteral type cr
+s" 16 hyphens with EMITS :" type cr
 '-' literal 16 literal emits cr
 
-"Execute a word that TYPEs" sliteral type cr
-"its own string:" sliteral type cr
+s" Execute a word that TYPEs" type cr
+s" its own string:" type cr
 the-end
 
 h pop, exx,
