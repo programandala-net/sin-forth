@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20230426T1303+0200.
+\ Last modified: 20231012T2313+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -383,7 +383,7 @@ $22 m5 sthl, $27 m1 daa, $2A m5 fthl, $2F m1 cpl, $32 m5 sta, $37 m1 scf,
 $3A m5 fta, $3F m1 ccf, $76 m1 halt, $80 m2 add, $88 m2 adc, $90 m2 sub,
 $98 m2 sbc, $B8 m2 cp, $C1 m3p pop, $C5 m3p push, $C6 m4 add#, $C7 m2 rst,
 $C9 m1 ret, $CE m4 adc#, $D3 m4 out, $41 m3 outbc, $D6 m4 sub#,
-$D9 m1 exx, $DB m4 in, $40 m3 inbc, $0DE m4 sbc#, $E3 m1 exsp,
+$D9 m1 exx, $DB m4 in, $40 m3 inbc, $DE m4 sbc#, $E3 m1 exsp,
 $E6 m4 and#, $E9 m1 jphl, $EB m1 exde, $EE m4 xor#, $F3 m1 di,
 $F6 m4 or#, $F9 m1- ldsp, $FB m1 ei, $FE m4 cp#, $00 m6 rlc, $08 m6 rrc,
 $10 m6 rl, $18 m6 rr, $20 m6 sla, $28 m6 sra, $30 m6 sll, $38 m6 srl,
