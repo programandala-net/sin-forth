@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20231013T1247+0200.
+\ Last modified: 20231013T1245+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -1235,7 +1235,7 @@ $5FED m8 ldar, $4FED m8 ldra,
 
   \ doc{
   \
-  \ adcp, ( regp1 regp2 -- ) "a-d-c-p-comma"
+  \ adcp, ( regp -- ) "a-d-c-p-comma"
   \
   \ Compile the Z80 instruction ``ADC
   \ HL,_regp_``.
@@ -1271,8 +1271,8 @@ $5FED m8 ldar, $4FED m8 ldra,
   \ i.e.  fetch the contents of pair register _regp_ from
   \ memory address _a_.
   \
-  \ NOTE: For the "HL" register has a specific word: `fthl,`,
-  \ which compiles shorten and faster code.
+  \ NOTE: The "HL" register has a specific word: `fthl,`, which
+  \ compiles shorten and faster code.
   \
   \ See also: `stp,`.
   \
