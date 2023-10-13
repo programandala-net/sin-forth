@@ -1,6 +1,6 @@
 \ assembler.fs
 \ by Marcos Cruz (programandala.net), 2015, 2016, 2017, 2018, 2020, 2023.
-\ Last modified: 20231012T2313+0200.
+\ Last modified: 20231013T1247+0200.
 
 \ This file is part of Sin Forth
 \ by Marcos Cruz (programandala.net), 2010/2023.
@@ -467,7 +467,7 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ Compile the Z80 instruction ``ADD HL,_regp_``.
   \
-  \ See also: `add,`.
+  \ See also: `add,`, `adcp,`.
   \
   \ }doc
 
@@ -1231,16 +1231,16 @@ $5FED m8 ldar, $4FED m8 ldra,
   \
   \ }doc
 
-: adcp, ( regp1 regp2 -- ) ed, 8 * $4A + t-c, ;
+: adcp, ( regp -- ) ed, 8 * $4A + t-c, ;
 
   \ doc{
   \
   \ adcp, ( regp1 regp2 -- ) "a-d-c-p-comma"
   \
   \ Compile the Z80 instruction ``ADC
-  \ _regp2_,_regp1_``.
+  \ HL,_regp_``.
   \
-  \ See also: `adcp,`.
+  \ See also: `addp,`.
   \
   \ }doc
 
