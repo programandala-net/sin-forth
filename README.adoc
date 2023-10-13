@@ -1,8 +1,8 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-05-01
+:revdate: 2023-10-13
 
-// Last modified: 20230501T0850+0200.
+// Last modified: 20231013T1757+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -130,3 +130,6 @@ Last, "Sin" is borrowed from "Sinclair".
 - 2023-04-05: The repository was converted to
   http://mercurial-scm.org[Mercurial], enabling a better interaction
   with GitHub.
+- 2023-10-13: The repository was
+  https://hg.sr.ht/~programandala_net/sin_forth[published on
+  Sourcehut]; GitHub is kept as a mirror.
