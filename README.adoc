@@ -1,8 +1,8 @@
 = Sin Forth
 :author: Marcos Cruz (programandala.net)
-:revdate: 2023-10-13
+:revdate: 2024-07-21
 
-// Last modified: 20231013T1757+0200.
+// Last modified: 20240721T0958+0200.
 
 // This file is part of Sin Forth
 // by Marcos Cruz (programandala.net), 2010/2023.
@@ -125,7 +125,7 @@ Last, "Sin" is borrowed from "Sinclair".
   backups in order to resume the development.
 - 2020-12-06: The Git repository was converted to
   http://fossil-scm.org[Fossil].
-- 2020-12-18: A http://github.com/programandala.net/sin-forth[GitHub
+- 2020-12-18: A http://github.com/programandala-net/sin-forth[GitHub
   mirror] was configured in the Fossil repository.
 - 2023-04-05: The repository was converted to
   http://mercurial-scm.org[Mercurial], enabling a better interaction
