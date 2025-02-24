@@ -1,19 +1,19 @@
 # Makefile
-# by Marcos Cruz (programandala.net), 2020, 2023.
-# Last modified: 20230501T1330+0200.
+# by Marcos Cruz (programandala.net), 2020, 2023, 2025.
+# Last modified: 20250224T2026+0100.
 
 # This file is part of Sin Forth
 # by Marcos Cruz (programandala.net), 2010/2023.
 
-# ==============================================================
 # License
+# ==============================================================
 
 # You may do whatever you want with this work, so long as you
 # retain every copyright, credit and authorship notice, and this
 # license.  There is no warranty.
 
-# ==============================================================
 # Requirements {{{1
+# ==============================================================
 
 # Asciidoctor (by Dan Allen, Sarah White et al.)
 #   http://asciidoctor.org
@@ -39,8 +39,8 @@
 # z80dasm (by Tomaž Šolc)
 #   https://www.tablix.org/~avian/blog/articles/z80dasm/
 
-# ==============================================================
 # Main {{{1
+# ==============================================================
 
 .PHONY: all
 all: tests
@@ -58,16 +58,16 @@ clean:
 .PHONY: cleandoc
 cleandoc: cleanmanual
 
-# ==============================================================
 # Tests files {{{1
+# ==============================================================
 
 source_tests=$(wildcard src/test/*.fs)
 tests_names=$(notdir $(basename $(source_tests)))
 target_tests=$(addprefix target/, $(tests_names))
 disassembled_tests=$(addsuffix .asm, $(target_tests))
 
-# ==============================================================
 # Compile the tests {{{1
+# ==============================================================
 
 .PHONY: tests
 tests:
@@ -79,8 +79,8 @@ tests:
 target/%.tap: src/test/%.fs
 	@src/sin_forth.fs -tap -out $$(realpath target) build $$(realpath $<)
 
-# ==============================================================
 # Disassemble the compiled tests {{{1
+# ==============================================================
 
 .PHONY: asm
 asm: $(disassembled_tests)
@@ -103,11 +103,11 @@ target/%.asm: src/test/%.fs
 		--output=$@ \
 		$(basename $@).bin 2> /dev/null
 
-# ==============================================================
 # Documentation {{{1
+# ==============================================================
 
-# ----------------------------------------------
 # Variables {{{2
+# ----------------------------------------------
 
 version=$(shell cat VERSION.txt)
 
@@ -126,8 +126,8 @@ cover_subtitle="Version $(version)"
 core_files = $(sort $(wildcard src/*.fs))
 lib_files = $(sort $(wildcard src/lib/*.fs))
 
-# ----------------------------------------------
 # Common rules {{{2
+# ----------------------------------------------
 
 %.zip: %
 	zip -9 $@ $<
@@ -153,8 +153,8 @@ tmp/doc.README.linked.adoc: README.adoc
 		--attribute=version=$(version) \
 		--out-file=$@ $<
 
-# ----------------------------------------------
 # User manual {{{2
+# ----------------------------------------------
 
 .PHONY: manual
 manual: epub html pdf
@@ -233,7 +233,14 @@ tmp/doc.manual.adoc: \
 		tmp/doc.glossary.adoc \
 		> $@
 
-# ----------------------------------------------
 # Cover image {{{2
+# ----------------------------------------------
 
 include Makefile.cover_image
+
+# README {{{1
+# ----------------------------------------------
+
+readme_title = Sin Forth
+
+include Makefile.readme
