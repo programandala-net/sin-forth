@@ -1,0 +1,101 @@
+# Makefile.cover_image
+
+# This file is part of Sin Forth
+# http://programandala.net/en.program.sin_forth.html
+
+# By Marcos Cruz (programandala.net)
+
+# Last modified 202012111908
+# See change log at the end of the file
+
+# ==============================================================
+# Requirements {{{1
+
+# ImageMagick (by ImageMagick Studio LCC)
+#   http://imagemagick.org
+
+# img2pdf (by Johannes 'josch' Schauer)
+#   https://gitlab.mister-muffin.de/josch/img2pdf
+
+# ==============================================================
+# Create the cover image {{{1
+
+# ------------------------------------------------
+# Create the canvas and texts of the cover image {{{2
+
+font=Helvetica
+background=lightgray
+fill=black
+strokewidth=4
+subtitle_pointsize=48
+
+tmp/$(cover).title.png:
+	convert \
+		-background transparent \
+		-fill $(fill) \
+		-font $(font) \
+		-pointsize 96 \
+		-size 1200x \
+		-gravity east \
+		caption:$(cover_title) \
+		$@
+
+tmp/$(cover).subtitle.png:
+	convert \
+		-background transparent \
+		-fill $(fill) \
+		-font $(font) \
+		-pointsize $(subtitle_pointsize) \
+		-size 1200x \
+		-gravity east \
+		caption:$(cover_subtitle) \
+		$@
+
+tmp/$(cover).author.png:
+	convert \
+		-background transparent \
+		-fill $(fill) \
+		-font $(font) \
+		-pointsize 48 \
+		-size 896x \
+		-gravity east \
+		caption:$(cover_author) \
+		$@
+
+# ------------------------------------------------
+# Create the cover image {{{2
+
+.PHONY: cover
+cover: doc/$(cover).jpg
+
+doc/$(cover).jpg: \
+	tmp/$(cover).title.png \
+	tmp/$(cover).subtitle.png \
+	tmp/$(cover).author.png
+	convert -size 1200x1600 canvas:$(background) $@
+	composite -gravity east -geometry +048+000 tmp/$(cover).title.png $@ $@
+	composite -gravity east -geometry +048+072 tmp/$(cover).subtitle.png $@ $@
+	composite -gravity east -geometry +048+256 tmp/$(cover).author.png $@ $@
+
+# ------------------------------------------------
+# Convert the cover image to PDF {{{2
+
+# This is needed in order to make sure the cover image ocuppies the whole page
+# in the PDF versions of the book.
+
+tmp/%.pdf: doc/%.jpg
+	img2pdf --output $@ --border 0 $<
+
+# ------------------------------------------------
+# Create a thumb version of the cover image {{{2
+
+.PHONY: thumb
+thumb: doc/$(cover)_thumb.jpg
+
+%_thumb.jpg: %.jpg
+	convert $< -resize 190x $@
+
+# ==============================================================
+# Change log {{{1
+
+# 2020-12-11: Start. Adapt the code from Solo Forth.
